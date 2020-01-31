@@ -2,11 +2,8 @@
 Micronaut Extension for Camunda BPM
 
 # Getting Started
-## Install SDKMAN
-see https://sdkman.io/install
-
 ## Install Micronaut CLI
-`sdk install micronaut`
+Install SDKMAN and Micronaut CLI by following the instructions on https://micronaut.io/download.html
 
 ## Run in IDEA
 Right click on class Application and run application
