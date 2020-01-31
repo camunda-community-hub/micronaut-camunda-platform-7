@@ -16,12 +16,18 @@ public class CamundaProcessEngineConfiguration {
     ProcessEngine onStartup(ServerStartupEvent event) {
         ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration();
 
-        return ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
+        ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
                 .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
                 .setJobExecutorActivate(true)
                 .buildProcessEngine();
 
+        // TODO: Deploy all *.bpmn and *.dmn from classpath
+        processEngine.getRepositoryService().createDeployment()
+                .addClasspathResource("helloworld.bpmn")
+                .deploy();
+
+        return processEngine;
     }
 
 }

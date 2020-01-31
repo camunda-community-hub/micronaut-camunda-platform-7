@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1hzovk7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1hzovk7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_0fxbboj" sourceRef="StartEvent_1" targetRef="Task_0065ch3" />
     <bpmn:endEvent id="EndEvent_03gbeuf" name="Completed">
       <bpmn:incoming>SequenceFlow_1uip4un</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1uip4un" sourceRef="Task_0065ch3" targetRef="EndEvent_03gbeuf" />
-    <bpmn:startEvent id="StartEvent_1" name="After 5s">
+    <bpmn:startEvent id="StartEvent_1" name="After 1s">
       <bpmn:outgoing>SequenceFlow_0fxbboj</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Task_0065ch3" name="Say hello">
+    <bpmn:serviceTask id="Task_0065ch3" name="Say hello" camunda:class="micronaut.camunda.app.LoggerDelegate">
       <bpmn:incoming>SequenceFlow_0fxbboj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1uip4un</bpmn:outgoing>
     </bpmn:serviceTask>
