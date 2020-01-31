@@ -12,7 +12,7 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Task_0065ch3" name="Say hello" camunda:class="micronaut.camunda.app.LoggerDelegate">
+    <bpmn:serviceTask id="Task_0065ch3" name="Say hello" camunda:delegateExpression="${loggerDelegate}">
       <bpmn:incoming>SequenceFlow_0fxbboj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1uip4un</bpmn:outgoing>
     </bpmn:serviceTask>
