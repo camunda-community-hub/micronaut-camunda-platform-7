@@ -2,6 +2,7 @@ package micronaut.camunda.app;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.Qualifier;
+import io.micronaut.inject.qualifiers.Qualifiers;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.impl.javax.el.ELContext;
 import org.camunda.bpm.engine.impl.javax.el.ELResolver;
@@ -23,7 +24,7 @@ public class ApplicationContextElResolver extends ELResolver {
             // according to javadoc, can only be a String
             String key = (String) property;
 
-            Qualifier qualifier = new MyNameQualifier<>(key);
+            Qualifier qualifier = Qualifiers.byName(key);
             if (applicationContext.containsBean(Object.class, qualifier)) {
                 context.setPropertyResolved(true);
                 return applicationContext.getBean (Object.class, qualifier);
@@ -42,7 +43,7 @@ public class ApplicationContextElResolver extends ELResolver {
     public void setValue(ELContext context, Object base, Object property, Object value) {
         if (base == null) {
             String key = (String) property;
-            if (applicationContext.containsBean(Object.class, new MyNameQualifier<>(key))) {
+            if (applicationContext.containsBean(Object.class, Qualifiers.byName(key))) {
                 throw new ProcessEngineException("Cannot set value of '" + property +
                         "', it resolves to a bean defined in the Micronaut application-context.");
             }
