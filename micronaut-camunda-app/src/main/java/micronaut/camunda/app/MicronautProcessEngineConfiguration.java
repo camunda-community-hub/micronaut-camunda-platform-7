@@ -19,7 +19,6 @@ public class MicronautProcessEngineConfiguration {
      *
      * @return the initialized {@link ProcessEngine} in the application context.
      */
-    @Singleton
     @Context
     public ProcessEngine processEngine() {
         ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
