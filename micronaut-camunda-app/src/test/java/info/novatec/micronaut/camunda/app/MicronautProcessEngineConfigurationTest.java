@@ -1,12 +1,11 @@
-package micronaut.camunda.app;
+package info.novatec.micronaut.camunda.app;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
 class MicronautProcessEngineConfigurationTest {
@@ -52,18 +51,18 @@ class MicronautProcessEngineConfigurationTest {
 
     @Test
     void allBeansAreAvailableInApplicationContext() {
-        assertNotNull(processEngine);
-        assertNotNull(runtimeService);
-        assertNotNull(managementService);
-        assertNotNull(authorizationService);
-        assertNotNull(caseService);
-        assertNotNull(decisionService);
-        assertNotNull(externalTaskService);
-        assertNotNull(filterService);
-        assertNotNull(formService);
-        assertNotNull(taskService);
-        assertNotNull(historyService);
-        assertNotNull(identityService);
+        Assertions.assertNotNull(processEngine);
+        Assertions.assertNotNull(runtimeService);
+        Assertions.assertNotNull(managementService);
+        Assertions.assertNotNull(authorizationService);
+        Assertions.assertNotNull(caseService);
+        Assertions.assertNotNull(decisionService);
+        Assertions.assertNotNull(externalTaskService);
+        Assertions.assertNotNull(filterService);
+        Assertions.assertNotNull(formService);
+        Assertions.assertNotNull(taskService);
+        Assertions.assertNotNull(historyService);
+        Assertions.assertNotNull(identityService);
     }
 
 }

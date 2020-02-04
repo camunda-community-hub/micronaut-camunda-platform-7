@@ -1,5 +1,6 @@
-package micronaut.camunda.app;
+package info.novatec.micronaut.camunda.feature;
 
+import info.novatec.micronaut.camunda.feature.ApplicationContextElResolver;
 import org.camunda.bpm.engine.impl.el.ExpressionManager;
 import org.camunda.bpm.engine.impl.el.ReadOnlyMapELResolver;
 import org.camunda.bpm.engine.impl.el.VariableContextElResolver;

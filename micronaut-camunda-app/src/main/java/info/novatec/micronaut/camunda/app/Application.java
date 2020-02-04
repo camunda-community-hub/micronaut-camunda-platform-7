@@ -1,4 +1,4 @@
-package micronaut.camunda.app;
+package info.novatec.micronaut.camunda.app;
 
 import io.micronaut.runtime.Micronaut;
 

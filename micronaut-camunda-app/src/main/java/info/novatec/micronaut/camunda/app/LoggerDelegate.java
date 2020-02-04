@@ -1,4 +1,4 @@
-package micronaut.camunda.app;
+package info.novatec.micronaut.camunda.app;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;

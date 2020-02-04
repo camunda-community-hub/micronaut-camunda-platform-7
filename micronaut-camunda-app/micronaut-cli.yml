@@ -1,5 +1,5 @@
 profile: service
-defaultPackage: micronaut.camunda.app
+defaultPackage: info.novatec.micronaut.camunda.app
 ---
 testFramework: junit
 sourceLanguage: java

@@ -1,4 +1,4 @@
-package micronaut.camunda.app;
+package info.novatec.micronaut.camunda.feature;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.Qualifier;
