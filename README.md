@@ -8,21 +8,24 @@ Install SDKMAN and Micronaut CLI by following the instructions on https://micron
 To later update the `mn` CLI application invoke `sdk update micronaut`.
 
 ## Run in IntelliJ IDEA
-If you are using Java or Kotlin and IntelliJ IDEA make sure you have enabled annotation processing: `Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable Annotation Processing`.
 
-Right click on class Application and run application
+To import a Micronaut project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
+
+For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
+
+Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
 
 ## Run in console
 
 Unix:
 ```
 cd micronaut-camunda-app
-./mvn clean install && java -jar target/micronaut-camunda-app-0.1.jar
+./gradlew clean run
 ```
 
 Windows:
 
 ```
 cd micronaut-camunda-app
-mvnw clean install && java -jar target/micronaut-camunda-app-0.1.jar
+gradlew.bat clean run
 ```
