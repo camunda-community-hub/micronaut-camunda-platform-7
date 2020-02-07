@@ -24,7 +24,7 @@ public class ApplicationContextElResolver extends ELResolver {
             // according to javadoc, can only be a String
             String key = (String) property;
 
-            Qualifier qualifier = Qualifiers.byName(key);
+            Qualifier<Object> qualifier = Qualifiers.byName(key);
             if (applicationContext.containsBean(Object.class, qualifier)) {
                 context.setPropertyResolved(true);
                 return applicationContext.getBean (Object.class, qualifier);
