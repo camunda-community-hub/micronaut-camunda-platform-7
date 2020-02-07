@@ -5,6 +5,8 @@ Integration between Micronaut and Camunda BPM Process Engine
 ## Install Micronaut CLI
 Install SDKMAN and Micronaut CLI by following the instructions on https://micronaut.io/download.html
 
+To later update the `mn` CLI application invoke `sdk update micronaut`.
+
 ## Run in IntelliJ IDEA
 If you are using Java or Kotlin and IntelliJ IDEA make sure you have enabled annotation processing: `Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors -> Enable Annotation Processing`.
 
