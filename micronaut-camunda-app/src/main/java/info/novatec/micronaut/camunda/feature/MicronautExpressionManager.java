@@ -1,20 +1,16 @@
 package info.novatec.micronaut.camunda.feature;
 
-import info.novatec.micronaut.camunda.feature.ApplicationContextElResolver;
+import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.impl.el.ExpressionManager;
 import org.camunda.bpm.engine.impl.el.ReadOnlyMapELResolver;
 import org.camunda.bpm.engine.impl.el.VariableContextElResolver;
 import org.camunda.bpm.engine.impl.el.VariableScopeElResolver;
 import org.camunda.bpm.engine.impl.javax.el.*;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-@Singleton
+@RequiredArgsConstructor
 public class MicronautExpressionManager extends ExpressionManager {
 
-    @Inject
-    private ApplicationContextElResolver applicationContextElResolver;
+    private final ApplicationContextElResolver applicationContextElResolver;
 
     @Override
     protected ELResolver createElResolver() {

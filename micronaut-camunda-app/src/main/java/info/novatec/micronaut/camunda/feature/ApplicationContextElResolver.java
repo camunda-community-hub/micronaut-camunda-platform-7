@@ -3,20 +3,18 @@ package info.novatec.micronaut.camunda.feature;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.Qualifier;
 import io.micronaut.inject.qualifiers.Qualifiers;
+import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.impl.javax.el.ELContext;
 import org.camunda.bpm.engine.impl.javax.el.ELResolver;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
 
-@Singleton
+@RequiredArgsConstructor
 public class ApplicationContextElResolver extends ELResolver {
 
-    @Inject
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
     @Override
     public Object getValue(ELContext context, Object base, Object property) {

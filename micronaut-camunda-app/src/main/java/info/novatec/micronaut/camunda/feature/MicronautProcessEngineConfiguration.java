@@ -1,5 +1,6 @@
 package info.novatec.micronaut.camunda.feature;
 
+import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.*;
@@ -12,7 +13,7 @@ import javax.inject.Singleton;
 public class MicronautProcessEngineConfiguration {
 
     @Inject
-    private MicronautExpressionManager micronautExpressionManager;
+    private ApplicationContext applicationContext;
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
@@ -26,7 +27,7 @@ public class MicronautProcessEngineConfiguration {
                 .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
                 .setJobExecutorActivate(true);
 
-        ((ProcessEngineConfigurationImpl)processEngineConfiguration).setExpressionManager(micronautExpressionManager);
+        ((ProcessEngineConfigurationImpl)processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
