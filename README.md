@@ -36,13 +36,11 @@ Once you have enabled annotation processing in IntelliJ you can run the applicat
 
 Unix:
 ```
-cd micronaut-camunda-app
 ./gradlew clean run
 ```
 
 Windows:
 
 ```
-cd micronaut-camunda-app
 gradlew.bat clean run
 ```
