@@ -21,9 +21,6 @@ configurations {
 
 dependencies {
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-    compileOnly("org.projectlombok:lombok:$lombokVersion")
-    annotationProcessor ("org.projectlombok:lombok:$lombokVersion")
-    // Micronaut processor define after Lombok, see https://docs.micronaut.io/latest/guide/languageSupport.html
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")

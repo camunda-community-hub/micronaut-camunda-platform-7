@@ -3,7 +3,6 @@ package info.novatec.micronaut.camunda.feature;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.Qualifier;
 import io.micronaut.inject.qualifiers.Qualifiers;
-import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.impl.javax.el.ELContext;
 import org.camunda.bpm.engine.impl.javax.el.ELResolver;
@@ -11,10 +10,13 @@ import org.camunda.bpm.engine.impl.javax.el.ELResolver;
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
 
-@RequiredArgsConstructor
 public class ApplicationContextElResolver extends ELResolver {
 
     private final ApplicationContext applicationContext;
+
+    public ApplicationContextElResolver(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public Object getValue(ELContext context, Object base, Object property) {
