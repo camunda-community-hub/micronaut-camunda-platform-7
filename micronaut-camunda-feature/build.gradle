@@ -1,11 +1,10 @@
 plugins {
     id "net.ltgt.apt-eclipse" version "0.21"
-    id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
 }
 
 version "0.1-SNAPSHOT"
-group "info.novatec.micronaut.camunda.app"
+group "info.novatec.micronaut.camunda.feature"
 
 configurations {
     // for dependencies that are needed for development only
@@ -13,7 +12,6 @@ configurations {
 }
 
 dependencies {
-    compile project(":micronaut-camunda-feature")
     annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
@@ -23,9 +21,8 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime"
     implementation "io.micronaut:micronaut-http-server-netty"
     implementation "io.micronaut:micronaut-http-client"
-    implementation "info.novatec.micronaut.camunda.feature:micronaut-camunda-feature:0.1-SNAPSHOT"
     implementation "org.camunda.bpm:camunda-engine:7.12.0"
-    implementation "com.h2database:h2:1.4.200"
+    testCompile "com.h2database:h2:1.4.200"
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
@@ -45,10 +42,6 @@ test {
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
-}
-
-shadowJar {
-    mergeServiceFiles()
 }
 
 run.classpath += configurations.developmentOnly

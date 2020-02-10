@@ -1,8 +1,7 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.feature;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
-import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
