@@ -53,6 +53,7 @@ class MicronautProcessEngineConfigurationTest {
     void allBeansAreAvailableInApplicationContext() {
         Assertions.assertNotNull(processEngine);
         Assertions.assertNotNull(runtimeService);
+        Assertions.assertNotNull(repositoryService);
         Assertions.assertNotNull(managementService);
         Assertions.assertNotNull(authorizationService);
         Assertions.assertNotNull(caseService);
