@@ -18,6 +18,8 @@ Micronaut + Camunda = :heart:
 > **NOTE:**
 > Currently, this project is a proof of concept. In future it will hopefully be as easy as adding a dependency to your Micronaut project and optionally overwriting some default configuration values to have an embedded Camunda BPM engine up and running.
 
+Please also read the [FAQ](FAQ.md).
+
 # Getting Started
 ## Install Micronaut CLI
 Install SDKMAN and Micronaut CLI by following the instructions on https://micronaut.io/download.html
