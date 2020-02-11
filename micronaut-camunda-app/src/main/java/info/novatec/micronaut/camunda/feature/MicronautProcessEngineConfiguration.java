@@ -5,12 +5,18 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
+import java.util.Arrays;
 
 @Factory
 public class MicronautProcessEngineConfiguration {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
 
     @Inject
     private ApplicationContext applicationContext;
@@ -21,7 +27,7 @@ public class MicronautProcessEngineConfiguration {
      * @return the initialized {@link ProcessEngine} in the application context.
      */
     @Context
-    public ProcessEngine processEngine() {
+    public ProcessEngine processEngine() throws IOException {
         ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
                 .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
                 .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
@@ -31,12 +37,22 @@ public class MicronautProcessEngineConfiguration {
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
-        // TODO: Deploy all *.bpmn and *.dmn from classpath
-        processEngine.getRepositoryService().createDeployment()
-                .addClasspathResource("helloworld.bpmn")
-                .deploy();
+        deployProcessModels(processEngine);
 
         return processEngine;
+    }
+
+    private void deployProcessModels(ProcessEngine processEngine) throws IOException {
+        PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+        // Order of extensions has been chosen as a best fit for inter process dependencies.
+        for (String extension : Arrays.asList("dmn", "cmmn", "bpmn")) {
+            for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  "*." + extension)) {
+                log.info("Deploying model from classpath: {}", resource.getFilename());
+                processEngine.getRepositoryService().createDeployment()
+                        .addInputStream(resource.getFilename(), resource.getInputStream())
+                        .deploy();
+            }
+        }
     }
 
     /**
