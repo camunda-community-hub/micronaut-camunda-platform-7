@@ -1,7 +1,7 @@
 # micronaut-camunda-bpm
 **Integration between Micronaut and Camunda BPM Process Engine**
 
-This project allows you to easily integrate the [Camunda BPM Process Engine](https://camunda.com/products/bpmn-engine/) into exising [Micronaut](https://micronaut.io) projects.
+This project allows you to easily integrate the [Camunda BPM Process Engine](https://camunda.com/products/bpmn-engine/) into existing [Micronaut](https://micronaut.io) projects.
 
 Advantages of Micronaut together with Camunda:
 * Monumental leap in startup time
