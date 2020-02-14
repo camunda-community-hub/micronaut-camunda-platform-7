@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class MicronautProcessEngineConfiguration {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
+    public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
 
     @Inject
     private ApplicationContext applicationContext;
@@ -49,6 +50,7 @@ public class MicronautProcessEngineConfiguration {
             for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  "*." + extension)) {
                 log.info("Deploying model from classpath: {}", resource.getFilename());
                 processEngine.getRepositoryService().createDeployment()
+                        .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
                         .addInputStream(resource.getFilename(), resource.getInputStream())
                         .deploy();
             }

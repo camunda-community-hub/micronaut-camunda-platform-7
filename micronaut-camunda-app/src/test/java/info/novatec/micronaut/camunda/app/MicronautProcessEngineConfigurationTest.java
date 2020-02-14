@@ -2,10 +2,13 @@ package info.novatec.micronaut.camunda.app;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
+import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+
+import static info.novatec.micronaut.camunda.feature.MicronautProcessEngineConfiguration.MICRONAUT_AUTO_DEPLOYMENT_NAME;
 
 @MicronautTest
 class MicronautProcessEngineConfigurationTest {
@@ -66,4 +69,8 @@ class MicronautProcessEngineConfigurationTest {
         Assertions.assertNotNull(identityService);
     }
 
+    @Test
+    void testDeploymentName() {
+        Assertions.assertEquals(MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
+    }
 }
