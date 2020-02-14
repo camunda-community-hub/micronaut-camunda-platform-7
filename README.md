@@ -49,3 +49,7 @@ Windows:
 ```
 gradlew.bat clean run
 ```
+
+## Run the Hello World app
+
+Open http://localhost:8080/greet/*YourName* in Browser
