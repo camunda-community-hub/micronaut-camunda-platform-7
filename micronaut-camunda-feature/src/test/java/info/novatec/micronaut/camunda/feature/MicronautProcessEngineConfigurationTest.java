@@ -2,12 +2,13 @@ package info.novatec.micronaut.camunda.feature;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
 import static info.novatec.micronaut.camunda.feature.MicronautProcessEngineConfiguration.MICRONAUT_AUTO_DEPLOYMENT_NAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @MicronautTest
 class MicronautProcessEngineConfigurationTest {
@@ -53,23 +54,23 @@ class MicronautProcessEngineConfigurationTest {
 
     @Test
     void allBeansAreAvailableInApplicationContext() {
-        Assertions.assertNotNull(processEngine);
-        Assertions.assertNotNull(runtimeService);
-        Assertions.assertNotNull(repositoryService);
-        Assertions.assertNotNull(managementService);
-        Assertions.assertNotNull(authorizationService);
-        Assertions.assertNotNull(caseService);
-        Assertions.assertNotNull(decisionService);
-        Assertions.assertNotNull(externalTaskService);
-        Assertions.assertNotNull(filterService);
-        Assertions.assertNotNull(formService);
-        Assertions.assertNotNull(taskService);
-        Assertions.assertNotNull(historyService);
-        Assertions.assertNotNull(identityService);
+        assertNotNull(processEngine);
+        assertNotNull(runtimeService);
+        assertNotNull(repositoryService);
+        assertNotNull(managementService);
+        assertNotNull(authorizationService);
+        assertNotNull(caseService);
+        assertNotNull(decisionService);
+        assertNotNull(externalTaskService);
+        assertNotNull(filterService);
+        assertNotNull(formService);
+        assertNotNull(taskService);
+        assertNotNull(historyService);
+        assertNotNull(identityService);
     }
 
     @Test
     void testDeploymentName() {
-        Assertions.assertEquals(MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
+        assertEquals(MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
     }
 }
