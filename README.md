@@ -27,7 +27,7 @@ Please also read the [FAQ](FAQ.md).
 ## Install Micronaut CLI
 Install SDKMAN and Micronaut CLI by following the instructions on https://micronaut.io/download.html
 
-To later update the `mn` CLI application invoke `sdk update micronaut`.
+To later update the `mn` CLI application invoke `sdk install micronaut` again.
 
 ## Run in IntelliJ IDEA
 
