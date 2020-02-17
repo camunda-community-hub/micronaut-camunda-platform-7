@@ -10,6 +10,7 @@ import org.camunda.bpm.engine.impl.javax.el.ELResolver;
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;
 
+// Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/engine-spring/core/src/main/java/org/camunda/bpm/engine/spring/ApplicationContextElResolver.java
 public class ApplicationContextElResolver extends ELResolver {
 
     private final ApplicationContext applicationContext;
