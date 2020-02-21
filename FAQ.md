@@ -1,9 +1,13 @@
 # FAQ
 
-## Why did you not implement the extension with Kotlin?
+## Development
+### Why did you not implement the extension with Kotlin?
 If implemented with Kotlin we'd need to bundle the Kotlin runtime libraries which would increase the size. Therefore we stay with Java. However, this does not prevent you from implementing your application with Kotlin and still use this extension.
 
-## What about warnings regarding illegal reflective access operations?
+### Why are you not using Lombok?
+We're not depending on the Lombok to simplify the setup of the development environment - otherwise this would require a plugin for the IDE.
+
+### What about warnings regarding illegal reflective access operations?
 When starting the application you will see:
 ```
 WARNING: An illegal reflective access operation has occurred
