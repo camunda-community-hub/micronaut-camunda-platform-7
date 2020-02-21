@@ -5,6 +5,8 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -16,7 +18,7 @@ import java.util.Arrays;
 @Factory
 public class MicronautProcessEngineConfiguration {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
 
     @Inject
