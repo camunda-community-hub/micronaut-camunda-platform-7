@@ -29,21 +29,42 @@ Please also read the [FAQ](FAQ.md).
 [![Build Status](https://api.travis-ci.org/NovatecConsulting/micronaut-camunda-bpm.svg?branch=master)](https://travis-ci.org/NovatecConsulting/micronaut-camunda-bpm)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-# Getting Started
-## Install Micronaut CLI
-Install SDKMAN and Micronaut CLI by following the instructions on https://micronaut.io/download.html
+# User Guide
 
-To later update the `mn` CLI application invoke `sdk install micronaut` again.
+In build.gradle add the dependency:
+```
+implementation "info.novatec.micronaut.camunda.feature:micronaut-camunda-feature:0.1-SNAPSHOT"
+```
 
-## Run in IntelliJ IDEA
 
-To import a Micronaut project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
+## Configuration
+
+You may use the following properties (typically in in application.yml) to configure the Camunda BPM integration.
+
+| Prefix               |Property          | Default                                      | Description            |
+|----------------------|------------------|----------------------------------------------|------------------------|
+| datasources.default  | .url             | jdbc:h2:mem:micronaut-db;DB_CLOSE_DELAY=1000 | Database URL           |
+|                      | .username        | sa                                           | User name for database |
+|                      | .password        |                                              | Password for database  |
+|                      | .driverClassName | org.h2.Driver                                | Driver for database    |
+| camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create] |
+
+# Developer Guide
+## Get the code
+
+Create a local Git clone:
+
+`git clone https://github.com/NovatecConsulting/micronaut-camunda-bpm.git`
+
+## Open and run in IntelliJ IDEA
+
+To import the project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
 
 For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
 
 Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
 
-## Run in console
+## Build and run in console
 
 Unix:
 ```
@@ -58,4 +79,4 @@ gradlew.bat clean run
 
 ## Run the Hello World app
 
-Open http://localhost:8080/greet/YourName in Browser
+Open http://localhost:8080/greet/YourName in your browser
