@@ -24,6 +24,12 @@ public class MicronautProcessEngineConfiguration {
     @Inject
     private ApplicationContext applicationContext;
 
+    @Inject
+    private Configuration configuration;
+
+    @Inject
+    private DatasourceConfiguration datasourceConfiguration;
+
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
      *
@@ -31,17 +37,20 @@ public class MicronautProcessEngineConfiguration {
      */
     @Context
     public ProcessEngine processEngine() throws IOException {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration()
-                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
-                .setJdbcUrl("jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000")
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
+                .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
+                .setJdbcUrl(datasourceConfiguration.getUrl())
+                .setJdbcUsername(datasourceConfiguration.getUsername())
+                .setJdbcPassword(datasourceConfiguration.getPassword())
+                .setJdbcDriver(datasourceConfiguration.getDriverClassName())
                 .setJobExecutorActivate(true);
 
-        ((ProcessEngineConfigurationImpl)processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
+        ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
+        log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());
 
         deployProcessModels(processEngine);
-
         return processEngine;
     }
 
