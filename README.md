@@ -18,6 +18,12 @@ Micronaut + Camunda = :heart:
 > **NOTE:**
 > Currently, this project is a proof of concept. In future it will hopefully be as easy as adding a dependency to your Micronaut project and optionally overwriting some default configuration values to have an embedded Camunda BPM engine up and running.
 
+## Features
+* Camunda BPM can be integrated into a Micronaut project by simply adding a dependency in build.gradle (Gradle) or pom.xml (Maven). (not yet available on Maven Central)
+* Camunda Process engine is started automatically with H2 in-memory database by adding H2 as a dependency.
+* Models (*.bpmn, *.cmmn, and *.dmn) found in the classpath are automatically deployed. (currently only resources in root directory)
+* Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
+
 Please also read the [FAQ](FAQ.md).
 
 [![Build Status](https://api.travis-ci.org/NovatecConsulting/micronaut-camunda-bpm.svg?branch=master)](https://travis-ci.org/NovatecConsulting/micronaut-camunda-bpm)
