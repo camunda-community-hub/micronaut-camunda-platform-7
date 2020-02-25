@@ -3,23 +3,32 @@ package info.novatec.micronaut.camunda.feature;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import io.micronaut.cli.io.support.PathMatchingResourcePatternResolver;
+import io.micronaut.cli.io.support.Resource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Factory
 public class MicronautProcessEngineConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
+    public static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
 
     @Inject
     private ApplicationContext applicationContext;
@@ -45,11 +54,13 @@ public class MicronautProcessEngineConfiguration {
         return processEngine;
     }
 
+
     private void deployProcessModels(ProcessEngine processEngine) throws IOException {
         PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+
         // Order of extensions has been chosen as a best fit for inter process dependencies.
         for (String extension : Arrays.asList("dmn", "cmmn", "bpmn")) {
-            for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  "*." + extension)) {
+            for (Resource resource : resourceLoader.getResources(CLASSPATH_ALL_URL_PREFIX +  "**/*." + extension)) {
                 log.info("Deploying model from classpath: {}", resource.getFilename());
                 processEngine.getRepositoryService().createDeployment()
                         .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
@@ -58,6 +69,11 @@ public class MicronautProcessEngineConfiguration {
             }
         }
     }
+
+
+
+
+
 
     /**
      * Creates a bean for the {@link RuntimeService} in the application context.
