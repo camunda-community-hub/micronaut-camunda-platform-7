@@ -1,0 +1,197 @@
+[
+  {
+    "name": "org.camunda.bpm.engine.impl.ProcessEngineLogger",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.bpmn.behavior.BpmnBehaviorLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.incident.IncidentLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.migration.MigrationLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.pvm.PvmLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.dmn.DecisionLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.jobexecutor.JobExecutorLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cmmn.transformer.CmmnTransformerLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.scripting.ScriptLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+
+  {
+    "name": "org.camunda.bpm.engine.impl.util.EngineUtilLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.bpmn.behavior.BpmnBehaviorLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cmmn.operation.CmmnOperationLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.identity.IndentityLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.externaltask.ExternalTaskLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.metrics.MetricsLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.db.EnginePersistenceLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.interceptor.ContextLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cmmn.behavior.CmmnBehaviorLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cfg.TransactionLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPluginLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cmd.CommandLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.core.CoreLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.test.TestLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.digest.SecurityLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.application.impl.ProcessApplicationLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.container.impl.ContainerIntegrationLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.dmn.engine.impl.DmnEngineLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.dmn.engine.impl.transform.DmnTransformLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.dmn.engine.impl.hitpolicy.DmnHitPolicyLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.dmn.feel.impl.juel.FeelEngineLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.camunda.bpm.engine.impl.cfg.ConfigurationLogger",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": [] }
+    ]
+  }
+]
+
+

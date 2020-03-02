@@ -18,6 +18,8 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    implementation 'org.jboss:jboss-vfs:3.1.0.Final'
     implementation "io.micronaut:micronaut-inject"
     implementation "io.micronaut:micronaut-validation"
     implementation "io.micronaut:micronaut-runtime"

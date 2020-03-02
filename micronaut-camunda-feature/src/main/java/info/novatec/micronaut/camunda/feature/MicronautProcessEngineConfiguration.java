@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.logging.LogManager;
 import java.util.stream.Stream;
 
 @Factory
@@ -31,6 +32,10 @@ public class MicronautProcessEngineConfiguration {
     public static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
 
     @Inject
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
     private ApplicationContext applicationContext;
 
     /**
