@@ -1,5 +1,6 @@
 package info.novatec.micronaut.camunda.feature;
 
+import io.micronaut.aop.Introduction;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
@@ -14,15 +15,9 @@ import io.micronaut.cli.io.support.Resource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.logging.LogManager;
-import java.util.stream.Stream;
+
 
 @Factory
 public class MicronautProcessEngineConfiguration {
@@ -31,18 +26,25 @@ public class MicronautProcessEngineConfiguration {
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
     public static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
 
+
+    private ApplicationContext applicationContext;
+    private Configuration configuration;
+    private DatasourceConfiguration datasourceConfiguration;
+
     @Inject
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    private ApplicationContext applicationContext;
+    @Inject
+    public void setDatasourceConfiguration(DatasourceConfiguration datasourceConfiguration) {
+        this.datasourceConfiguration = datasourceConfiguration;
+    }
 
     @Inject
-    private Configuration configuration;
-
-    @Inject
-    private DatasourceConfiguration datasourceConfiguration;
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
@@ -83,11 +85,6 @@ public class MicronautProcessEngineConfiguration {
             }
         }
     }
-
-
-
-
-
 
     /**
      * Creates a bean for the {@link RuntimeService} in the application context which can be injected if needed.

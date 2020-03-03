@@ -181,10 +181,15 @@
     ]
   },
   {
-    "name": "org.camunda.bpm.dmn.feel.impl.juel.FeelEngineLogger",
-    "methods": [
-      {  "name": "<init>", "parameterTypes": [] }
-    ]
+  "name": "org.camunda.bpm.dmn.feel.impl.juel.FeelEngineLogger",
+  "methods": [
+    {  "name": "<init>", "parameterTypes": [] }
+  ]
+},
+  {
+    "name": "info.novatec.micronaut.camunda.feature.MicronautProcessConfiguration",
+    "allDeclaredConstructors": true,
+    "allPublicMethods": true
   },
   {
     "name": "org.camunda.bpm.engine.impl.cfg.ConfigurationLogger",

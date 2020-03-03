@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+/*package info.novatec.micronaut.camunda.app;
 
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Replaces;
@@ -16,3 +16,4 @@ public class LoggerFactory {
         return Mockito.mock(LoggerDelegate.class);
     }
 }
+*/
