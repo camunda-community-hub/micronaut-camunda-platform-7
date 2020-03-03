@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
 @MicronautTest
@@ -22,6 +23,6 @@ class ProcessTest {
     @Test
     public void verifyBeanInvocationInServiceTask() throws InterruptedException {
         runtimeService.startProcessInstanceByKey("HelloWorld");
-        verify(loggerDelegate).execute(any(DelegateExecution.class));
+        verify(loggerDelegate, atLeast(1)).execute(any(DelegateExecution.class));
     }
 }
