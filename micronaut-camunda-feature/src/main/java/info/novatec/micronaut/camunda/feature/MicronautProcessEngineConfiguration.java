@@ -30,8 +30,12 @@ public class MicronautProcessEngineConfiguration {
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
     public static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
 
-    @Inject
     private ApplicationContext applicationContext;
+
+    @Inject  // Setter Injection better suited for native images than Field Injection
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
@@ -69,11 +73,6 @@ public class MicronautProcessEngineConfiguration {
             }
         }
     }
-
-
-
-
-
 
     /**
      * Creates a bean for the {@link RuntimeService} in the application context.
