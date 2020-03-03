@@ -1,27 +1,18 @@
 package info.novatec.micronaut.camunda.feature;
 
+import io.micronaut.cli.io.support.PathMatchingResourcePatternResolver;
+import io.micronaut.cli.io.support.Resource;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.core.io.ResourceResolver;
-import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.micronaut.cli.io.support.PathMatchingResourcePatternResolver;
-import io.micronaut.cli.io.support.Resource;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 @Factory
 public class MicronautProcessEngineConfiguration {
@@ -30,18 +21,17 @@ public class MicronautProcessEngineConfiguration {
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
     public static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
 
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-    @Inject  // Setter Injection better suited for native images than Field Injection
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    private final Configuration configuration;
+
+    private final DatasourceConfiguration datasourceConfiguration;
+
+    public MicronautProcessEngineConfiguration(ApplicationContext applicationContext, Configuration configuration, DatasourceConfiguration datasourceConfiguration) {
         this.applicationContext = applicationContext;
+        this.configuration = configuration;
+        this.datasourceConfiguration = datasourceConfiguration;
     }
-
-    @Inject
-    private Configuration configuration;
-
-    @Inject
-    private DatasourceConfiguration datasourceConfiguration;
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
