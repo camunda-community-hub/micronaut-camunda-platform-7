@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.example;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.example;
 
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.RuntimeService;
@@ -20,7 +20,7 @@ class ProcessTest {
     LoggerDelegate loggerDelegate;
 
     @Test
-    public void verifyBeanInvocationInServiceTask() throws InterruptedException {
+    public void verifyBeanInvocationInServiceTask() {
         runtimeService.startProcessInstanceByKey("HelloWorld");
         verify(loggerDelegate).execute(any(DelegateExecution.class));
     }

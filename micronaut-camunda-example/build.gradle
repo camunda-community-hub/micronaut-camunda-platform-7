@@ -5,7 +5,7 @@ plugins {
 }
 
 version "0.1-SNAPSHOT"
-group "info.novatec.micronaut.camunda.app"
+group "info.novatec.micronaut.camunda.example"
 
 configurations {
     // for dependencies that are needed for development only
@@ -38,7 +38,7 @@ dependencies {
 
 test.classpath += configurations.developmentOnly
 
-mainClassName = "info.novatec.micronaut.camunda.app.Application"
+mainClassName = "info.novatec.micronaut.camunda.example.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()

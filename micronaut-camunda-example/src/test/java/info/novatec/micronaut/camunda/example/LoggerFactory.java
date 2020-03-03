@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.example;
 
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Replaces;

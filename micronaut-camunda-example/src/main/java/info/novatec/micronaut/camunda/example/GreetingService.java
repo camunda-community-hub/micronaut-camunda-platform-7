@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.example;
 
 import javax.inject.Singleton;
 

@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.app;
+package info.novatec.micronaut.camunda.example;
 
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
