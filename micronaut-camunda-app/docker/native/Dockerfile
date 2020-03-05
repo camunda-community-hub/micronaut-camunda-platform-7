@@ -2,6 +2,8 @@ FROM oracle/graalvm-ce:20.0.0 as builder
 RUN gu install native-image
 COPY build/libs/micronaut-camunda-app-0.1-SNAPSHOT-all.jar /home/app/micronaut/build/app.jar
 COPY src/main/resources/reflectionconfig.json /home/app/micronaut
+COPY src/main/resources/resourceconfig.json /home/app/micronaut
+COPY src/main/resources/proxyconfig.json /home/app/micronaut
 WORKDIR /home/app/micronaut
 RUN native-image -jar build/app.jar
 RUN ./micronaut

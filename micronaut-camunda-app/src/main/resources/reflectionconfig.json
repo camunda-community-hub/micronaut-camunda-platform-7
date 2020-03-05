@@ -187,8 +187,113 @@
   ]
 },
   {
-    "name": "info.novatec.micronaut.camunda.feature.MicronautProcessConfiguration",
-    "allDeclaredConstructors": true,
+    "name" : "org.postgresql.Driver",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true
+  },
+  {
+    "name": "org.apache.ibatis.logging.slf4j.Slf4jImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.log4j.Log4jImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.log4j2.Log4j2Impl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.stdout.StdOutImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+  {
+    "name": "org.apache.ibatis.logging.nologging.NoLoggingImpl",
+    "methods": [
+      {  "name": "<init>", "parameterTypes": ["java.lang.String"] }
+    ]
+  },
+    {
+      "name": "org.apache.ibatis.io.JBoss6VFS",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.io.DefaultVFS",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "java.util.ArrayList",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.javassist.util.proxy.ProxyFactory",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.type.InstantTypeHandler",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.scripting.xmltags.XMLLanguageDriver",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.scripting.defaults.RawLanguageDriver",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.logging.slf4j.Slf4jImpl",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.logging.stdout.StdOutImpl",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.datasource.unpooled.UnpooledDataSourceFactory",
+      "allPublicConstructors": true
+    },
+    {
+      "name": "org.apache.ibatis.datasource.unpooled.UnpooledDataSource",
+      "allPublicConstructors": true,
+      "allPublicMethods": true
+    },
+    {
+      "name": "org.apache.ibatis.annotations.Insert",
+      "allPublicMethods": true
+    },
+  {
+    "name": "org.apache.ibatis.reflection.MetaClass",
     "allPublicMethods": true
   },
   {

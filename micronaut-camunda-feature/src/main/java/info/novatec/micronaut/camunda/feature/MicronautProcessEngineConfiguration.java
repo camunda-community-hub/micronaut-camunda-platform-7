@@ -4,6 +4,7 @@ import io.micronaut.aop.Introduction;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.io.scan.ClassPathResourceLoader;
 import org.camunda.bpm.engine.*;
@@ -36,7 +37,7 @@ public class MicronautProcessEngineConfiguration {
         this.applicationContext = applicationContext;
     }
 
-    @Inject
+    /*@Inject
     public void setDatasourceConfiguration(DatasourceConfiguration datasourceConfiguration) {
         this.datasourceConfiguration = datasourceConfiguration;
     }
@@ -44,7 +45,7 @@ public class MicronautProcessEngineConfiguration {
     @Inject
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
-    }
+    }*/
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
@@ -53,18 +54,24 @@ public class MicronautProcessEngineConfiguration {
      */
     @Context
     public ProcessEngine processEngine() throws IOException {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
+       /* ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
                 .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
                 .setJdbcUrl(datasourceConfiguration.getUrl())
                 .setJdbcUsername(datasourceConfiguration.getUsername())
                 .setJdbcPassword(datasourceConfiguration.getPassword())
-                .setJdbcDriver(datasourceConfiguration.getDriverClassName())
+                .setJdbcDriver(datasourceConfiguration.getDriverClassName())*/
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
+                .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
+                .setJdbcUrl("jdbc:postgresql://172.18.108.129:5432/mytestdb")
+                .setJdbcDriver("org.postgresql.Driver")
+                .setJdbcUsername("postgres")
+                .setJdbcPassword("test")
                 .setJobExecutorActivate(true);
 
         ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
-        log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());
+        //log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());
 
         deployProcessModels(processEngine);
         return processEngine;

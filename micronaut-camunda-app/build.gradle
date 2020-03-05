@@ -27,7 +27,14 @@ dependencies {
     implementation "io.micronaut:micronaut-http-client"
     implementation "info.novatec.micronaut.camunda.feature:micronaut-camunda-feature:0.1-SNAPSHOT"
     implementation "org.camunda.bpm:camunda-engine:7.12.0"
+
     implementation "com.h2database:h2:1.4.200"
+    implementation "org.postgresql:postgresql:9.3-1100-jdbc4"
+
+    implementation 'log4j:log4j:1.2.16'
+    implementation 'org.apache.logging.log4j:log4j-api:2.7'
+    implementation 'org.apache.logging.log4j:log4j-core:2.7'
+
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
