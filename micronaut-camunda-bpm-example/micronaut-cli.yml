@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: info.novatec.micronaut.camunda.bpm.example
+---
+testFramework: junit
+sourceLanguage: java

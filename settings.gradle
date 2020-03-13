@@ -1,3 +1,3 @@
 rootProject.name = 'micronaut-camunda-bpm'
-include ':micronaut-camunda-feature'
-include ':micronaut-camunda-example'
+include ':micronaut-camunda-bpm-feature'
+include ':micronaut-camunda-bpm-example'
