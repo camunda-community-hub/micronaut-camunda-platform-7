@@ -37,6 +37,7 @@ public class MicronautProcessEngineConfiguration {
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
      *
      * @return the initialized {@link ProcessEngine} in the application context.
+     * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     public ProcessEngine processEngine() throws IOException {
