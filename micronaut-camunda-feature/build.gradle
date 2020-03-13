@@ -49,3 +49,8 @@ tasks.withType(JavaExec) {
     classpath += configurations.developmentOnly
     jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 }
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
