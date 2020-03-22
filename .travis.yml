@@ -1,6 +1,0 @@
-language: java
-
-# Matrix build with LTS versions
-jdk:
-  - openjdk8
-  - openjdk11
