@@ -33,7 +33,7 @@ Please also read the [FAQ](FAQ.md).
 
 In build.gradle add the dependency:
 ```
-implementation "info.novatec:micronaut-camunda-bpm-feature:0.1-SNAPSHOT"
+implementation "info.novatec:micronaut-camunda-bpm-feature:0.0.1-SNAPSHOT"
 ```
 
 
