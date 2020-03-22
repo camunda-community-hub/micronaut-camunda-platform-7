@@ -26,7 +26,6 @@ Micronaut + Camunda = :heart:
 
 Please also read the [FAQ](FAQ.md).
 
-[![Build Status](https://api.travis-ci.org/NovatecConsulting/micronaut-camunda-bpm.svg?branch=master)](https://travis-ci.org/NovatecConsulting/micronaut-camunda-bpm)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # User Guide
