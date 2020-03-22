@@ -1,8 +1,9 @@
 plugins {
     id "application"
+    id "maven-publish"
+    id "signing"
 }
 
-version "0.0.1-SNAPSHOT"
 group "info.novatec"
 
 configurations {
@@ -52,4 +53,51 @@ tasks.withType(JavaExec) {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+// based on https://docs.gradle.org/current/userguide/publishing_maven.html#sec:modifying_the_generated_pom and https://central.sonatype.org/pages/requirements.html#sufficient-metadata
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            pom {
+                name = 'micronaut-camunda-bpm-feature'
+                description = 'Integration between Micronaut and Camunda BPM Process Engine'
+                url = 'https://github.com/NovatecConsulting/micronaut-camunda-bpm'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'The micronaut-camunda-bpm Team at Novatec Consulting GmbH'
+                        email = 'micronaut-camunda@novatec-gmbh.de'
+                        organization = 'Novatec Consulting GmbH'
+                        organizationUrl = 'https://www.novatec-gmbh.de'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/NovatecConsulting/micronaut-camunda-bpm.git'
+                    developerConnection = 'scm:git:https://github.com/NovatecConsulting/micronaut-camunda-bpm.git'
+                    url = 'https://github.com/NovatecConsulting/micronaut-camunda-bpm'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = version.endsWith('SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            credentials {
+                username 'micronaut-camunda'
+                password "$System.env.OSSRH_PWD"
+            }
+        }
+    }
+}
+
+// see https://docs.gradle.org/current/userguide/signing_plugin.html#sec:specifying_what_to_sign and https://central.sonatype.org/pages/working-with-pgp-signatures.html#generating-a-key-pair
+signing {
+    sign publishing.publications.mavenJava
 }
