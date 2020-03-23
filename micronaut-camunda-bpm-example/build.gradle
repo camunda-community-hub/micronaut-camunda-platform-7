@@ -1,5 +1,4 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
 }
 
@@ -45,10 +44,6 @@ test {
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
-}
-
-shadowJar {
-    mergeServiceFiles()
 }
 
 tasks.withType(JavaExec) {
