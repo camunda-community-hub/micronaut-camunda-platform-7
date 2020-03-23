@@ -11,17 +11,25 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
-class GreetControllerTest {
+class CamundaControllerTest {
 
     @Inject
-    @Client("/")
+    @Client("/camunda")
     RxHttpClient client;
 
     @Test
-    public void greet() {
-        HttpRequest<String> request = HttpRequest.GET("/greet/Tobias");
+    void name() {
+        HttpRequest<String> request = HttpRequest.GET("/name");
         String body = client.toBlocking().retrieve(request);
 
-        assertEquals("Hello Tobias", body);
+        assertEquals("default", body);
+    }
+
+    @Test
+    void definitions() {
+        HttpRequest<String> request = HttpRequest.GET("/definitions");
+        String body = client.toBlocking().retrieve(request);
+
+        assertEquals("HelloWorld", body);
     }
 }

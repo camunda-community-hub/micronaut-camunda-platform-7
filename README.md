@@ -95,6 +95,8 @@ Windows:
 gradlew.bat clean run
 ```
 
-## Run the Hello World example app
+## Call the example app
 
-Open http://localhost:8080/greet/YourName in your browser
+Open in your browser:
+* http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
+* http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.
