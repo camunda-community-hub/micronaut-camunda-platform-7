@@ -68,6 +68,7 @@ public class MicronautProcessEngineConfiguration {
                 processEngine.getRepositoryService().createDeployment()
                         .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
                         .addInputStream(resource.getFilename(), resource.getInputStream())
+                        .enableDuplicateFiltering(true)
                         .deploy();
             }
         }
