@@ -15,22 +15,27 @@ Advantages of Camunda BPM together with Micronaut:
 * Embedded process engine with low memory footprint
 * (...)
 
-Micronaut + Camunda = :heart:
+Micronaut + Camunda BPM = :heart:
 
 [![Release](https://img.shields.io/github/v/release/NovatecConsulting/micronaut-camunda-bpm.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
 [![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Continuous Integration](https://github.com/NovatecConsulting/micronaut-camunda-bpm/workflows/Continuous%20Integration/badge.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions)
 
-## Features
+# Features
 * Camunda BPM can be integrated into a Micronaut project by simply adding a dependency in build.gradle (Gradle) or pom.xml (Maven).
 * Using h2 as an in-memory database is as simple as adding a dependency. Other data sources can be configured via properties.
 * Camunda Process engine with job executor is started automatically.
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the classpath are automatically deployed.
+* The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
 
-Please also read the [FAQ](FAQ.md).
+Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTION.md).
 
 # User Guide
+
+This user guide describes what need to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
+
+Do need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example). 
 
 ## Using Gradle
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example`
@@ -66,37 +71,3 @@ You may use the following properties (typically in application.yml) to configure
 |                      | .password        |                                              | Password for database  |
 |                      | .driverClassName | org.h2.Driver                                | Driver for database    |
 | camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create] |
-
-# Developer Guide
-## Get the code
-
-Create a local Git clone:
-
-`git clone https://github.com/NovatecConsulting/micronaut-camunda-bpm.git`
-
-## Open and run in IntelliJ IDEA
-
-To import the project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
-
-For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
-
-Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
-
-## Build and run the example application
-
-Unix:
-```
-./gradlew clean run
-```
-
-Windows:
-
-```
-gradlew.bat clean run
-```
-
-## Call the example app
-
-Open in your browser:
-* http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
-* http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.
