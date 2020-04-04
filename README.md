@@ -25,7 +25,7 @@ Micronaut + Camunda BPM = :heart:
 * Camunda BPM can be integrated into a Micronaut project by simply adding a dependency in build.gradle (Gradle) or pom.xml (Maven).
 * Using h2 as an in-memory database is as simple as adding a dependency. Other data sources can be configured via properties.
 * Camunda Process engine with job executor is started automatically.
-* Models (*.bpmn, *.cmmn, and *.dmn) found in the classpath are automatically deployed.
+* Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
 
