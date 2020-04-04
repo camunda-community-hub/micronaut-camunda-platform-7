@@ -35,7 +35,7 @@ dependencies {
 
 test.classpath += configurations.developmentOnly
 
-mainClassName = "info.novatec.micronaut.camunda.example.Application"
+mainClassName = "info.novatec.micronaut.camunda.bpm.example.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()
