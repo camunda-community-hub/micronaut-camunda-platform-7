@@ -37,7 +37,7 @@ Micronaut + Camunda BPM = :heart:
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
 
-Do need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example). 
+Do you need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example). 
 
 ## Add Dependency using Gradle
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example`
@@ -45,6 +45,7 @@ Do need an example? See our example application at [/micronaut-camunda-bpm-examp
 ```
 implementation "info.novatec:micronaut-camunda-bpm-feature:0.2.2"
 implementation "com.h2database:h2"
+implementation "org.camunda.bpm:camunda-engine:7.12.0"
 ```
 
 ## Add Dependency using Maven
@@ -59,6 +60,11 @@ implementation "com.h2database:h2"
 <dependency>
   <groupId>com.h2database</groupId>
   <artifactId>h2</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.camunda.bpm</groupId>
+  <artifactId>camunda-engine</artifactId>
+  <version>7.12.0</version>
 </dependency>
 ```
 
