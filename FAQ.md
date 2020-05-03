@@ -16,7 +16,11 @@ WARNING: Please consider reporting this to the maintainers of org.apache.ibatis.
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
 ```
-This warning is shown when using JDK 9 and later. It will need to be fixed by MyBatis.
+This warning is shown when using JDK 9 and later.  
+MyBatis has this issue already fixed in version 3.5.3. see https://github.com/mybatis/mybatis-3/issues/1156   
+Unfortunately Camunda 7.12.0 uses an old version of MyBatis (3.4.4.). See [camunda-bom](https://repo1.maven.org/maven2/org/camunda/bpm/camunda-bom/7.12.0/camunda-bom-7.12.0.pom)  
+With the new Camunda version 7.13 (which will be released end of May 2020) the MyBatis version is increased from 3.4.4 to 3.5.3. See [camunda-bom](https://github.com/camunda/camunda-bpm-platform/blob/master/pom.xml)  
+Thus this warning will be resolved with Camunda 7.13.
 
 ### How do I create and publish a new release?
 
