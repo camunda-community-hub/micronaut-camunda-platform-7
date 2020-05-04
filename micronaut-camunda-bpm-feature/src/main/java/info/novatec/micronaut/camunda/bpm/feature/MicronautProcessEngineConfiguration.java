@@ -46,6 +46,7 @@ public class MicronautProcessEngineConfiguration {
                 .setJdbcUsername(datasourceConfiguration.getUsername())
                 .setJdbcPassword(datasourceConfiguration.getPassword())
                 .setJdbcDriver(datasourceConfiguration.getDriverClassName())
+                .setHistory(configuration.getHistoryLevel())
                 .setJobExecutorActivate(true);
 
         ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
