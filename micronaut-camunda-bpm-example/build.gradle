@@ -6,7 +6,7 @@ group "info.novatec"
 
 configurations {
     // for dependencies that are needed for development only
-    developmentOnly 
+    developmentOnly
 }
 
 dependencies {
@@ -40,7 +40,7 @@ mainClassName = "info.novatec.micronaut.camunda.bpm.example.Application"
 test {
     useJUnitPlatform()
 }
-tasks.withType(JavaCompile){
+tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
 }

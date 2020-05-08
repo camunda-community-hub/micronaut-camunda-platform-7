@@ -21,7 +21,7 @@ public class MicronautExpressionManager extends ExpressionManager {
         compositeElResolver.add(new VariableScopeElResolver());
         compositeElResolver.add(new VariableContextElResolver());
 
-        if(beans != null) {
+        if (beans != null) {
             // Only expose limited set of beans in expressions
             compositeElResolver.add(new ReadOnlyMapELResolver(beans));
         } else {

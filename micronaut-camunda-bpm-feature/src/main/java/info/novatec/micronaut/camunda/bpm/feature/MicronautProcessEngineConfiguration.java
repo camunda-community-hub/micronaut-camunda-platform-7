@@ -44,19 +44,19 @@ public class MicronautProcessEngineConfiguration {
     @Context
     public ProcessEngine processEngine() throws IOException {
         ProcessEngineConfiguration processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
-                @Override
-                public HistoryLevel getDefaultHistoryLevel() {
-                    // Define default history level for history level "auto". This must be consistent to the configuration default.
-                    return HistoryLevel.HISTORY_LEVEL_FULL;
-                }
+            @Override
+            public HistoryLevel getDefaultHistoryLevel() {
+                // Define default history level for history level "auto". This must be consistent to the configuration default.
+                return HistoryLevel.HISTORY_LEVEL_FULL;
             }
-            .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
-            .setJdbcUrl(datasourceConfiguration.getUrl())
-            .setJdbcUsername(datasourceConfiguration.getUsername())
-            .setJdbcPassword(datasourceConfiguration.getPassword())
-            .setJdbcDriver(datasourceConfiguration.getDriverClassName())
-            .setHistory(configuration.getHistoryLevel())
-            .setJobExecutorActivate(true);
+        }
+                .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
+                .setJdbcUrl(datasourceConfiguration.getUrl())
+                .setJdbcUsername(datasourceConfiguration.getUsername())
+                .setJdbcPassword(datasourceConfiguration.getPassword())
+                .setJdbcDriver(datasourceConfiguration.getDriverClassName())
+                .setHistory(configuration.getHistoryLevel())
+                .setJobExecutorActivate(true);
 
         ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 
@@ -70,7 +70,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Deploys all process models found in root directory of the resources.
-     *
+     * <p>
      * Note: Currently this is not recursive!
      *
      * @param processEngine the {@link ProcessEngine}
@@ -81,7 +81,7 @@ public class MicronautProcessEngineConfiguration {
         PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
         // Order of extensions has been chosen as a best fit for inter process dependencies.
         for (String extension : Arrays.asList("dmn", "cmmn", "bpmn")) {
-            for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  "*." + extension)) {
+            for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "*." + extension)) {
                 log.info("Deploying model: {}", resource.getFilename());
                 processEngine.getRepositoryService().createDeployment()
                         .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
@@ -94,6 +94,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link RuntimeService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link RuntimeService}
      */
@@ -104,6 +105,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link RepositoryService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link RepositoryService}
      */
@@ -114,6 +116,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link ManagementService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link ManagementService}
      */
@@ -124,6 +127,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link AuthorizationService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link AuthorizationService}
      */
@@ -134,6 +138,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link CaseService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link CaseService}
      */
@@ -144,6 +149,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link DecisionService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link DecisionService}
      */
@@ -154,6 +160,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link ExternalTaskService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link ExternalTaskService}
      */
@@ -164,6 +171,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link FilterService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link FilterService}
      */
@@ -174,6 +182,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link FormService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link FormService}
      */
@@ -184,6 +193,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link TaskService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link TaskService}
      */
@@ -194,6 +204,7 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link HistoryService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link HistoryService}
      */
@@ -204,11 +215,12 @@ public class MicronautProcessEngineConfiguration {
 
     /**
      * Creates a bean for the {@link IdentityService} in the application context which can be injected if needed.
+     *
      * @param processEngine the {@link ProcessEngine}
      * @return the {@link IdentityService}
      */
     @Singleton
-    public IdentityService identityService (ProcessEngine processEngine) {
+    public IdentityService identityService(ProcessEngine processEngine) {
         return processEngine.getIdentityService();
     }
 
