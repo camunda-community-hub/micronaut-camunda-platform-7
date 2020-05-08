@@ -43,7 +43,7 @@ public class MicronautProcessEngineConfiguration {
      */
     @Context
     public ProcessEngine processEngine() throws IOException {
-        ProcessEngineConfiguration processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
+        ProcessEngineConfigurationImpl processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
             @Override
             public HistoryLevel getDefaultHistoryLevel() {
                 // Define default history level for history level "auto". This must be consistent to the configuration default.
@@ -56,9 +56,8 @@ public class MicronautProcessEngineConfiguration {
                 .setJdbcPassword(datasourceConfiguration.getPassword())
                 .setJdbcDriver(datasourceConfiguration.getDriverClassName())
                 .setHistory(configuration.getHistoryLevel())
-                .setJobExecutorActivate(true);
-
-        ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
+                .setJobExecutorActivate(true)
+                .setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());
