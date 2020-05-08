@@ -46,7 +46,7 @@ public class MicronautProcessEngineConfiguration {
         ProcessEngineConfigurationImpl processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
             @Override
             public HistoryLevel getDefaultHistoryLevel() {
-                // Define default history level for history level "auto". This must be consistent to the configuration default.
+                // Define default history level for history level "auto".
                 return HistoryLevel.HISTORY_LEVEL_FULL;
             }
         }

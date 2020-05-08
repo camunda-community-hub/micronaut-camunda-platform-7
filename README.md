@@ -121,5 +121,5 @@ You may use the following properties (typically in application.yml) to configure
 |                      | .username        | sa                                           | User name for database |
 |                      | .password        |                                              | Password for database  |
 |                      | .driver-class-name | org.h2.Driver                              | Driver for database    |
-| camunda.bpm          | .history-level   | full                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
+| camunda.bpm          | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
 | camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public interface Configuration {
 
     @NotBlank
-    @Bindable(defaultValue = ProcessEngineConfiguration.HISTORY_FULL)
+    @Bindable(defaultValue = ProcessEngineConfiguration.HISTORY_AUTO)
     String getHistoryLevel();
 
     @NotNull
