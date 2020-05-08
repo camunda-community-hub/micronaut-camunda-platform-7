@@ -6,6 +6,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.repository.ResourceDefinition;
 
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class CamundaController {
     @Produces(MediaType.TEXT_PLAIN)
     public String definitions() {
         return repositoryService.createProcessDefinitionQuery().list().stream()
-                .map(processDefinition -> processDefinition.getKey())
+                .map(ResourceDefinition::getKey)
                 .collect(Collectors.joining());
     }
 }
