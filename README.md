@@ -120,6 +120,6 @@ You may use the following properties (typically in application.yml) to configure
 | datasources.default  | .url             | jdbc:h2:mem:micronaut-db;DB_CLOSE_DELAY=1000 | Database URL           |
 |                      | .username        | sa                                           | User name for database |
 |                      | .password        |                                              | Password for database  |
-|                      | .driverClassName | org.h2.Driver                                | Driver for database    |
-| camunda.bpm          | .historyLevel    | full                                         | Camunda history level, use one of [none, activity, full, audit]    |
-| camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create] |
+|                      | .driver-class-name | org.h2.Driver                              | Driver for database    |
+| camunda.bpm          | .history-level   | full                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
+| camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
