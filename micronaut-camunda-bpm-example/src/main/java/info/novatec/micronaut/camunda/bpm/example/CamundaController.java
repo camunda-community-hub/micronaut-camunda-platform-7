@@ -31,7 +31,7 @@ public class CamundaController {
     @Produces(MediaType.TEXT_PLAIN)
     public String definitions() {
         return repositoryService.createProcessDefinitionQuery().list().stream()
-                .map( processDefinition -> processDefinition.getKey())
+                .map(processDefinition -> processDefinition.getKey())
                 .collect(Collectors.joining());
     }
 }
