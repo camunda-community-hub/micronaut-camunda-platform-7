@@ -5,6 +5,8 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -17,8 +19,9 @@ import java.util.Arrays;
 @Factory
 public class MicronautProcessEngineConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
     public static final String MICRONAUT_AUTO_DEPLOYMENT_NAME = "MicronautAutoDeployment";
+
+    private static final Logger log = LoggerFactory.getLogger(MicronautProcessEngineConfiguration.class);
 
     private final ApplicationContext applicationContext;
 
@@ -40,14 +43,20 @@ public class MicronautProcessEngineConfiguration {
      */
     @Context
     public ProcessEngine processEngine() throws IOException {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
-                .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
-                .setJdbcUrl(datasourceConfiguration.getUrl())
-                .setJdbcUsername(datasourceConfiguration.getUsername())
-                .setJdbcPassword(datasourceConfiguration.getPassword())
-                .setJdbcDriver(datasourceConfiguration.getDriverClassName())
-                .setHistory(configuration.getHistoryLevel())
-                .setJobExecutorActivate(true);
+        ProcessEngineConfiguration processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
+                @Override
+                public HistoryLevel getDefaultHistoryLevel() {
+                    // Define default history level for history level "auto". This must be consistent to the configuration default.
+                    return HistoryLevel.HISTORY_LEVEL_FULL;
+                }
+            }
+            .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
+            .setJdbcUrl(datasourceConfiguration.getUrl())
+            .setJdbcUsername(datasourceConfiguration.getUsername())
+            .setJdbcPassword(datasourceConfiguration.getPassword())
+            .setJdbcDriver(datasourceConfiguration.getDriverClassName())
+            .setHistory(configuration.getHistoryLevel())
+            .setJobExecutorActivate(true);
 
         ((ProcessEngineConfigurationImpl) processEngineConfiguration).setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
 

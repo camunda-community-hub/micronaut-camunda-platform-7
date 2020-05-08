@@ -21,7 +21,7 @@ public interface Configuration {
     interface Database {
 
         @NotBlank
-        @Bindable(defaultValue = "true")
+        @Bindable(defaultValue = ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
         String getSchemaUpdate();
     }
 }
