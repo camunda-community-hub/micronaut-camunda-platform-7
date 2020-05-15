@@ -40,7 +40,7 @@ This section describes what needs to be done to use `micronaut-camunda-bpm-featu
 Do you need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example). 
 
 ## Add Dependency using Gradle
-1. (Optionally) create an empty Micronaut project with `mn create-app my-example`
+1. (Optionally) create an empty Micronaut project with `mn create-app my-example` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in build.gradle:
 ```
 implementation "info.novatec:micronaut-camunda-bpm-feature:0.2.2"
@@ -49,7 +49,7 @@ implementation "org.camunda.bpm:camunda-engine:7.12.0"
 ```
 
 ## Add Dependency using Maven
-1. (Optionally) create an empty Micronaut project with `mn create-app my-example --build=maven`
+1. (Optionally) create an empty Micronaut project with `mn create-app my-example --build=maven` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in pom.xml:
 ```
 <dependency>
