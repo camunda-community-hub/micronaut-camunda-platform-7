@@ -39,5 +39,7 @@ Thus this warning will be resolved with Camunda 7.13.
    4. Release version to Maven Central by selecting the repository and clicking on "Release"
 4. Check Maven Central
    1. The new release should appear on https://search.maven.org/search?q=micronaut-camunda-bpm-feature after a few minutes
-   2. Update README.md to include the new version of the dependency for Gradle and Maven.
+   2. Update README.md
+      1. Dependencies for Gradle and Maven
+      2. Compatibility Matrix 
    3. That's all :-) There is no need to update the version in the project. It will stay at 0.0.1-SNAPSHOT.
