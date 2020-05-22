@@ -43,7 +43,7 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in build.gradle:
 ```
-implementation "info.novatec:micronaut-camunda-bpm-feature:0.2.2"
+implementation "info.novatec:micronaut-camunda-bpm-feature:0.3.1"
 implementation "com.h2database:h2"
 implementation "org.camunda.bpm:camunda-engine:7.12.0"
 ```
@@ -55,7 +55,7 @@ implementation "org.camunda.bpm:camunda-engine:7.12.0"
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.2.2</version>
+  <version>0.3.1</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -131,6 +131,7 @@ Other combinations will probably also work but have not been tested.
 
 | Release |Micronaut | Camunda BPM |
 |-------|-------|--------|
+| 0.3.1 | 1.3.5 | 7.12.0 |
 | 0.2.2 | 1.3.3 | 7.12.0 |
 | 0.2.1 | 1.3.3 | 7.12.0 |
 | 0.2.0 | 1.3.3 | 7.12.0 |

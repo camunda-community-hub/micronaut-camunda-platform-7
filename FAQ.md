@@ -29,7 +29,7 @@ Thus this warning will be resolved with Camunda 7.13.
    2. Click "Draft a new release"
    3. Enter a tag version of the master branch, e.g. v0.1.0 considering the last tag and https://semver.org/
    4. Click on "Publish release"
-2. Verify that version is built and uploaded to OSSRH successfully
+2. Verify that release is built and uploaded to OSSRH successfully
    1. Open https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions?query=workflow%3A%22Publish+to+OSSRH+when+released%22
    2. Wait for build to succeed
 3. Publish to Maven Central (see also [Detailed instructions](https://central.sonatype.org/pages/releasing-the-deployment.html))
@@ -41,5 +41,5 @@ Thus this warning will be resolved with Camunda 7.13.
    1. The new release should appear on https://search.maven.org/search?q=micronaut-camunda-bpm-feature after a few minutes
    2. Update README.md
       1. Dependencies for Gradle and Maven
-      2. Compatibility Matrix 
+      2. Compatibility Matrix
    3. That's all :-) There is no need to update the version in the project. It will stay at 0.0.1-SNAPSHOT.
