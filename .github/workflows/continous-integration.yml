@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '13'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
+        java: ['8', '11', '14'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
 
     steps:
       - name: Git Checkout
