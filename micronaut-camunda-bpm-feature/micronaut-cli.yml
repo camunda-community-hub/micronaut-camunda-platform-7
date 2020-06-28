@@ -1,5 +1,6 @@
-profile: service
+applicationType: default
 defaultPackage: info.novatec.micronaut.camunda.bpm.feature
----
 testFramework: junit
 sourceLanguage: java
+buildTool: gradle
+features: [app-name, docker, file-watch, file-watch-osx, gradle, http-client, java, java-application, junit, logback, netty-server, readme, shade, yaml]
