@@ -1,4 +1,4 @@
 FROM openjdk:14-alpine
-COPY target/micronaut-camunda-example-*.jar micronaut-camunda-example.jar
+COPY build/libs/micronaut-camunda-bpm-example-*.jar micronaut-camunda-bpm-example.jar
 EXPOSE 8080
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "micronaut-camunda-example.jar"]
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "micronaut-camunda-bpm-example.jar"]
