@@ -75,22 +75,28 @@ To deploy a process model create an executable BPMN file and save it in the reso
 
 ## Calling Camunda BPM Process Engine and related Services
 
-Inject the process engine or any related services using the standard `javax.inject.Inject` annotation:
+Inject the process engine or any related services using constructor injection:
 ```
+// ...
+
+import javax.inject.Singleton;
+
 @Singleton
 public class MyComponent {
 
-    @Inject
-    private ProcessEngine processEngine;
+    private final ProcessEngine processEngine;
+    private final RuntimeService runtimeService;
     
-    @Inject
-    private RuntimeService runtimeService;
+    public MyComponent(ProcessEngine processEngine, RuntimeService runtimeService) {
+        this.processEngine = processEngine;
+        this.runtimeService = runtimeService;
+    }
 
     // ...
 }
 ```
 
-Alternatively, constructor injection will work as well.
+Alternatively to constructor injection, you can also use field injection, JavaBean property injection, or method parameter injection.
 
 ## Invoking Java Delegates
 
