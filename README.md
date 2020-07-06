@@ -42,7 +42,7 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 ## Add Dependency using Gradle
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in build.gradle:
-```
+```groovy
 implementation "info.novatec:micronaut-camunda-bpm-feature:0.5.0"
 implementation "com.h2database:h2"
 implementation "org.camunda.bpm:camunda-engine:7.13.0"
@@ -51,7 +51,7 @@ implementation "org.camunda.bpm:camunda-engine:7.13.0"
 ## Add Dependency using Maven
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example --build=maven` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in pom.xml:
-```
+```xml
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
@@ -76,7 +76,7 @@ To deploy a process model create an executable BPMN file and save it in the reso
 ## Calling Camunda BPM Process Engine and related Services
 
 Inject the process engine or any related services using constructor injection:
-```
+```java
 // ...
 
 import javax.inject.Singleton;
@@ -102,7 +102,7 @@ Alternatively to constructor injection, you can also use field injection, JavaBe
 
 To invoke a Java Delegate first create a singleton bean:
 
-```
+```java
 @Singleton
 public class LoggerDelegate implements JavaDelegate {
 
