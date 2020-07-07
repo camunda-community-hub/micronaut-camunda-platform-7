@@ -130,6 +130,24 @@ You may use the following properties (typically in application.yml) to configure
 | camunda.bpm          | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
 | camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
 
+### Custom Process Engine Configuration
+
+Internally, to build Camunda `ProcessEngine` we use `ProcessEngineConfiguration`. This process can be intercepted for detailed configuration customization with the following bean:
+
+```java
+@Singleton
+@Replaces(DefaultProcessEngineConfigurationCustomizer.class)
+public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConfigurationCustomizer  {
+
+    @Override
+    public void customize(ProcessEngineConfiguration configuration) {
+        // configure ProcessEngineConfiguration here, e.g.:
+        configuration.setProcessEngineName("CustomizedEngine");
+    }
+
+}
+```    
+
 ## Compatibility Matrix
 
 The following compatibility matrix shows the officially supported Micronaut and Camunda BPM versions for each release.

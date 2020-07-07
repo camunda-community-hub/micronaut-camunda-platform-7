@@ -29,10 +29,15 @@ public class MicronautProcessEngineConfiguration {
 
     private final DatasourceConfiguration datasourceConfiguration;
 
-    public MicronautProcessEngineConfiguration(ApplicationContext applicationContext, Configuration configuration, DatasourceConfiguration datasourceConfiguration) {
+    private final ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer;
+
+    public MicronautProcessEngineConfiguration(ApplicationContext applicationContext, Configuration configuration,
+                                               DatasourceConfiguration datasourceConfiguration,
+                                               ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.applicationContext = applicationContext;
         this.configuration = configuration;
         this.datasourceConfiguration = datasourceConfiguration;
+        this.processEngineConfigurationCustomizer = processEngineConfigurationCustomizer;
     }
 
     /**
@@ -58,6 +63,8 @@ public class MicronautProcessEngineConfiguration {
                 .setHistory(configuration.getHistoryLevel())
                 .setJobExecutorActivate(true)
                 .setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
+
+        processEngineConfigurationCustomizer.customize(processEngineConfiguration);
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());

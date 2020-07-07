@@ -72,4 +72,9 @@ class MicronautProcessEngineConfigurationTest {
     void testDeploymentName() {
         assertEquals(MicronautProcessEngineConfiguration.MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
     }
+
+    @Test
+    void testConfigurationCustomizer() {
+        assertEquals(MicronautProcessEngineConfigurationCustomizer.PROCESS_ENGINE_NAME, processEngine.getName());
+    }
 }
