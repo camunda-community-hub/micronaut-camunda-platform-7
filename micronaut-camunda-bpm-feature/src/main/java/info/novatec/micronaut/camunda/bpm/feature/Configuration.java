@@ -7,6 +7,9 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Tobias Schäfer
+ */
 @ConfigurationProperties("camunda.bpm")
 public interface Configuration {
 

@@ -16,6 +16,9 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * @author Tobias Schäfer
+ */
 @Factory
 public class MicronautProcessEngineConfiguration {
 
