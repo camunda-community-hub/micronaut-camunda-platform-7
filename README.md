@@ -163,3 +163,13 @@ Other combinations will probably also work but have not been tested.
 | 0.2.1 | 1.3.3 | 7.12.0 |
 | 0.2.0 | 1.3.3 | 7.12.0 |
 | 0.1.0 | 1.3.3 | 7.12.0 |
+
+## Contact
+
+This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
+
+If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via mail.
+
+We'd also like to hear from you if you're using the project :-)
+
+You can contact the main developers via mail at [micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de).
