@@ -151,7 +151,7 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 ## Compatibility Matrix
 
 The following compatibility matrix shows the officially supported Micronaut and Camunda BPM versions for each release.
-Other combinations will probably also work but have not been tested.  
+Other combinations might also work but have not been tested.  
 
 | Release |Micronaut | Camunda BPM |
 |-------|-------|--------|
@@ -163,6 +163,10 @@ Other combinations will probably also work but have not been tested.
 | 0.2.1 | 1.3.3 | 7.12.0 |
 | 0.2.0 | 1.3.3 | 7.12.0 |
 | 0.1.0 | 1.3.3 | 7.12.0 |
+
+Download of Releases:
+* [GitHub Artifacts](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
+* [Maven Central Artifacts](https://search.maven.org/artifact/info.novatec/micronaut-camunda-bpm-feature)
 
 ## Contact
 
