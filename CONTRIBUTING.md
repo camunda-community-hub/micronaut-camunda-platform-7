@@ -70,7 +70,10 @@ For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enabl
 
 Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
 
-## Build and run the example application
+## Build integration project and run the example application
+
+To build the integration project (subfolder [`micronaut-camunda-bpm-feature`](/micronaut-camunda-bpm-feature)) and start the
+example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camunda-bpm-example)) simply execute:
 
 Unix:
 ```
