@@ -6,6 +6,9 @@ import io.micronaut.core.bind.annotation.Bindable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Tobias Schäfer
+ */
 @ConfigurationProperties("datasources.default")
 public interface DatasourceConfiguration {
 
