@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
  * @author Lukasz Frankowski
  */
 @FunctionalInterface
-interface ProcessEngineConfigurationCustomizer {
+public interface ProcessEngineConfigurationCustomizer {
 
     void customize(@Nonnull ProcessEngineConfiguration configuration);
 
