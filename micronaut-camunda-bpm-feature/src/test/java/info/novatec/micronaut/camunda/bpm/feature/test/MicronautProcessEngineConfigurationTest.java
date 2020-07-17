@@ -3,7 +3,6 @@ package info.novatec.micronaut.camunda.bpm.feature.test;
 import info.novatec.micronaut.camunda.bpm.feature.MicronautProcessEngineConfiguration;
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
@@ -71,7 +70,7 @@ class MicronautProcessEngineConfigurationTest {
 
     @Test
     void testDeploymentName() {
-        Assertions.assertEquals(MicronautProcessEngineConfiguration.MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
+        assertEquals(MicronautProcessEngineConfiguration.MICRONAUT_AUTO_DEPLOYMENT_NAME, repositoryService.createDeploymentQuery().singleResult().getName());
     }
 
     @Test
