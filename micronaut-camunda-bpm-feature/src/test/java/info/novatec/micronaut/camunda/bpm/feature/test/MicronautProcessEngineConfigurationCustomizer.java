@@ -1,5 +1,7 @@
-package info.novatec.micronaut.camunda.bpm.feature;
+package info.novatec.micronaut.camunda.bpm.feature.test;
 
+import info.novatec.micronaut.camunda.bpm.feature.DefaultProcessEngineConfigurationCustomizer;
+import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer;
 import io.micronaut.context.annotation.Replaces;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 

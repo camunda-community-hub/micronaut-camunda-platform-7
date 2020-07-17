@@ -1,13 +1,13 @@
-package info.novatec.micronaut.camunda.bpm.feature;
+package info.novatec.micronaut.camunda.bpm.feature.test;
 
+import info.novatec.micronaut.camunda.bpm.feature.MicronautProcessEngineConfiguration;
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
 class MicronautProcessEngineConfigurationTest {
