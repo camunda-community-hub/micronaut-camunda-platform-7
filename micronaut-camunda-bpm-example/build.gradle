@@ -54,7 +54,7 @@ tasks.withType(JavaCompile) {
             '-parameters',
             // enables incremental compilation
             '-Amicronaut.processing.incremental=true',
-            '-Amicronaut.processing.annotations=micronaut.camunda.bpm.empty.*',
+            '-Amicronaut.processing.annotations=info.novatec.micronaut.camunda.bpm.example.*',
             "-Amicronaut.processing.group=$project.group",
             "-Amicronaut.processing.module=$project.name",
     ])
