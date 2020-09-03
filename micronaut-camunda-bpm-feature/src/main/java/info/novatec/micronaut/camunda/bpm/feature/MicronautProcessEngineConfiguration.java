@@ -1,6 +1,7 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.*;
@@ -50,6 +51,7 @@ public class MicronautProcessEngineConfiguration {
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
+    @Bean(preDestroy = "close")
     public ProcessEngine processEngine() throws IOException {
         ProcessEngineConfigurationImpl processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
             @Override
