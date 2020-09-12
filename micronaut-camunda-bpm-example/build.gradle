@@ -24,14 +24,14 @@ dependencies {
     implementation("info.novatec:micronaut-camunda-bpm-feature:0.0.1-SNAPSHOT")
     implementation("org.camunda.bpm:camunda-engine:$camundaVersion")
     implementation("com.h2database:h2")
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
+    runtimeOnly("ch.qos.logback:logback-classic")
     testAnnotationProcessor(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
     testAnnotationProcessor("io.micronaut:micronaut-inject-java")
     testImplementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.mockito:mockito-core:3.2.4")
+    testImplementation("org.mockito:mockito-core:3.5.10")
 }
 
 test.classpath += configurations.developmentOnly
