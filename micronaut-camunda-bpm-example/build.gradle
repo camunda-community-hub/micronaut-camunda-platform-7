@@ -22,6 +22,8 @@ dependencies {
     implementation("org.camunda.bpm:camunda-engine:$camundaVersion")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("ch.qos.logback:logback-classic")
+
+    // Test
     testImplementation("org.mockito:mockito-core:3.5.10")
 }
 

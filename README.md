@@ -32,6 +32,9 @@ Micronaut + Camunda BPM = :heart:
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
+* Optionally, the transaction management and the data source provided by Micronaut SQL can be used:
+  * When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.
+  * JavaDelegates and Listeners will have the surrounding Camunda transaction propagated to them allowing the atomic persistence of data.
 
 # Getting Started
 
@@ -147,7 +150,120 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
     }
 
 }
-```    
+```
+
+## Transaction management support
+
+By default, this integration will perform standalone transaction management, i.e. the transactions of micronaut-data and Camunda are independent.
+Each executed command (= interaction with the process engine) will create a new isolated transaction.
+
+Optionally, the transaction management and the data source provided by [micronaut-sql](https://micronaut-projects.github.io/micronaut-sql/latest/guide) can be used:
+* When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.
+* JavaDelegates and Listeners will have the surrounding Camunda transaction propagated to them allowing the atomic persistence of data.
+
+### Alternative 1: micronaut-sql
+
+To enable embedded transactions management support **without micronaut-data** please add the following dependencies to your project:
+
+<details>
+<summary>Click to show Gradle dependencies</summary>
+
+```groovy
+implementation("io.micronaut.data:micronaut-data-tx")
+runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+```
+</details>
+
+<details>
+<summary>Click to show Maven dependencies</summary>
+
+```xml
+<dependency>
+  <groupId>io.micronaut.data</groupId>
+  <artifactId>micronaut-data-tx</artifactId>
+</dependency>
+<dependency>
+  <groupId>io.micronaut.sql</groupId>
+  <artifactId>micronaut-jdbc-hikari</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+</details>
+
+and then configure the JDBC properties as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#jdbc).
+
+### Alternative 2: micronaut-data-jdbc
+
+To enable embedded transactions management support **with micronaut-data-jdbc** please add the following dependencies to your project:
+
+<details>
+<summary>Click to show Gradle dependencies</summary>
+
+```groovy
+implementation("io.micronaut.data:micronaut-data-jdbc")
+runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+```
+</details>
+
+<details>
+<summary>Click to show Maven dependencies</summary>
+
+```xml
+<dependency>
+  <groupId>io.micronaut.data</groupId>
+  <artifactId>micronaut-data-jdbc</artifactId>
+</dependency>
+<dependency>
+  <groupId>io.micronaut.sql</groupId>
+  <artifactId>micronaut-jdbc-hikari</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+</details>
+
+and then configure the JDBC properties as described [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#jdbc).
+
+### Alternative 3: micronaut-data-jpa
+
+To enable embedded transactions management support **with micronaut-data-jpa** please add the following dependencies to your project:
+
+<details>
+<summary>Click to show Gradle dependencies</summary>
+
+```groovy
+annotationProcessor("io.micronaut.data:micronaut-data-processor")
+implementation("io.micronaut.data:micronaut-hibernate-jpa")
+runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+```
+</details>
+
+<details>
+<summary>Click to show Maven dependencies</summary>
+
+```xml
+<dependency>
+  <groupId>io.micronaut.data</groupId>
+  <artifactId>micronaut-data-hibernate-jpa</artifactId>
+</dependency>
+<dependency>
+  <groupId>io.micronaut.sql</groupId>
+  <artifactId>micronaut-jdbc-hikari</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+And also add the annotation processor to the `annotationProcessorPaths` element:
+
+```xml
+<path>
+  <groupId>io.micronaut.data</groupId>
+  <artifactId>micronaut-data-processor</artifactId>
+  <version>${micronaut.data.version}</version>
+</path>
+```
+</details>
+
+and then configure JPA as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#hibernate).
 
 ## Compatibility Matrix
 

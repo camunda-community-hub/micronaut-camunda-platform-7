@@ -1,0 +1,23 @@
+plugins {
+    id "io.micronaut.library"
+}
+
+micronaut {
+    testRuntime "junit5"
+    processing {
+        incremental true
+        annotations "micronaut.camunda.bpm.feature.test.*"
+    }
+}
+
+dependencies {
+    implementation project(":micronaut-camunda-bpm-feature")
+    testImplementation project(':micronaut-camunda-bpm-feature').sourceSets.test.output
+
+    implementation("org.camunda.bpm:camunda-engine:$camundaVersion")
+    testRuntimeOnly("com.h2database:h2")
+
+    // Integration of Transaction Management
+    testImplementation("io.micronaut.data:micronaut-data-tx")
+    testRuntimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
+}

@@ -1,13 +1,9 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
-import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
-import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -26,52 +22,18 @@ public class ProcessEngineFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ProcessEngineFactory.class);
 
-    private final ApplicationContext applicationContext;
-
-    private final Configuration configuration;
-
-    private final DatasourceConfiguration datasourceConfiguration;
-
-    private final ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer;
-
-    public ProcessEngineFactory(ApplicationContext applicationContext, Configuration configuration,
-                                DatasourceConfiguration datasourceConfiguration,
-                                ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
-        this.applicationContext = applicationContext;
-        this.configuration = configuration;
-        this.datasourceConfiguration = datasourceConfiguration;
-        this.processEngineConfigurationCustomizer = processEngineConfigurationCustomizer;
-    }
-
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
      *
+     * @param processEngineConfiguration the {@link MnAbstractProcessEngineConfiguration} to build the {@link ProcessEngine}.
      * @return the initialized {@link ProcessEngine} in the application context.
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     @Bean(preDestroy = "close")
-    public ProcessEngine processEngine() throws IOException {
-        ProcessEngineConfigurationImpl processEngineConfiguration = new StandaloneProcessEngineConfiguration() {
-            @Override
-            public HistoryLevel getDefaultHistoryLevel() {
-                // Define default history level for history level "auto".
-                return HistoryLevel.HISTORY_LEVEL_FULL;
-            }
-        }
-                .setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate())
-                .setJdbcUrl(datasourceConfiguration.getUrl())
-                .setJdbcUsername(datasourceConfiguration.getUsername())
-                .setJdbcPassword(datasourceConfiguration.getPassword())
-                .setJdbcDriver(datasourceConfiguration.getDriverClassName())
-                .setHistory(configuration.getHistoryLevel())
-                .setJobExecutorActivate(true)
-                .setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
-
-        processEngineConfigurationCustomizer.customize(processEngineConfiguration);
+    public ProcessEngine processEngine(MnAbstractProcessEngineConfiguration processEngineConfiguration) throws IOException {
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
-        log.info("Successfully created process engine which is connected to database {}", datasourceConfiguration.getUrl());
 
         deployProcessModels(processEngine);
 
