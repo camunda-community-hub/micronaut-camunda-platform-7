@@ -8,7 +8,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 @Factory
-public class LoggerFactory {
+public class LoggerDelegateFactory {
     @Singleton
     @Replaces(LoggerDelegate.class)
     @Named("loggerDelegate")
