@@ -3,11 +3,13 @@ package info.novatec.micronaut.camunda.bpm.example;
 import io.micronaut.test.annotation.MicronautTest;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
 @MicronautTest
@@ -18,6 +20,11 @@ class ProcessTest {
 
     @Inject
     LoggerDelegate loggerDelegate;
+
+    @BeforeEach
+    void init() {
+        reset(loggerDelegate);
+    }
 
     @Test
     public void verifyBeanInvocationInServiceTask() {
