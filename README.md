@@ -44,8 +44,8 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 2. Add the dependency in build.gradle:
 ```groovy
 implementation("info.novatec:micronaut-camunda-bpm-feature:0.5.3")
-implementation("com.h2database:h2")
 implementation("org.camunda.bpm:camunda-engine:7.13.0")
+runtimeOnly("com.h2database:h2")
 ```
 
 ## Add Dependency using Maven
@@ -58,13 +58,14 @@ implementation("org.camunda.bpm:camunda-engine:7.13.0")
   <version>0.5.3</version>
 </dependency>
 <dependency>
-  <groupId>com.h2database</groupId>
-  <artifactId>h2</artifactId>
-</dependency>
-<dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-engine</artifactId>
   <version>7.13.0</version>
+</dependency>
+<dependency>
+  <groupId>com.h2database</groupId>
+  <artifactId>h2</artifactId>
+  <scope>runtime</scope>
 </dependency>
 ```
 
