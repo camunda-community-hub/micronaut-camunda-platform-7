@@ -1,6 +1,6 @@
 package info.novatec.micronaut.camunda.bpm.feature.test;
 
-import io.micronaut.test.annotation.MicronautTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.camunda.bpm.engine.*;
 import org.junit.jupiter.api.Test;
 

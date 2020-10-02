@@ -3,4 +3,4 @@ defaultPackage: info.novatec.micronaut.camunda.bpm.example
 testFramework: junit
 sourceLanguage: java
 buildTool: gradle
-features: [app-name, docker, file-watch, file-watch-osx, gradle, http-client, java, java-application, junit, logback, netty-server, readme, shade, yaml]
+features: [app-name, docker, gradle, http-client, java, java-application, junit, logback, netty-server, readme, shade, yaml]
