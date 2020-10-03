@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @ConfigurationProperties("datasources.default")
 public interface DatasourceConfiguration {
 
-    @Bindable(defaultValue = "jdbc:h2:mem:micronaut-db;DB_CLOSE_DELAY=1000")
+    @Bindable(defaultValue = "jdbc:h2:mem:default;DB_CLOSE_ON_EXIT=FALSE")
     @NotBlank
     String getUrl();
 
