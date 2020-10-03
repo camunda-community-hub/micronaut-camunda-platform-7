@@ -30,8 +30,8 @@ These settings will be written to ~/.gitconfig on Unix and %APPDATA%\.gitconfig 
 
 Most importantly, please format your commit messages in the following way:
 
-* Prefix Git commit messages with the ticket number, e.g. "#42: xyz"
-* Describe WHY you are making the change, e.g. "#42: Added logback to suppress the debug messages during maven build" (not only "changed logging").
+* Prefix Git commit messages with the ticket number, e.g. "Close #42: xyz"
+* Describe WHY you are making the change, e.g. "Close #42: Added logback to suppress the debug messages during maven build" (not only "changed logging").
 
 ### Clean up commit history
 
