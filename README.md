@@ -123,7 +123,7 @@ You may use the following properties (typically in application.yml) to configure
 
 | Prefix               |Property          | Default                                      | Description            |
 |----------------------|------------------|----------------------------------------------|------------------------|
-| datasources.default  | .url             | jdbc:h2:mem:micronaut-db;DB_CLOSE_DELAY=1000 | Database URL           |
+| datasources.default  | .url             | jdbc:h2:mem:default;DB_CLOSE_ON_EXIT=FALSE   | Database URL           |
 |                      | .username        | sa                                           | User name for database |
 |                      | .password        |                                              | Password for database  |
 |                      | .driver-class-name | org.h2.Driver                              | Driver for database    |
