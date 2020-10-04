@@ -6,7 +6,7 @@ This project allows you to easily integrate the [Camunda BPM Process Engine](htt
 We configure Camunda BPM with sensible defaults, so that you can get started with minimum configuration: simply add a dependency in your Micronaut project!
 
 Advantages of Micronaut together with Camunda BPM:
-* Monumental leap in startup time (Currently still blocked by [micronaut-core#2867](https://github.com/micronaut-projects/micronaut-core/issues/2867))
+* Monumental leap in startup time (Currently still blocked by [micronaut-core#2867](https://github.com/micronaut-projects/micronaut-core/issues/2867)) and MyBatis initialization.
 * Minimal memory footprint
 * (...)
 
@@ -32,6 +32,7 @@ Micronaut + Camunda BPM = :heart:
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
+* The process engine configuration can be customized programmatically.
 * Optionally, the transaction management and the data source provided by Micronaut SQL can be used:
   * When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.
   * JavaDelegates and Listeners will have the surrounding Camunda transaction propagated to them allowing the atomic persistence of data.
