@@ -1,6 +1,7 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.ApplicationContext;
+import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
@@ -16,11 +17,12 @@ public abstract class MnAbstractProcessEngineConfiguration extends StandalonePro
 
     private static final Logger log = LoggerFactory.getLogger(MnAbstractProcessEngineConfiguration.class);
 
-    public MnAbstractProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
+    public MnAbstractProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory) {
         setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
         setHistory(configuration.getHistoryLevel());
         setJobExecutorActivate(true);
         setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
+        setArtifactFactory(artifactFactory);
 
         processEngineConfigurationCustomizer.customize(this);
     }

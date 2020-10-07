@@ -5,6 +5,7 @@ import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionInterceptor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.transaction.SynchronousTransactionManager;
+import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.CommandInterceptor;
@@ -36,8 +37,8 @@ public class MnEmbeddedProcessEngineConfiguration extends MnAbstractProcessEngin
 
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public MnEmbeddedProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager) {
-        super(configuration, applicationContext, processEngineConfigurationCustomizer);
+    public MnEmbeddedProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ArtifactFactory artifactFactory) {
+        super(configuration, applicationContext, processEngineConfigurationCustomizer, artifactFactory);
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         this.transactionManager = transactionManager;
