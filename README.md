@@ -30,7 +30,7 @@ Micronaut + Camunda BPM = :heart:
 * The Camunda process engine with its job executor is started automatically.
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
-* Micronaut beans are resolved from the application context if they are referenced in expressions within the process models.
+* Micronaut beans are resolved from the application context if they are referenced by expressions or Java class names within the process models.
 * The process engine configuration can be customized programmatically.
 * Optionally, the transaction management and the data source provided by Micronaut SQL can be used:
   * When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.

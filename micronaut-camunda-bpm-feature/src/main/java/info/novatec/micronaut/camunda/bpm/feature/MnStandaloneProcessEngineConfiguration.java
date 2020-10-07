@@ -3,6 +3,7 @@ package info.novatec.micronaut.camunda.bpm.feature;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.transaction.SynchronousTransactionManager;
+import org.camunda.bpm.engine.ArtifactFactory;
 
 import javax.inject.Singleton;
 
@@ -16,8 +17,8 @@ import javax.inject.Singleton;
 @Requires(missingBeans = SynchronousTransactionManager.class)
 public class MnStandaloneProcessEngineConfiguration extends MnAbstractProcessEngineConfiguration {
 
-    public MnStandaloneProcessEngineConfiguration(Configuration configuration, DatasourceConfiguration datasourceConfiguration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
-        super(configuration, applicationContext, processEngineConfigurationCustomizer);
+    public MnStandaloneProcessEngineConfiguration(Configuration configuration, DatasourceConfiguration datasourceConfiguration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory) {
+        super(configuration, applicationContext, processEngineConfigurationCustomizer, artifactFactory);
         setJdbcUrl(datasourceConfiguration.getUrl());
         setJdbcUsername(datasourceConfiguration.getUsername());
         setJdbcPassword(datasourceConfiguration.getPassword());
