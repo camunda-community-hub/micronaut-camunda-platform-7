@@ -15,15 +15,14 @@ Advantages of Camunda BPM together with Micronaut:
 * Embedded process engine with low memory footprint
 * (...)
 
-Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md).
-
-Do you want to contact the core team directly? Please send us a mail to [micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de).
+Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md) and [contact us](#contact).
 
 Micronaut + Camunda BPM = :heart:
 
 [![Release](https://img.shields.io/github/v/release/NovatecConsulting/micronaut-camunda-bpm.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
 [![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Continuous Integration](https://github.com/NovatecConsulting/micronaut-camunda-bpm/workflows/Continuous%20Integration/badge.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions)
+[![Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NovatecConsulting/micronaut-camunda-bpm)
 
 # Features
 * Camunda BPM can be integrated into a Micronaut project by simply adding a dependency in build.gradle (Gradle) or pom.xml (Maven).
@@ -293,8 +292,10 @@ Download of Releases:
 
 This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via Gitter or mail.
 
 We'd also like to hear from you if you're using the project :-)
 
-You can contact the main developers via mail at [micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de).
+Do you want to contact the core team?
+* [Chat via Gitter](https://gitter.im/NovatecConsulting/micronaut-camunda-bpm) 
+* [mailto:micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de)
