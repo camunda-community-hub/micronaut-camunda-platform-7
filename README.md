@@ -200,6 +200,7 @@ To enable embedded transactions management support **with micronaut-data-jdbc** 
 <summary>Click to show Gradle dependencies</summary>
 
 ```groovy
+annotationProcessor("io.micronaut.data:micronaut-data-processor")
 implementation("io.micronaut.data:micronaut-data-jdbc")
 runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 ```
@@ -218,6 +219,16 @@ runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
   <artifactId>micronaut-jdbc-hikari</artifactId>
   <scope>runtime</scope>
 </dependency>
+```
+
+And also add the annotation processor to every (!) `annotationProcessorPaths` element:
+
+```xml
+<path>
+  <groupId>io.micronaut.data</groupId>
+  <artifactId>micronaut-data-processor</artifactId>
+  <version>${micronaut.data.version}</version>
+</path>
 ```
 </details>
 
@@ -252,7 +263,7 @@ runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 </dependency>
 ```
 
-And also add the annotation processor to the `annotationProcessorPaths` element:
+And also add the annotation processor to every (!) `annotationProcessorPaths` element:
 
 ```xml
 <path>
