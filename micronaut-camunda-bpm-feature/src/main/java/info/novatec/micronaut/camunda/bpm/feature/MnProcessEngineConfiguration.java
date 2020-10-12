@@ -3,19 +3,21 @@ package info.novatec.micronaut.camunda.bpm.feature;
 import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionContextFactory;
 import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionInterceptor;
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Requires;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.CommandInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.LogInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -32,32 +34,39 @@ import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRE
  * @author Lukasz Frankowski
  */
 @Singleton
-@Requires(beans = SynchronousTransactionManager.class)
-public class MnEmbeddedProcessEngineConfiguration extends MnAbstractProcessEngineConfiguration {
+public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(MnProcessEngineConfiguration.class);
 
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public MnEmbeddedProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ArtifactFactory artifactFactory) {
-        super(configuration, applicationContext, processEngineConfigurationCustomizer, artifactFactory);
+    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory) {
+        this.transactionManager = transactionManager;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
-        this.transactionManager = transactionManager;
-    }
+        setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
+        setHistory(configuration.getHistoryLevel());
+        setJobExecutorActivate(true);
+        setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
+        setArtifactFactory(artifactFactory);
 
-    @Override
-    public String getConnectionString() {
-        try {
-            return dataSource.getConnection().getMetaData().getURL();
-        } catch (SQLException e) {
-            throw new RuntimeException("Cannot determine URL of datasource", e);
-        }
+        processEngineConfigurationCustomizer.customize(this);
     }
 
     @Override
     public ProcessEngine buildProcessEngine() {
         return transactionManager.executeWrite(
-                transactionStatus -> super.buildProcessEngine()
+            transactionStatus -> {
+                log.info("Building process engine connected to {}", dataSource.getConnection().getMetaData().getURL());
+                return super.buildProcessEngine();
+            }
         );
+    }
+
+    @Override
+    public HistoryLevel getDefaultHistoryLevel() {
+        // Define default history level for history level "auto".
+        return HistoryLevel.HISTORY_LEVEL_FULL;
     }
 
     @Override
@@ -79,10 +88,10 @@ public class MnEmbeddedProcessEngineConfiguration extends MnAbstractProcessEngin
 
     private List<CommandInterceptor> getCommandInterceptors(boolean requiresNew) {
         return Arrays.asList(
-            new LogInterceptor(),
-            new ProcessApplicationContextInterceptor(this),
-            new MnTransactionInterceptor(transactionManager, requiresNew ? REQUIRES_NEW : REQUIRED),
-            new CommandContextInterceptor(commandContextFactory, this, requiresNew)
+                new LogInterceptor(),
+                new ProcessApplicationContextInterceptor(this),
+                new MnTransactionInterceptor(transactionManager, requiresNew ? REQUIRES_NEW : REQUIRED),
+                new CommandContextInterceptor(commandContextFactory, this, requiresNew)
         );
     }
 }

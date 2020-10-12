@@ -16,8 +16,6 @@ micronaut {
 
 dependencies {
     implementation(project(":micronaut-camunda-bpm-feature"))
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut:micronaut-runtime")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("ch.qos.logback:logback-classic")
 

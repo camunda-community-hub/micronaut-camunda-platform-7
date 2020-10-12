@@ -4,6 +4,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -25,13 +26,13 @@ public class ProcessEngineFactory {
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
      *
-     * @param processEngineConfiguration the {@link MnAbstractProcessEngineConfiguration} to build the {@link ProcessEngine}.
+     * @param processEngineConfiguration the {@link ProcessEngineConfiguration} to build the {@link ProcessEngine}.
      * @return the initialized {@link ProcessEngine} in the application context.
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     @Bean(preDestroy = "close")
-    public ProcessEngine processEngine(MnAbstractProcessEngineConfiguration processEngineConfiguration) throws IOException {
+    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration) throws IOException {
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 

@@ -8,6 +8,7 @@ import io.micronaut.core.order.Ordered;
 
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,6 +49,6 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordere
 
     @Override
     public Map<String, Object> read(String name, InputStream input) {
-        return Collections.EMPTY_MAP;
+        return new HashMap<>();
     }
 }
