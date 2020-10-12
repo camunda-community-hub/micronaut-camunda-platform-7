@@ -20,7 +20,10 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     api("org.camunda.bpm:camunda-engine:$camundaVersion")
-    compileOnly("io.micronaut.data:micronaut-data-tx")
+
+    // Integration of Transaction Management
+    api("io.micronaut.data:micronaut-data-tx")
+    api("io.micronaut.sql:micronaut-jdbc-hikari")
 
     // Test
     testImplementation("org.mockito:mockito-core:3.5.13")

@@ -32,9 +32,7 @@ Micronaut + Camunda BPM = :heart:
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced by expressions or Java class names within the process models.
 * The process engine configuration can be customized programmatically.
-* Optionally, the transaction management and the data source provided by Micronaut SQL can be used:
-  * When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.
-  * JavaDelegates and Listeners will have the surrounding Camunda transaction propagated to them allowing the atomic persistence of data.
+* The process engine integrates with Micronaut's transaction manager. Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 
 # Getting Started
 
@@ -123,14 +121,33 @@ and then reference it the process model with the expression`${loggerDelegate}`.
 
 ## Configuration
 
+### Data Source
+
+By default, an in-memory H2 data source will be used. Remember to add the runtime dependency `com.h2database:h2` mentioned in [Getting Started](#getting-started).
+
+However, you can configure any other database, e.g. in `application.yml`:
+
+```yaml
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: secret
+    driverClassName: org.postgresql.Driver
+```
+
+after adding the appropriate driver as a dependency:
+
+```groovy
+runtimeOnly "org.postgresql:postgresql:42.2.18"
+```
+
+### Properties
+
 You may use the following properties (typically in application.yml) to configure the Camunda BPM integration.
 
 | Prefix               |Property          | Default                                      | Description            |
 |----------------------|------------------|----------------------------------------------|------------------------|
-| datasources.default  | .url             | jdbc:h2:mem:default;DB_CLOSE_ON_EXIT=FALSE   | Database URL           |
-|                      | .username        | sa                                           | User name for database |
-|                      | .password        |                                              | Password for database  |
-|                      | .driver-class-name | org.h2.Driver                              | Driver for database    |
 | camunda.bpm          | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
 | camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
 
@@ -152,47 +169,15 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 }
 ```
 
-## Transaction management support
+## Using micronaut-data-jdbc or micronaut-data-jpa
 
-By default, this integration will perform standalone transaction management, i.e. the transactions of micronaut-data and Camunda are independent.
-Each executed command (= interaction with the process engine) will create a new isolated transaction.
-
-Optionally, the transaction management and the data source provided by [micronaut-sql](https://micronaut-projects.github.io/micronaut-sql/latest/guide) can be used:
+The process engine integrates with Micronaut's transaction manager and uses Hikari Connection Pool:
 * When interacting with the process engine, e.g. starting or continuing a process, the existing transaction will be propagated.
 * JavaDelegates and Listeners will have the surrounding Camunda transaction propagated to them allowing the atomic persistence of data.
 
-### Alternative 1: micronaut-sql
+Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 
-To enable embedded transactions management support **without micronaut-data** please add the following dependencies to your project:
-
-<details>
-<summary>Click to show Gradle dependencies</summary>
-
-```groovy
-implementation("io.micronaut.data:micronaut-data-tx")
-runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
-```
-</details>
-
-<details>
-<summary>Click to show Maven dependencies</summary>
-
-```xml
-<dependency>
-  <groupId>io.micronaut.data</groupId>
-  <artifactId>micronaut-data-tx</artifactId>
-</dependency>
-<dependency>
-  <groupId>io.micronaut.sql</groupId>
-  <artifactId>micronaut-jdbc-hikari</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-</details>
-
-and then configure the JDBC properties as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#jdbc).
-
-### Alternative 2: micronaut-data-jdbc
+### Alternative 1: micronaut-data-jdbc
 
 To enable embedded transactions management support **with micronaut-data-jdbc** please add the following dependencies to your project:
 
@@ -202,7 +187,6 @@ To enable embedded transactions management support **with micronaut-data-jdbc** 
 ```groovy
 annotationProcessor("io.micronaut.data:micronaut-data-processor")
 implementation("io.micronaut.data:micronaut-data-jdbc")
-runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 ```
 </details>
 
@@ -213,11 +197,6 @@ runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 <dependency>
   <groupId>io.micronaut.data</groupId>
   <artifactId>micronaut-data-jdbc</artifactId>
-</dependency>
-<dependency>
-  <groupId>io.micronaut.sql</groupId>
-  <artifactId>micronaut-jdbc-hikari</artifactId>
-  <scope>runtime</scope>
 </dependency>
 ```
 
@@ -234,7 +213,7 @@ And also add the annotation processor to every (!) `annotationProcessorPaths` el
 
 and then configure the JDBC properties as described [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#jdbc).
 
-### Alternative 3: micronaut-data-jpa
+### Alternative 2: micronaut-data-jpa
 
 To enable embedded transactions management support **with micronaut-data-jpa** please add the following dependencies to your project:
 
@@ -244,7 +223,6 @@ To enable embedded transactions management support **with micronaut-data-jpa** p
 ```groovy
 annotationProcessor("io.micronaut.data:micronaut-data-processor")
 implementation("io.micronaut.data:micronaut-hibernate-jpa")
-runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 ```
 </details>
 
@@ -255,11 +233,6 @@ runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 <dependency>
   <groupId>io.micronaut.data</groupId>
   <artifactId>micronaut-data-hibernate-jpa</artifactId>
-</dependency>
-<dependency>
-  <groupId>io.micronaut.sql</groupId>
-  <artifactId>micronaut-jdbc-hikari</artifactId>
-  <scope>runtime</scope>
 </dependency>
 ```
 

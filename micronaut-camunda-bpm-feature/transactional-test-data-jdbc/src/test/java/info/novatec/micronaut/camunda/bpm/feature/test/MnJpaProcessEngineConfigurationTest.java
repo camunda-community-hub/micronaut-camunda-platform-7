@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Tobias Schäfer
  */
 @MicronautTest(transactional = false)
-public class MnEmbeddedJpaProcessEngineConfigurationTest extends MnEmbeddedProcessEngineConfigurationTest {
+public class MnJpaProcessEngineConfigurationTest extends MnProcessEngineConfigurationTest {
 
     @Inject
     RepositoryService repositoryService;
