@@ -47,9 +47,10 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 2. Add the dependency in build.gradle:
 ```groovy
 implementation("info.novatec:micronaut-camunda-bpm-feature:0.6.0")
-implementation("org.camunda.bpm:camunda-engine:7.13.0")
 runtimeOnly("com.h2database:h2")
 ```
+
+Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
 ## Add Dependency using Maven
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example --build=maven` or use [Micronaut Launch](https://launch.micronaut.io).
@@ -61,16 +62,13 @@ runtimeOnly("com.h2database:h2")
   <version>0.6.0</version>
 </dependency>
 <dependency>
-  <groupId>org.camunda.bpm</groupId>
-  <artifactId>camunda-engine</artifactId>
-  <version>7.13.0</version>
-</dependency>
-<dependency>
   <groupId>com.h2database</groupId>
   <artifactId>h2</artifactId>
   <scope>runtime</scope>
 </dependency>
 ```
+
+Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
 ##  Deploying process models
 To deploy a process model create an executable BPMN file and save it in the resources' root. When starting the application you'll see the logs saying:
