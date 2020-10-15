@@ -1,5 +1,6 @@
 package info.novatec.micronaut.camunda.bpm.feature.tx;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import io.micronaut.transaction.support.TransactionSynchronization;
 import io.micronaut.transaction.support.TransactionSynchronizationAdapter;
@@ -46,7 +47,7 @@ public class MnTransactionContext implements TransactionContext {
             }
 
             @Override
-            public void afterCompletion(Status status) {
+            public void afterCompletion(@NonNull Status status) {
                 if (Status.ROLLED_BACK == status) {
                     lastTransactionState = ROLLED_BACK;
                 }
@@ -97,7 +98,7 @@ public class MnTransactionContext implements TransactionContext {
             case ROLLED_BACK:
                 transactionSynchronization = new TransactionSynchronizationAdapter() {
                     @Override
-                    public void afterCompletion(Status status) {
+                    public void afterCompletion(@NonNull Status status) {
                         if (Status.ROLLED_BACK == status) {
                             transactionListener.execute(commandContext);
                         }
