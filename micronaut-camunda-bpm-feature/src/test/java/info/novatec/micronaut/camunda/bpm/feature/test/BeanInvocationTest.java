@@ -1,4 +1,4 @@
-package info.novatec.micronaut.camunda.bpm.example;
+package info.novatec.micronaut.camunda.bpm.feature.test;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.camunda.bpm.engine.RepositoryService;
@@ -11,13 +11,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
 @MicronautTest
-class ProcessTest {
+class BeanInvocationTest {
 
     @Inject
     RuntimeService runtimeService;
@@ -26,43 +27,44 @@ class ProcessTest {
     RepositoryService repositoryService;
 
     @Inject
-    LoggerDelegate loggerDelegate;
+    @Named("myDelegate")
+    JavaDelegate myDelegate;
 
     @BeforeEach
     void init() {
-        reset(loggerDelegate);
+        reset(myDelegate);
     }
 
     @Test
-    void verifyBeanInvocationInServiceTaskWithExpressionDelegate() {
+    void verifyServiceTaskWithExpressionDelegate() throws Exception {
         String processId = "processWithExpressionDelegate";
         deploy(Bpmn.createProcess(processId)
                 .executable()
                 .startEvent()
-                .serviceTask().camundaDelegateExpression("${loggerDelegate}")
+                .serviceTask().camundaDelegateExpression("${myDelegate}")
                 .endEvent());
 
         runtimeService.startProcessInstanceByKey(processId);
 
-        verify(loggerDelegate).execute(any(DelegateExecution.class));
+        verify(myDelegate).execute(any(DelegateExecution.class));
     }
 
     @Test
-    void verifyBeanInvocationInServiceTaskWithJavaClassName() {
+    void verifyServiceTaskWithJavaClassName() throws Exception {
         String processId = "processWithJavaClassName";
         deploy(Bpmn.createProcess(processId)
                 .executable()
                 .startEvent()
-                .serviceTask().camundaClass(LoggerDelegate.class.getName())
+                .serviceTask().camundaClass(JavaDelegate.class.getName())
                 .endEvent());
 
         runtimeService.startProcessInstanceByKey(processId);
 
-        verify(loggerDelegate).execute(any(DelegateExecution.class));
+        verify(myDelegate).execute(any(DelegateExecution.class));
     }
 
     @Test
-    void verifyBeanInvocationInServiceTaskWithUnmanagedJavaDelegate() {
+    void verifyServiceTaskWithUnmanagedJavaDelegate() {
         String processId = "unmanagedJavaDelegate";
         deploy(Bpmn.createProcess(processId)
                 .executable()
@@ -84,7 +86,7 @@ class ProcessTest {
     public static class UnmanagedJavaDelegate implements JavaDelegate {
 
         @Override
-        public void execute(DelegateExecution execution) throws Exception {
+        public void execute(DelegateExecution execution) {
 
         }
     }
