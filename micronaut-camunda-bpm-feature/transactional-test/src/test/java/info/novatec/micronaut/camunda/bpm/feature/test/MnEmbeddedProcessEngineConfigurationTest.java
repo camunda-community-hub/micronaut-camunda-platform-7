@@ -47,16 +47,14 @@ class MnEmbeddedProcessEngineConfigurationTest extends MnProcessEngineConfigurat
 
 	@Test
 	void testCommit() {
-		startEmptyProcess(WITH_COMMIT);
+		startProcess(WITH_COMMIT);
 		// process has been finished with commit and we can find it in the history
 		assertEquals(1, findHistoricProcessInstances(WITH_COMMIT).size());
 	}
 
 	@Test
 	void testRollback() {
-		assertThrows(RuntimeException.class, () -> {
-			startProcessWithRuntimeError(WITH_ROLLBACK);
-		});
+		assertThrows(RuntimeException.class, () -> startProcessWithRuntimeError(WITH_ROLLBACK));
 		// process has been finished but rollback happened and we cannot find it in the history
 		assertEquals(0, findHistoricProcessInstances(WITH_ROLLBACK).size());
 	}
@@ -65,8 +63,8 @@ class MnEmbeddedProcessEngineConfigurationTest extends MnProcessEngineConfigurat
 	void testSurroundingTransactionWithCommit() {
 		transactionManager.executeWrite(transactionStatus -> {
 			try {
-				startEmptyProcess(TX_WITH_COMMIT);
-				return startEmptyProcess(TX_WITH_COMMIT);
+				startProcess(TX_WITH_COMMIT);
+				return startProcess(TX_WITH_COMMIT);
 			} finally {
 				assertFalse(transactionStatus.isRollbackOnly());
 			}
@@ -79,7 +77,7 @@ class MnEmbeddedProcessEngineConfigurationTest extends MnProcessEngineConfigurat
 	void testSurroundingTransactionWithRollback() {
 		assertThrows(RuntimeException.class, () -> transactionManager.executeWrite(transactionStatus -> {
 			try {
-				startEmptyProcess(TX_WITH_ROLLBACK);
+				startProcess(TX_WITH_ROLLBACK);
 				return startProcessWithRuntimeError(TX_WITH_ROLLBACK);
 			} finally {
 				assertTrue(transactionStatus.isRollbackOnly());
@@ -91,21 +89,21 @@ class MnEmbeddedProcessEngineConfigurationTest extends MnProcessEngineConfigurat
 
 	@Test
 	void testNoSurroundingTransactionWithCommits() {
-		startEmptyProcess(WITH_COMMIT_COMMIT);
-		startEmptyProcess(WITH_COMMIT_COMMIT);
+		startProcess(WITH_COMMIT_COMMIT);
+		startProcess(WITH_COMMIT_COMMIT);
 		// both processes have been finished with commit and we can find them in the history
 		assertEquals(2, findHistoricProcessInstances(WITH_COMMIT_COMMIT).size());
 	}
 
 	@Test
 	void testNoSurroundingTransactionWithCommitAndRollback() {
-		startEmptyProcess(WITH_COMMIT_ROLLBACK);
+		startProcess(WITH_COMMIT_ROLLBACK);
 		assertThrows(RuntimeException.class, () -> startProcessWithRuntimeError(WITH_COMMIT_ROLLBACK));
 		// first process has finished successfully but rollback happened and we can find only one in the history
 		assertEquals(1, findHistoricProcessInstances(WITH_COMMIT_ROLLBACK).size());
 	}
 
-	String startEmptyProcess(String businessKey) {
+	String startProcess(String businessKey) {
 		return runtimeService.startProcessInstanceByKey("ProcessEmpty", businessKey).getId();
 	}
 
