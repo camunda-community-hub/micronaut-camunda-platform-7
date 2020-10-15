@@ -17,7 +17,7 @@ public class MnArtifactFactory implements ArtifactFactory {
 
     private final ApplicationContext applicationContext;
 
-    private ArtifactFactory defaultArtifactFactory = new DefaultArtifactFactory();
+    private final ArtifactFactory defaultArtifactFactory = new DefaultArtifactFactory();
 
     public MnArtifactFactory(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
