@@ -46,7 +46,7 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in build.gradle:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:0.6.0")
+implementation("info.novatec:micronaut-camunda-bpm-feature:0.7.0")
 runtimeOnly("com.h2database:h2")
 ```
 
@@ -59,7 +59,7 @@ Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.ca
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.6.0</version>
+  <version>0.7.0</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -281,6 +281,7 @@ Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda BPM |
 |-------|-------|--------|
+| 0.7.0 | 2.1.1 | 7.13.0 |
 | 0.6.0 | 2.1.0 | 7.13.0 |
 | 0.5.3 | 2.0.1 | 7.13.0 |
 | 0.5.2 | 2.0.0 | 7.13.0 |
