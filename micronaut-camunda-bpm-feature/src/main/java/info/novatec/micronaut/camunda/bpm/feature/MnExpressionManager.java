@@ -10,11 +10,11 @@ import org.camunda.bpm.engine.impl.javax.el.*;
  * @author Tobias Schäfer
  */
 // Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/engine-spring/core/src/main/java/org/camunda/bpm/engine/spring/SpringExpressionManager.java
-public class MicronautExpressionManager extends ExpressionManager {
+public class MnExpressionManager extends ExpressionManager {
 
     private final ApplicationContextElResolver applicationContextElResolver;
 
-    public MicronautExpressionManager(ApplicationContextElResolver applicationContextElResolver) {
+    public MnExpressionManager(ApplicationContextElResolver applicationContextElResolver) {
         this.applicationContextElResolver = applicationContextElResolver;
     }
 
