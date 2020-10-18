@@ -21,7 +21,7 @@ public abstract class MnAbstractProcessEngineConfiguration extends StandalonePro
         setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
         setHistory(configuration.getHistoryLevel());
         setJobExecutorActivate(true);
-        setExpressionManager(new MicronautExpressionManager(new ApplicationContextElResolver(applicationContext)));
+        setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
 
         processEngineConfigurationCustomizer.customize(this);
