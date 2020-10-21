@@ -40,6 +40,8 @@ Micronaut + Camunda BPM = :heart:
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
 
+We officially support the JDK LTS releases 8 and 11 and the latest release supported by Micronaut (currently JDK 15).
+
 Do you need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example). 
 
 ## Add Dependency using Gradle
