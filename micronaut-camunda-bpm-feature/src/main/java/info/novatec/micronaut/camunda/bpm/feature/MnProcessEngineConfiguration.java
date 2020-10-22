@@ -12,6 +12,8 @@ import org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.CommandInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.LogInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor;
+import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
+import org.camunda.bpm.engine.impl.jobexecutor.JobExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +42,11 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
 
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory) {
+    protected final JobExecutorCustomizer jobExecutorCustomizer;
+
+    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory, JobExecutorCustomizer jobExecutorCustomizer) {
         this.transactionManager = transactionManager;
+        this.jobExecutorCustomizer = jobExecutorCustomizer;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
@@ -74,6 +79,14 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
         if(transactionContextFactory == null) {
             transactionContextFactory = new MnTransactionContextFactory(transactionManager);
         }
+    }
+
+    @Override
+    protected void initJobExecutor(){
+        JobExecutor jobExecutor = new DefaultJobExecutor();
+        jobExecutorCustomizer.customize(jobExecutor);
+        setJobExecutor(jobExecutor);
+        super.initJobExecutor();
     }
 
     @Override
