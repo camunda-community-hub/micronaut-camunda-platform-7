@@ -31,7 +31,7 @@ Micronaut + Camunda BPM = :heart:
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
 * Micronaut beans are resolved from the application context if they are referenced by expressions or Java class names within the process models.
-* The process engine configuration can be customized programmatically.
+* The process engine configuration and the job executor can be customized programmatically.
 * The process engine integrates with Micronaut's transaction manager. Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 
 # Getting Started
@@ -166,6 +166,21 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
         configuration.setProcessEngineName("CustomizedEngine");
     }
 
+}
+```
+
+### Custom JobExecutor Configuration
+With the following bean it's possible to customize the job executor:
+
+```java
+@Singleton
+@Replaces(DefaultJobExecutorCustomizer.class)
+public class CustomizedJobExecutor implements JobExecutorCustomizer {
+
+    @Override
+    public void customize(@Nonnull JobExecutor jobExecutor) {
+        jobExecutor.setWaitTimeInMillis(300);
+    }
 }
 ```
 
