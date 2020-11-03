@@ -1,3 +1,4 @@
 micronaut:
   application:
     name: micronaut-camunda-example
+camunda.bpm.telemetry.initializeTelemetry: true
