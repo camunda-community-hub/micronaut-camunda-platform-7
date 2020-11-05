@@ -119,6 +119,18 @@ public class LoggerDelegate implements JavaDelegate {
 
 and then reference it the process model with the expression`${loggerDelegate}`.
 
+## Executing Blocking Operations on I/O Thread Pool 
+When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
+A frequently occurring example is the implementation of a REST endpoint which interacts with the process engine. By default, Micronaut would use a Netty thread for this blocking operation. To prevent the use of a Netty thread it is recommended to use the annotation [`@ExecuteOn(TaskExecutors.IO)`](https://docs.micronaut.io/latest/guide/index.html#reactiveServer). This will make sure that an I/O thread is used.
+
+```java
+@Post("/hello-world-process")
+@ExecuteOn(TaskExecutors.IO)
+public String startHelloWorldProcess() {
+    return runtimeService.startProcessInstanceByKey("HelloWorld").getId();
+}
+```
+
 ## Configuration
 
 ### Data Source
