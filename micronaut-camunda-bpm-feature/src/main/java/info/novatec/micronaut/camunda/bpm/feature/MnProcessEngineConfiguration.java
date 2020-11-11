@@ -14,6 +14,7 @@ import org.camunda.bpm.engine.impl.interceptor.LogInterceptor;
 import org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor;
 import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
 import org.camunda.bpm.engine.impl.jobexecutor.JobExecutor;
+import org.camunda.bpm.engine.impl.telemetry.TelemetryRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
 
     protected final JobExecutorCustomizer jobExecutorCustomizer;
 
-    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory, JobExecutorCustomizer jobExecutorCustomizer) {
+    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory, JobExecutorCustomizer jobExecutorCustomizer, TelemetryRegistry telemetryRegistry) {
         this.transactionManager = transactionManager;
         this.jobExecutorCustomizer = jobExecutorCustomizer;
         setDataSource(dataSource);
@@ -54,6 +55,8 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
         setJobExecutorActivate(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
+
+        configureTelemetry(configuration, telemetryRegistry);
 
         processEngineConfigurationCustomizer.customize(this);
     }
@@ -106,5 +109,13 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
                 new MnTransactionInterceptor(transactionManager, requiresNew ? REQUIRES_NEW : REQUIRED),
                 new CommandContextInterceptor(commandContextFactory, this, requiresNew)
         );
+    }
+
+    private void configureTelemetry(Configuration configuration, TelemetryRegistry telemetryRegistry) {
+        setTelemetryReporterActivate(configuration.getTelemetry().isTelemetryReporterActivate());
+        if (configuration.getTelemetry().isInitializeTelemetry()) {
+            setInitializeTelemetry(true);
+        }
+        setTelemetryRegistry(telemetryRegistry);
     }
 }

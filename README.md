@@ -46,7 +46,7 @@ Do you need an example? See our example application at [/micronaut-camunda-bpm-e
 1. (Optionally) create an empty Micronaut project with `mn create-app my-example` or use [Micronaut Launch](https://launch.micronaut.io).
 2. Add the dependency in build.gradle:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:0.8.0")
+implementation("info.novatec:micronaut-camunda-bpm-feature:0.9.0")
 runtimeOnly("com.h2database:h2")
 ```
 
@@ -59,7 +59,7 @@ Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.ca
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.8.0</version>
+  <version>0.9.0</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -119,6 +119,18 @@ public class LoggerDelegate implements JavaDelegate {
 
 and then reference it the process model with the expression`${loggerDelegate}`.
 
+## Executing Blocking Operations on I/O Thread Pool 
+When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
+A frequently occurring example is the implementation of a REST endpoint which interacts with the process engine. By default, Micronaut would use a Netty thread for this blocking operation. To prevent the use of a Netty thread it is recommended to use the annotation [`@ExecuteOn(TaskExecutors.IO)`](https://docs.micronaut.io/latest/guide/index.html#reactiveServer). This will make sure that an I/O thread is used.
+
+```java
+@Post("/hello-world-process")
+@ExecuteOn(TaskExecutors.IO)
+public String startHelloWorldProcess() {
+    return runtimeService.startProcessInstanceByKey("HelloWorld").getId();
+}
+```
+
 ## Configuration
 
 ### Data Source
@@ -150,6 +162,8 @@ You may use the following properties (typically in application.yml) to configure
 |----------------------|------------------|----------------------------------------------|------------------------|
 | camunda.bpm          | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
 | camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
+| camunda.bpm.telemetry| .telemetryReporterActivate | true                               | Enable to report anonymized data about the installation to Camunda |
+| camunda.bpm.telemetry| .initializeTelemetry       | false                              | Enable to report anonymized data about the process engine usage to Camunda |
 
 ### Custom Process Engine Configuration
 
@@ -271,6 +285,7 @@ Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda BPM |
 |-------|-------|--------|
+| 0.9.0 | 2.1.3 | 7.14.0 |
 | 0.8.0 | 2.1.2 | 7.13.0 |
 | 0.7.0 | 2.1.1 | 7.13.0 |
 | 0.6.0 | 2.1.0 | 7.13.0 |

@@ -10,6 +10,8 @@
         </encoder>
     </appender>
 
+    <logger name="org.camunda.bpm.engine.telemetry" level="DEBUG" />
+
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
