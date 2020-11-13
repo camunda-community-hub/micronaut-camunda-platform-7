@@ -27,7 +27,7 @@ public class RuntimeErrorDelegateJpa implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) {
-        bookRepository.save(new Book());
+        bookRepository.save(new Book(execution.getBusinessKey()));
         throw new RuntimeException("RuntimeErrorDelegate throws RuntimeException");
     }
 }
