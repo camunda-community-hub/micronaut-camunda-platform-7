@@ -1,5 +1,8 @@
 plugins {
     id "io.micronaut.library"
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+    id "org.jetbrains.kotlin.kapt" version "$kotlinVersion"
+    id "org.jetbrains.kotlin.plugin.allopen" version "$kotlinVersion"
 }
 
 micronaut {
@@ -15,7 +18,17 @@ dependencies {
     testImplementation project(':micronaut-camunda-bpm-feature').sourceSets.test.output
     testRuntimeOnly("com.h2database:h2")
 
+    kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
+    kaptTest("io.micronaut.data:micronaut-data-processor")
+    kaptTest("io.micronaut:micronaut-inject-java:$micronautVersion")
+
     // Integration of Transaction Management
     testAnnotationProcessor("io.micronaut.data:micronaut-data-processor")
     testImplementation("io.micronaut.data:micronaut-data-jdbc")
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
