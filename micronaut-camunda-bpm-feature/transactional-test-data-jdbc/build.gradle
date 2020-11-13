@@ -11,9 +11,8 @@ micronaut {
 }
 
 dependencies {
-    implementation project(":micronaut-camunda-bpm-feature")
+    testImplementation project(":micronaut-camunda-bpm-feature")
     testImplementation project(':micronaut-camunda-bpm-feature').sourceSets.test.output
-
     testRuntimeOnly("com.h2database:h2")
 
     // Integration of Transaction Management
