@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * @author Tobias Schäfer
  */
 @MicronautTest(transactional = false)
-internal class MnJpaProcessEngineConfigurationTest : MnProcessEngineConfigurationTest() {
+class MnJpaProcessEngineConfigurationTest : MnProcessEngineConfigurationTest() {
     @Inject
     lateinit var repositoryService: RepositoryService
 
@@ -78,7 +78,7 @@ internal class MnJpaProcessEngineConfigurationTest : MnProcessEngineConfiguratio
     }
 
     @Singleton
-    internal class SaveBookDelegate : JavaDelegate {
+    class SaveBookDelegate : JavaDelegate {
         @Inject
         lateinit var bookRepository: BookRepository
         override fun execute(execution: DelegateExecution) {
