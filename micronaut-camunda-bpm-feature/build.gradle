@@ -1,6 +1,9 @@
 plugins {
     id("io.micronaut.library")
     id("java-library")
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.allopen")
     id("maven-publish")
     id("signing")
 }
@@ -20,6 +23,10 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     api("org.camunda.bpm:camunda-engine:$camundaVersion")
+
+    kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
+    kaptTest("io.micronaut.data:micronaut-data-processor")
+    kapt("io.micronaut:micronaut-inject-java:$micronautVersion")
 
     // Integration of Transaction Management
     api("io.micronaut.data:micronaut-data-tx")
@@ -98,4 +105,12 @@ task testJar(type: Jar) {
 
 artifacts {
     testArtifacts testJar
+}
+
+tasks {
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
