@@ -1,5 +1,6 @@
-package info.novatec.micronaut.camunda.bpm.feature;
+package info.novatec.micronaut.camunda.bpm.feature.test;
 
+import info.novatec.micronaut.camunda.bpm.feature.DefaultPropertySourceLoader;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
