@@ -25,14 +25,14 @@ Micronaut + Camunda BPM = :heart:
 [![Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NovatecConsulting/micronaut-camunda-bpm)
 
 # Features
-* Camunda BPM can be integrated into a Micronaut project by simply adding a dependency in build.gradle (Gradle) or pom.xml (Maven).
-* Using h2 as an in-memory database is as simple as adding a dependency. Other data sources can be configured via properties.
+* Camunda BPM can be integrated into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
+* Using h2 as an in-memory database is as simple as [adding a dependency](#add-dependency-using-gradle). Other [data sources can be configured](#data-source) via properties.
 * The Camunda process engine with its job executor is started automatically.
-* Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are automatically deployed.
-* The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and can be injected.
-* Micronaut beans are resolved from the application context if they are referenced by expressions or Java class names within the process models.
-* The process engine configuration and the job executor can be customized programmatically.
-* The process engine integrates with Micronaut's transaction manager. Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
+* Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
+* The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#calling-camunda-bpm-process-engine-and-related-services).
+* Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
+* The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
+* The process engine [integrates with Micronaut's transaction manager](#using-micronaut-data-jdbc-or-micronaut-data-jpa). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 
 # Getting Started
 
