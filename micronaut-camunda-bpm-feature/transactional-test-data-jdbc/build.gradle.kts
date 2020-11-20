@@ -1,8 +1,8 @@
 plugins {
     id("io.micronaut.library")
-    id("org.jetbrains.kotlin.jvm") version "1.4.10"
-    id("org.jetbrains.kotlin.kapt") version "1.4.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.10"
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.allopen")
 }
 
 val micronautVersion=project.properties.get("micronautVersion")
