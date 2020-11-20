@@ -1,16 +1,16 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "6.1.0"
-    id "io.micronaut.application" version '1.0.5'
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("io.micronaut.application") version "1.2.0"
 }
 
-group "info.novatec"
+group = "info.novatec"
 
 micronaut {
-    runtime "netty"
-    testRuntime "junit5"
+    runtime("netty")
+    testRuntime("junit5")
     processing {
-        incremental true
-        annotations "micronaut.camunda.bpm.externaltask.process.*"
+        incremental(true)
+        annotations("micronaut.camunda.bpm.externaltask.process.*")
     }
 }
 
@@ -24,9 +24,15 @@ dependencies {
     runtimeOnly("com.h2database:h2")
 }
 
-mainClassName = "info.novatec.micronaut.camunda.externaltask.process.ExternalTaskProcessApplication"
+application {
+    mainClass.set("info.novatec.micronaut.camunda.externaltask.process.ExternalTaskProcessApplication")
+}
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('1.8')
-    targetCompatibility = JavaVersion.toVersion('1.8')
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
+}
+
+tasks {
+
 }

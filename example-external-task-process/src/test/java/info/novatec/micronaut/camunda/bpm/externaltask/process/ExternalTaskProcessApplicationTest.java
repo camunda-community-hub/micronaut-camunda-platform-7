@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ExternalTaskProcessApplicationTest {
 
     @Inject
-    EmbeddedApplication application;
+    EmbeddedApplication<?> application;
 
     @Test
     void testItWorks() {

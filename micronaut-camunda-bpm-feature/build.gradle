@@ -1,18 +1,18 @@
 plugins {
-    id "io.micronaut.library" version '1.0.5'
-    id "java-library"
-    id "maven-publish"
-    id "signing"
+    id("io.micronaut.library") version "1.2.0"
+    id("java-library")
+    id("maven-publish")
+    id("signing")
 }
 
-group "info.novatec"
+group = "info.novatec"
 
 micronaut {
-    runtime "netty"
-    testRuntime "junit5"
+    runtime("netty")
+    testRuntime("junit5")
     processing {
-        incremental true
-        annotations "micronaut.camunda.bpm.feature.*"
+        incremental(true)
+        annotations("micronaut.camunda.bpm.feature.*")
     }
 }
 
@@ -85,4 +85,17 @@ publishing {
 // see https://docs.gradle.org/current/userguide/signing_plugin.html#sec:specifying_what_to_sign and https://central.sonatype.org/pages/working-with-pgp-signatures.html#generating-a-key-pair
 signing {
     sign publishing.publications.mavenJava
+}
+
+configurations {
+    testArtifacts
+}
+
+task testJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+}
+
+artifacts {
+    testArtifacts testJar
 }
