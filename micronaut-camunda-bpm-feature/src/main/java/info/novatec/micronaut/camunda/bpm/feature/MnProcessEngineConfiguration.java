@@ -6,7 +6,7 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.interceptor.*;
 import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
@@ -34,7 +34,7 @@ import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRE
  * @author Lukasz Frankowski
  */
 @Singleton
-public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfiguration {
+public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     private static final Logger log = LoggerFactory.getLogger(MnProcessEngineConfiguration.class);
 
