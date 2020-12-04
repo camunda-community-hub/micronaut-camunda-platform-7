@@ -20,13 +20,13 @@ example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camu
 
 Unix:
 ```
-./gradlew clean run
+./gradlew clean run -p micronaut-camunda-bpm-example
 ```
 
 Windows:
 
 ```
-gradlew.bat clean run
+gradlew.bat clean run -p micronaut-camunda-bpm-example
 ```
 
 ## Call the example app
