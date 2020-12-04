@@ -6,12 +6,9 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
-import org.camunda.bpm.engine.impl.interceptor.CommandContextInterceptor;
-import org.camunda.bpm.engine.impl.interceptor.CommandInterceptor;
-import org.camunda.bpm.engine.impl.interceptor.LogInterceptor;
-import org.camunda.bpm.engine.impl.interceptor.ProcessApplicationContextInterceptor;
+import org.camunda.bpm.engine.impl.interceptor.*;
 import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
 import org.camunda.bpm.engine.impl.jobexecutor.JobExecutor;
 import org.camunda.bpm.engine.impl.telemetry.TelemetryRegistry;
@@ -37,7 +34,7 @@ import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRE
  * @author Lukasz Frankowski
  */
 @Singleton
-public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfiguration {
+public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     private static final Logger log = LoggerFactory.getLogger(MnProcessEngineConfiguration.class);
 
@@ -105,6 +102,7 @@ public class MnProcessEngineConfiguration extends StandaloneProcessEngineConfigu
     private List<CommandInterceptor> getCommandInterceptors(boolean requiresNew) {
         return Arrays.asList(
                 new LogInterceptor(),
+                new CommandCounterInterceptor(this),
                 new ProcessApplicationContextInterceptor(this),
                 new MnTransactionInterceptor(transactionManager, requiresNew ? REQUIRES_NEW : REQUIRED),
                 new CommandContextInterceptor(commandContextFactory, this, requiresNew)
