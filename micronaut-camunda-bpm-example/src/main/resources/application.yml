@@ -10,3 +10,6 @@ camunda:
       firstname: Donald
       lastname: Duck
       email: donald@duck.com
+    generic-properties:
+      properties:
+        defaultNumberOfRetries: 1
