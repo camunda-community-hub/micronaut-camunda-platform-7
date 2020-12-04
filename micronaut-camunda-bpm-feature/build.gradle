@@ -97,20 +97,3 @@ signing {
 configurations {
     testArtifacts
 }
-
-task testJar(type: Jar) {
-    classifier "test"
-    from sourceSets.test.output
-}
-
-artifacts {
-    testArtifacts testJar
-}
-
-tasks {
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
-}
