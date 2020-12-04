@@ -2,11 +2,15 @@ package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.bind.annotation.Bindable;
+import io.micronaut.core.convert.format.MapFormat;
+import io.micronaut.core.naming.conventions.StringConvention;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Tobias Schäfer
@@ -26,6 +30,9 @@ public interface Configuration {
 
     @NotNull
     AdminUser getAdminUser();
+
+    @NotNull
+    GenericProperties getGenericProperties();
 
     @ConfigurationProperties("database")
     interface Database {
@@ -62,5 +69,18 @@ public interface Configuration {
 
         @Bindable
         Optional<String> getEmail();
+    }
+
+    @ConfigurationProperties("genericProperties")
+    class GenericProperties {
+        Map<String, Object> properties = new HashMap<>();
+
+        public void setProperties(@MapFormat(transformation = MapFormat.MapTransformation.FLAT, keyFormat = StringConvention.CAMEL_CASE) Map<String, Object> properties) {
+            this.properties = properties;
+        }
+
+        public Map<String, Object> getProperties() {
+            return properties;
+        }
     }
 }

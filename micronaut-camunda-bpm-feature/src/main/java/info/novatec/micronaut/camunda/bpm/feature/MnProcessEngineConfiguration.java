@@ -4,6 +4,9 @@ import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionContextFactory
 import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionInterceptor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.beans.BeanIntrospection;
+import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -18,6 +21,7 @@ import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRED;
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRES_NEW;
@@ -31,6 +35,7 @@ import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRE
  * @author Lukasz Frankowski
  */
 @Singleton
+@Introspected
 public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     private static final Logger log = LoggerFactory.getLogger(MnProcessEngineConfiguration.class);
@@ -66,6 +71,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         setJobExecutorActivate(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
+
+        applyGenericProperties(configuration);
 
         configureTelemetry();
 
@@ -132,5 +139,34 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
             setInitializeTelemetry(true);
         }
         setTelemetryRegistry(telemetryRegistry);
+    }
+
+    protected void applyGenericProperties(Configuration configuration) {
+        BeanIntrospection<MnProcessEngineConfiguration> introspection = BeanIntrospection.getIntrospection(MnProcessEngineConfiguration.class);
+
+        for(Map.Entry<String, Object > entry : configuration.getGenericProperties().getProperties().entrySet()){
+            BeanProperty<MnProcessEngineConfiguration, Object> property = introspection.getProperty(entry.getKey())
+                    .orElseThrow(() -> new RuntimeException("Invalid engine property: " + entry.getKey()));
+
+            property.set(this, resolveGenericPropertyValue(entry.getValue(), property.getType()));
+        }
+    }
+
+    protected Object resolveGenericPropertyValue(Object value, Class type) {
+        // Even if the value is not of type String we cannot assume that it is of the correct type,
+        // e.g. a value of "30" will have the type "int" and can then not be set as a value if the
+        // configuration is of type "long".
+        // Therefore we always use the string value for primitive types and convert it to the target type.
+        if (type == int.class) {
+            return Integer.valueOf(String.valueOf(value));
+        } else if (type == long.class) {
+            return Long.valueOf(String.valueOf(value));
+        } else if (type == boolean.class) {
+            return Boolean.valueOf(String.valueOf(value));
+        } else if (type == String.class) {
+            return String.valueOf(value);
+        } else {
+            return value;
+        }
     }
 }
