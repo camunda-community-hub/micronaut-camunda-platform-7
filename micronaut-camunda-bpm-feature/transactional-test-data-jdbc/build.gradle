@@ -5,8 +5,6 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen")
 }
 
-val micronautVersion=project.properties.get("micronautVersion")
-
 micronaut {
     testRuntime("junit5")
     processing {
@@ -17,7 +15,7 @@ micronaut {
 
 dependencies {
     testImplementation(project(":micronaut-camunda-bpm-feature"))
-    testImplementation(project(":micronaut-camunda-bpm-feature", "testArtifacts"))
+    testImplementation(project(":micronaut-camunda-bpm-feature").sourceSets.test.output)
     testRuntimeOnly("com.h2database:h2")
 
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
