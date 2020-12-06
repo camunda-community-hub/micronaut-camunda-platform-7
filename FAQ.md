@@ -17,7 +17,7 @@ We're not depending on the Lombok to simplify the setup of the development envir
 2. Verify that release is built and uploaded to OSSRH successfully
    1. Open https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions?query=workflow%3A%22Publish+to+OSSRH+when+released%22
    2. Wait for build to succeed  
-   The build sporadically fails due to timeouts during the upload of artifacts. In this case delete the release via the GitHub UI, delete the tag with `git push origin :<tag>` and then retry.
+   The build sporadically fails due to timeouts during the upload of artifacts. In this case go to the failing workflow and then re-run the job.
 3. Publish to Maven Central (see also [Detailed instructions](https://central.sonatype.org/pages/releasing-the-deployment.html))
    1. Open https://oss.sonatype.org/#stagingRepositories
    2. Start verification by selecting the repository and clicking on "Close"
