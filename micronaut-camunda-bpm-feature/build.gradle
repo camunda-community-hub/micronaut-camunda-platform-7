@@ -1,18 +1,21 @@
 plugins {
-    id "io.micronaut.library" version '1.0.3'
-    id "java-library"
-    id "maven-publish"
-    id "signing"
+    id("io.micronaut.library")
+    id("java-library")
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.kapt")
+    id("org.jetbrains.kotlin.plugin.allopen")
+    id("maven-publish")
+    id("signing")
 }
 
-group "info.novatec"
+group = "info.novatec"
 
 micronaut {
-    runtime "netty"
-    testRuntime "junit5"
+    runtime("netty")
+    testRuntime("junit5")
     processing {
-        incremental true
-        annotations "micronaut.camunda.bpm.feature.*"
+        incremental(true)
+        annotations("micronaut.camunda.bpm.feature.*")
     }
 }
 
@@ -20,10 +23,17 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     api("org.camunda.bpm:camunda-engine:$camundaVersion")
-    compileOnly("io.micronaut.data:micronaut-data-tx")
+
+    kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
+    kaptTest("io.micronaut.data:micronaut-data-processor")
+    kapt("io.micronaut:micronaut-inject-java:$micronautVersion")
+
+    // Integration of Transaction Management
+    api("io.micronaut.data:micronaut-data-tx")
+    api("io.micronaut.sql:micronaut-jdbc-hikari")
 
     // Test
-    testImplementation("org.mockito:mockito-core:3.5.13")
+    testImplementation("org.mockito:mockito-core:3.6.28")
     testRuntimeOnly("com.h2database:h2")
 }
 
@@ -82,4 +92,25 @@ publishing {
 // see https://docs.gradle.org/current/userguide/signing_plugin.html#sec:specifying_what_to_sign and https://central.sonatype.org/pages/working-with-pgp-signatures.html#generating-a-key-pair
 signing {
     sign publishing.publications.mavenJava
+}
+
+configurations {
+    testArtifacts
+}
+
+task testJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+}
+
+artifacts {
+    testArtifacts testJar
+}
+
+tasks {
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }

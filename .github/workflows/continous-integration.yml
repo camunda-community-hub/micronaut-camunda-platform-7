@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '14'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
+        java: ['8', '11', '15'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
 
     steps:
       - name: Git Checkout
@@ -25,7 +25,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Cache Dependencies #see https://github.com/actions/cache/blob/master/examples.md#java---gradle
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}

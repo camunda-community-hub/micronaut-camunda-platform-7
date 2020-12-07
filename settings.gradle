@@ -1,5 +1,17 @@
+pluginManagement {
+    plugins {
+        id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
+        id("org.jetbrains.kotlin.kapt") version "$kotlinVersion"
+        id("org.jetbrains.kotlin.plugin.allopen") version "$kotlinVersion"
+        id("com.github.johnrengelman.shadow") version "$shadowJarVersion"
+        id("io.micronaut.application") version "$micronautApplicationPluginVersion"
+        id("io.micronaut.library") version "$micronautLibraryPluginVersion"
+    }
+}
+
 rootProject.name = 'micronaut-camunda-bpm'
 include ':micronaut-camunda-bpm-feature'
 include ':micronaut-camunda-bpm-example'
-include ':micronaut-camunda-bpm-feature:transactional-test'
 include ':micronaut-camunda-bpm-feature:transactional-test-data-jdbc'
+include ':example-external-task-process'
+include ':example-external-task-worker'

@@ -5,5 +5,4 @@ Additional tests using Micronaut-managed transaction manager and datasource with
 ```
 testAnnotationProcessor("io.micronaut.data:micronaut-data-processor")
 testImplementation("io.micronaut.data:micronaut-data-jdbc")
-testRuntimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 ```

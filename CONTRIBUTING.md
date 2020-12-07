@@ -1,3 +1,40 @@
+# Developer Guide
+## Get the code
+
+Create a local Git clone:
+
+`git clone https://github.com/NovatecConsulting/micronaut-camunda-bpm.git`
+
+## Open and run in IntelliJ IDEA
+
+To import the project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
+
+For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
+
+Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
+
+## Build integration project and run the example application
+
+To build the integration project (subfolder [`micronaut-camunda-bpm-feature`](/micronaut-camunda-bpm-feature)) and start the
+example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camunda-bpm-example)) simply execute:
+
+Unix:
+```
+./gradlew clean run -p micronaut-camunda-bpm-example
+```
+
+Windows:
+
+```
+gradlew.bat clean run -p micronaut-camunda-bpm-example
+```
+
+## Call the example app
+
+Open in your browser:
+* http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
+* http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.
+
 # Contribution Guidelines
 
 Do you have something you’d like to contribute? We welcome pull requests, but ask that you read this document first to understand how best to submit them; what kind of changes are likely to be accepted; and what to expect from the core developers when evaluating your submission.
@@ -54,40 +91,3 @@ Note that you can always force push (`git push -f`) reworked / rebased commits a
 Have a look at the open issues at https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues, especially those tagged with `good first issue`.
 
 We're looking forward to your contribution :-)
-
-# Developer Guide
-## Get the code
-
-Create a local Git clone:
-
-`git clone https://github.com/NovatecConsulting/micronaut-camunda-bpm.git`
-
-## Open and run in IntelliJ IDEA
-
-To import the project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
-
-For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
-
-Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
-
-## Build integration project and run the example application
-
-To build the integration project (subfolder [`micronaut-camunda-bpm-feature`](/micronaut-camunda-bpm-feature)) and start the
-example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camunda-bpm-example)) simply execute:
-
-Unix:
-```
-./gradlew clean run
-```
-
-Windows:
-
-```
-gradlew.bat clean run
-```
-
-## Call the example app
-
-Open in your browser:
-* http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
-* http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.

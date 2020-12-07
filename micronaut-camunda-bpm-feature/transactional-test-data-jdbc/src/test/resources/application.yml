@@ -1,14 +1,4 @@
 datasources:
   default:
-    url: jdbc:h2:mem:default;DB_CLOSE_ON_EXIT=FALSE
-    username: sa
-    password: ""
-    driverClassName: org.h2.Driver
     schema-generate: CREATE_DROP
     dialect: H2
-
-jpa:
-  default:
-    entity-scan:
-      packages:
-        - info.novatec.micronaut.camunda.bpm.feature.test
