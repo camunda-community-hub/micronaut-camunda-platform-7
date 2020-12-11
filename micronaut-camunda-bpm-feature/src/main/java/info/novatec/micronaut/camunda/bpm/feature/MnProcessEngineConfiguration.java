@@ -3,6 +3,7 @@ package info.novatec.micronaut.camunda.bpm.feature;
 import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionContextFactory;
 import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionInterceptor;
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.env.Environment;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
@@ -42,9 +43,26 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final JobExecutorCustomizer jobExecutorCustomizer;
 
-    public MnProcessEngineConfiguration(Configuration configuration, ApplicationContext applicationContext, DataSource dataSource, SynchronousTransactionManager<Connection> transactionManager, ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer, ArtifactFactory artifactFactory, JobExecutorCustomizer jobExecutorCustomizer, TelemetryRegistry telemetryRegistry) {
+    protected final Configuration configuration;
+
+    protected final TelemetryRegistry telemetryRegistry;
+
+    protected final Environment environment;
+
+    public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
+                                        JobExecutorCustomizer jobExecutorCustomizer,
+                                        Configuration configuration,
+                                        TelemetryRegistry telemetryRegistry,
+                                        Environment environment,
+                                        ApplicationContext applicationContext,
+                                        DataSource dataSource,
+                                        ArtifactFactory artifactFactory,
+                                        ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
         this.jobExecutorCustomizer = jobExecutorCustomizer;
+        this.configuration = configuration;
+        this.telemetryRegistry = telemetryRegistry;
+        this.environment = environment;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
@@ -53,7 +71,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
 
-        configureTelemetry(configuration, telemetryRegistry);
+        configureTelemetry();
 
         processEngineConfigurationCustomizer.customize(this);
     }
@@ -109,9 +127,14 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         );
     }
 
-    private void configureTelemetry(Configuration configuration, TelemetryRegistry telemetryRegistry) {
-        setTelemetryReporterActivate(configuration.getTelemetry().isTelemetryReporterActivate());
-        if (configuration.getTelemetry().isInitializeTelemetry()) {
+    /**
+     * Configure telemetry based on configuration but always disable if the "test" profile is active,
+     * i.e. tests are being executed.
+     */
+    private void configureTelemetry() {
+        boolean testProfileActive = environment.getActiveNames().contains("test");
+        setTelemetryReporterActivate(!testProfileActive && configuration.getTelemetry().isTelemetryReporterActivate());
+        if (!testProfileActive && configuration.getTelemetry().isInitializeTelemetry()) {
             setInitializeTelemetry(true);
         }
         setTelemetryRegistry(telemetryRegistry);
