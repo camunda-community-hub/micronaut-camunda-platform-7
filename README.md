@@ -82,6 +82,8 @@ Inject the process engine or any related services using constructor injection:
 // ...
 
 import javax.inject.Singleton;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.RuntimeService;
 
 @Singleton
 public class MyComponent {
@@ -105,6 +107,10 @@ Alternatively to constructor injection, you can also use field injection, JavaBe
 To invoke a Java Delegate first create a singleton bean:
 
 ```java
+import javax.inject.Singleton;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+
 @Singleton
 public class LoggerDelegate implements JavaDelegate {
 
@@ -170,6 +176,10 @@ You may use the following properties (typically in application.yml) to configure
 Internally, to build Camunda `ProcessEngine` we use `ProcessEngineConfiguration`. This process can be intercepted for detailed configuration customization with the following bean:
 
 ```java
+import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer
+import io.micronaut.context.annotation.Replaces
+import javax.inject.Singleton
+
 @Singleton
 @Replaces(DefaultProcessEngineConfigurationCustomizer.class)
 public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConfigurationCustomizer  {
@@ -187,6 +197,10 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 With the following bean it's possible to customize the job executor:
 
 ```java
+import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer
+import io.micronaut.context.annotation.Replaces
+import javax.inject.Singleton
+
 @Singleton
 @Replaces(DefaultJobExecutorCustomizer.class)
 public class CustomizedJobExecutor implements JobExecutorCustomizer {
