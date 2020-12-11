@@ -18,7 +18,7 @@ Once you have enabled annotation processing in IntelliJ you can run the applicat
 To build the integration project (subfolder [`micronaut-camunda-bpm-feature`](/micronaut-camunda-bpm-feature)) and start the
 example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camunda-bpm-example)) simply execute:
 
-Unix:
+Unix/Mac:
 ```
 ./gradlew clean run -p micronaut-camunda-bpm-example
 ```
@@ -34,6 +34,16 @@ gradlew.bat clean run -p micronaut-camunda-bpm-example
 Open in your browser:
 * http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
 * http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.
+
+## Persistent Database
+
+By default, the example app will use an H2 in-memory database which is created on application start-up. If you need a
+persistent database then the easiest approach is to configure the H2 database to be backed up by a file by configuring
+the data source's URL:
+
+`datasources.default.url: jdbc:h2:file:~/micronautdb;DB_CLOSE_ON_EXIT=FALSE`
+
+To reset the database simply delete the `micronautdb*` files in your home directory.
 
 # Contribution Guidelines
 
