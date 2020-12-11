@@ -33,6 +33,7 @@ Micronaut + Camunda BPM = :heart:
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * The process engine [integrates with Micronaut's transaction manager](#using-micronaut-data-jdbc-or-micronaut-data-jpa). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
+* Camunda BPM's telemetry feature is automatically deactivated during test execution 
 
 # Getting Started
 
@@ -176,9 +177,9 @@ You may use the following properties (typically in application.yml) to configure
 Internally, to build Camunda `ProcessEngine` we use `ProcessEngineConfiguration`. This process can be intercepted for detailed configuration customization with the following bean:
 
 ```java
-import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer
-import io.micronaut.context.annotation.Replaces
-import javax.inject.Singleton
+import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer;
+import io.micronaut.context.annotation.Replaces;
+import javax.inject.Singleton;
 
 @Singleton
 @Replaces(DefaultProcessEngineConfigurationCustomizer.class)
@@ -197,9 +198,9 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 With the following bean it's possible to customize the job executor:
 
 ```java
-import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer
-import io.micronaut.context.annotation.Replaces
-import javax.inject.Singleton
+import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer;
+import io.micronaut.context.annotation.Replaces;
+import javax.inject.Singleton;
 
 @Singleton
 @Replaces(DefaultJobExecutorCustomizer.class)
