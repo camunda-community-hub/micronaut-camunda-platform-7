@@ -21,6 +21,11 @@ dependencies {
 
     // Test
     testImplementation("io.micronaut:micronaut-http-client")
+
+    // See Compatibility Matrix at https://docs.camunda.org/manual/latest/user-guide/testing/#assertions-version-compatibility
+    // Note: Newer versions of camunda-bpm-assert are not available on Maven Central
+    testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:8.0.0")
+    testImplementation("org.assertj:assertj-core:3.16.1")
 }
 
 application {

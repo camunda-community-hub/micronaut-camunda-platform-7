@@ -126,6 +126,50 @@ public class LoggerDelegate implements JavaDelegate {
 
 and then reference it the process model with the expression`${loggerDelegate}`.
 
+## Process Tests
+
+Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-assert` library as a dependency:
+
+```groovy
+testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:8.0.0")
+testImplementation("org.assertj:assertj-core:3.16.1")
+```
+
+and then implement the test using the usual `@MicronautTest` annotation:
+
+```java
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.junit.jupiter.api.Test;
+
+import javax.inject.Inject;
+
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
+
+@MicronautTest
+class HelloWorldProcessTest {
+
+    @Inject
+    RuntimeService runtimeService;
+
+    @Test
+    void happyPath() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("HelloWorld");
+        assertThat(processInstance).isStarted();
+
+        assertThat(processInstance).isWaitingAt("TimerEvent_Wait");
+        execute(job());
+
+        assertThat(processInstance).isEnded();
+    }
+}
+```
+
+Note: the integration will automatically disable the process engine's telemetry feature during test execution. This is triggered by the "test" profile.
+
+See also a test in our example application: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java)
+
 ## Executing Blocking Operations on I/O Thread Pool 
 When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
 A frequently occurring example is the implementation of a REST endpoint which interacts with the process engine. By default, Micronaut would use a Netty thread for this blocking operation. To prevent the use of a Netty thread it is recommended to use the annotation [`@ExecuteOn(TaskExecutors.IO)`](https://docs.micronaut.io/latest/guide/index.html#reactiveServer). This will make sure that an I/O thread is used.
