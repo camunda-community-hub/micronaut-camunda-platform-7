@@ -15,9 +15,9 @@ import javax.inject.Singleton;
 @Singleton
 public class MnArtifactFactory implements ArtifactFactory {
 
-    private final ApplicationContext applicationContext;
+    protected final ApplicationContext applicationContext;
 
-    private final ArtifactFactory defaultArtifactFactory = new DefaultArtifactFactory();
+    protected final ArtifactFactory defaultArtifactFactory = new DefaultArtifactFactory();
 
     public MnArtifactFactory(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;

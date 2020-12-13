@@ -16,7 +16,7 @@ import java.util.Iterator;
 // Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/engine-spring/core/src/main/java/org/camunda/bpm/engine/spring/ApplicationContextElResolver.java
 public class ApplicationContextElResolver extends ELResolver {
 
-    private final ApplicationContext applicationContext;
+    protected final ApplicationContext applicationContext;
 
     public ApplicationContextElResolver(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;

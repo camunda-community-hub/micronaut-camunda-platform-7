@@ -16,8 +16,8 @@ import static io.micronaut.transaction.TransactionDefinition.of;
  */
 public class MnTransactionInterceptor extends CommandInterceptor {
 
-    private final SynchronousTransactionManager<Connection> transactionManager;
-    private final Propagation propagation;
+    protected final SynchronousTransactionManager<Connection> transactionManager;
+    protected final Propagation propagation;
 
     public MnTransactionInterceptor(SynchronousTransactionManager<Connection> transactionManager, Propagation propagation) {
         this.transactionManager = transactionManager;

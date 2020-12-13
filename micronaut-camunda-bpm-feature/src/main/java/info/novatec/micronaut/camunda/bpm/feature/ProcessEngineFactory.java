@@ -49,7 +49,7 @@ public class ProcessEngineFactory {
      * @param processEngine the {@link ProcessEngine}
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
-    private void deployProcessModels(ProcessEngine processEngine) throws IOException {
+    protected void deployProcessModels(ProcessEngine processEngine) throws IOException {
         log.info("Searching non-recursively for models in the resources");
         PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
         // Order of extensions has been chosen as a best fit for inter process dependencies.
