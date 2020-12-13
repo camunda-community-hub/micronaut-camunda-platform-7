@@ -12,7 +12,7 @@ import org.camunda.bpm.engine.impl.javax.el.*;
 // Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/engine-spring/core/src/main/java/org/camunda/bpm/engine/spring/SpringExpressionManager.java
 public class MnExpressionManager extends ExpressionManager {
 
-    private final ApplicationContextElResolver applicationContextElResolver;
+    protected final ApplicationContextElResolver applicationContextElResolver;
 
     public MnExpressionManager(ApplicationContextElResolver applicationContextElResolver) {
         this.applicationContextElResolver = applicationContextElResolver;

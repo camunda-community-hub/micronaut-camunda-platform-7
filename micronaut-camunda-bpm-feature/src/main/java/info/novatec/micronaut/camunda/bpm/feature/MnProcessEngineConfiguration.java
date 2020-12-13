@@ -117,7 +117,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         return getCommandInterceptors(true);
     }
 
-    private List<CommandInterceptor> getCommandInterceptors(boolean requiresNew) {
+    protected List<CommandInterceptor> getCommandInterceptors(boolean requiresNew) {
         return Arrays.asList(
                 new LogInterceptor(),
                 new CommandCounterInterceptor(this),
@@ -131,7 +131,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
      * Configure telemetry based on configuration but always disable if the "test" profile is active,
      * i.e. tests are being executed.
      */
-    private void configureTelemetry() {
+    protected void configureTelemetry() {
         boolean testProfileActive = environment.getActiveNames().contains("test");
         setTelemetryReporterActivate(!testProfileActive && configuration.getTelemetry().isTelemetryReporterActivate());
         if (!testProfileActive && configuration.getTelemetry().isInitializeTelemetry()) {

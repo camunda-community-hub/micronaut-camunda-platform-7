@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 @Singleton
 public class MnTelemetryRegistry extends TelemetryRegistry {
 
-    private static final String INTEGRATION_NAME = "micronaut-camunda-bpm";
+    protected static final String INTEGRATION_NAME = "micronaut-camunda-bpm";
 
     @Override
     public String getCamundaIntegration() {
