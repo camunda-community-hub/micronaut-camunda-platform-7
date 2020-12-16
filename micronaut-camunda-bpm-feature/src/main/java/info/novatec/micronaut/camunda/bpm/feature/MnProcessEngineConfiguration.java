@@ -35,6 +35,7 @@ import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRE
  *
  * @author Tobias Schäfer
  * @author Lukasz Frankowski
+ * @author Titus Meyer
  */
 @Singleton
 @Introspected
@@ -47,6 +48,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     protected final MnJobExecutor jobExecutor;
 
     protected final MnTelemetryRegistry telemetryRegistry;
+
+    protected final MnBeansResolverFactory beansResolverFactory;
 
     protected final Environment environment;
 
@@ -61,10 +64,12 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         ApplicationContext applicationContext,
                                         DataSource dataSource,
                                         MnArtifactFactory artifactFactory,
+                                        MnBeansResolverFactory beansResolverFactory,
                                         ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
         this.jobExecutor = jobExecutor;
         this.telemetryRegistry = telemetryRegistry;
+        this.beansResolverFactory = beansResolverFactory;
         this.environment = environment;
         this.camundaBpmVersion = camundaBpmVersion;
         setDataSource(dataSource);
@@ -84,19 +89,19 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     @Override
     public ProcessEngine buildProcessEngine() {
         return transactionManager.executeWrite(
-            transactionStatus -> {
-                log.info("Building process engine connected to {}", dataSource.getConnection().getMetaData().getURL());
-                Instant start = Instant.now();
-                ProcessEngine processEngine = super.buildProcessEngine();
-                log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
-                return processEngine;
-            }
+                transactionStatus -> {
+                    log.info("Building process engine connected to {}", dataSource.getConnection().getMetaData().getURL());
+                    Instant start = Instant.now();
+                    ProcessEngine processEngine = super.buildProcessEngine();
+                    log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
+                    return processEngine;
+                }
         );
     }
 
     @Override
     protected void initTransactionContextFactory() {
-        if(transactionContextFactory == null) {
+        if (transactionContextFactory == null) {
             transactionContextFactory = new MnTransactionContextFactory(transactionManager);
         }
     }
@@ -108,12 +113,19 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     }
 
     @Override
-    protected Collection< ? extends CommandInterceptor> getDefaultCommandInterceptorsTxRequired() {
+    protected void initScripting() {
+        super.initScripting();
+        // make Micronaut context managed beans available for scripting
+        getResolverFactories().add(beansResolverFactory);
+    }
+
+    @Override
+    protected Collection<? extends CommandInterceptor> getDefaultCommandInterceptorsTxRequired() {
         return getCommandInterceptors(false);
     }
 
     @Override
-    protected Collection< ? extends CommandInterceptor> getDefaultCommandInterceptorsTxRequiresNew() {
+    protected Collection<? extends CommandInterceptor> getDefaultCommandInterceptorsTxRequiresNew() {
         return getCommandInterceptors(true);
     }
 
@@ -152,7 +164,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     protected void applyGenericProperties(Configuration configuration) {
         BeanIntrospection<MnProcessEngineConfiguration> introspection = BeanIntrospection.getIntrospection(MnProcessEngineConfiguration.class);
 
-        for(Map.Entry<String, Object > entry : configuration.getGenericProperties().getProperties().entrySet()){
+        for (Map.Entry<String, Object> entry : configuration.getGenericProperties().getProperties().entrySet()) {
             BeanProperty<MnProcessEngineConfiguration, Object> property = introspection.getProperty(entry.getKey())
                     .orElseThrow(() -> new RuntimeException("Invalid engine property: " + entry.getKey()));
 
