@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 /**
  * @author Tobias Schäfer
@@ -23,6 +24,9 @@ public interface Configuration {
     @NotNull
     Telemetry getTelemetry();
 
+    @NotNull
+    AdminUser getAdminUser();
+
     @ConfigurationProperties("database")
     interface Database {
 
@@ -39,5 +43,24 @@ public interface Configuration {
 
         @Bindable(defaultValue = "false")
         boolean isInitializeTelemetry();
+    }
+
+    @ConfigurationProperties("adminUser")
+    interface AdminUser {
+
+        @Bindable
+        String getId();
+
+        @Bindable
+        String getPassword();
+
+        @Bindable
+        String getFirstname();
+
+        @Bindable
+        String getLastname();
+
+        @Bindable
+        Optional<String> getEmail();
     }
 }

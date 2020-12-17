@@ -1,4 +1,12 @@
 micronaut:
   application:
     name: micronaut-camunda-example
-camunda.bpm.telemetry.initializeTelemetry: true
+camunda:
+  bpm:
+    telemetry.initializeTelemetry: true
+    admin-user:
+      id: admin
+      password: admin
+      firstname: Donald
+      lastname: Duck
+      email: donald@duck.com

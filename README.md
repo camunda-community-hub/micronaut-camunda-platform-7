@@ -28,6 +28,7 @@ Micronaut + Camunda BPM = :heart:
 * Camunda BPM can be integrated into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#add-dependency-using-gradle). Other [data sources can be configured](#data-source) via properties.
 * The Camunda process engine with its job executor is started automatically.
+* A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#calling-camunda-bpm-process-engine-and-related-services).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
@@ -209,12 +210,17 @@ runtimeOnly "org.postgresql:postgresql:42.2.18"
 
 You may use the following properties (typically in application.yml) to configure the Camunda BPM integration.
 
-| Prefix               |Property          | Default                                      | Description            |
-|----------------------|------------------|----------------------------------------------|------------------------|
-| camunda.bpm          | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
-| camunda.bpm.database | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
-| camunda.bpm.telemetry| .telemetryReporterActivate | true                               | Enable to report anonymized data about the installation to Camunda |
-| camunda.bpm.telemetry| .initializeTelemetry       | false                              | Enable to report anonymized data about the process engine usage to Camunda |
+| Prefix                |Property          | Default                                      | Description            |
+|-----------------------|------------------|----------------------------------------------|------------------------|
+| camunda.bpm           | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
+| camunda.bpm.database  | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
+| camunda.bpm.telemetry | .telemetryReporterActivate | true                               | Enable to report anonymized data about the installation to Camunda |
+| camunda.bpm.telemetry | .initializeTelemetry       | false                              | Enable to report anonymized data about the process engine usage to Camunda |
+| camunda.bpm.admin-user| .id             |                                               | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
+| camunda.bpm.admin-user| .password       |                                               | Admin's password (mandatory if the id is present)  |
+| camunda.bpm.admin-user| .firstname      |                                               | Admin's firstname (mandatory if the id is present) |
+| camunda.bpm.admin-user| .lastname       |                                               | Admin's lastname (mandatory if the id is present) |
+| camunda.bpm.admin-user| .email          |                                               | Admin's email address (optional) |
 
 ### Custom Process Engine Configuration
 
