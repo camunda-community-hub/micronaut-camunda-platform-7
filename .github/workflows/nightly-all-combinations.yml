@@ -1,13 +1,11 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Continuous Integration
+name: Nightly All Combinations
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  schedule:
+    - cron:  '0 2 * * *'
 
 jobs:
   build:
@@ -15,14 +13,7 @@ jobs:
     strategy:
       matrix:
         java: ['8', '11', '15'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
-        runtime: ['netty']
-        include: # Test more server runtimes on Java 8 only (to reduce number of combinations)
-          - java: '8'
-            runtime: 'jetty'
-          - java: '8'
-            runtime: 'tomcat'
-          - java: '8'
-            runtime: 'undertow'
+        runtime: ['netty', 'jetty', 'tomcat', 'undertow']
 
     steps:
       - name: Git Checkout
