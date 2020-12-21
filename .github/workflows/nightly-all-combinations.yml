@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    if: github.repository_owner == 'NovatecConsulting' # Don't trigger nightly builds on forks
     runs-on: ubuntu-latest
     strategy:
       matrix:
