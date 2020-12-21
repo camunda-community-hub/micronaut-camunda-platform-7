@@ -5,14 +5,10 @@ import info.novatec.micronaut.camunda.bpm.feature.tx.MnTransactionInterceptor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
 import io.micronaut.transaction.SynchronousTransactionManager;
-import org.camunda.bpm.engine.ArtifactFactory;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.interceptor.*;
-import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
-import org.camunda.bpm.engine.impl.jobexecutor.JobExecutor;
-import org.camunda.bpm.engine.impl.telemetry.TelemetryRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,25 +37,25 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    protected final JobExecutorCustomizer jobExecutorCustomizer;
+    protected final MnJobExecutor jobExecutor;
 
     protected final Configuration configuration;
 
-    protected final TelemetryRegistry telemetryRegistry;
+    protected final MnTelemetryRegistry telemetryRegistry;
 
     protected final Environment environment;
 
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
-                                        JobExecutorCustomizer jobExecutorCustomizer,
+                                        MnJobExecutor jobExecutor,
                                         Configuration configuration,
-                                        TelemetryRegistry telemetryRegistry,
+                                        MnTelemetryRegistry telemetryRegistry,
                                         Environment environment,
                                         ApplicationContext applicationContext,
                                         DataSource dataSource,
-                                        ArtifactFactory artifactFactory,
+                                        MnArtifactFactory artifactFactory,
                                         ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
-        this.jobExecutorCustomizer = jobExecutorCustomizer;
+        this.jobExecutor = jobExecutor;
         this.configuration = configuration;
         this.telemetryRegistry = telemetryRegistry;
         this.environment = environment;
@@ -100,9 +96,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     }
 
     @Override
-    protected void initJobExecutor(){
-        JobExecutor jobExecutor = new DefaultJobExecutor();
-        jobExecutorCustomizer.customize(jobExecutor);
+    protected void initJobExecutor() {
         setJobExecutor(jobExecutor);
         super.initJobExecutor();
     }
