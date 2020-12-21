@@ -223,24 +223,23 @@ You may use the following properties (typically in application.yml) to configure
 | camunda.bpm.admin-user| .email          |                                               | Admin's email address (optional) |
 
 ### Custom Process Engine Configuration
-
-Internally, to build Camunda `ProcessEngine` we use `ProcessEngineConfiguration`. This process can be intercepted for detailed configuration customization with the following bean:
+With the following bean it's possible to customize the process engine configuration:
 
 ```java
+import info.novatec.micronaut.camunda.bpm.feature.DefaultProcessEngineConfigurationCustomizer;
+import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration;
 import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer;
 import io.micronaut.context.annotation.Replaces;
 import javax.inject.Singleton;
 
 @Singleton
 @Replaces(DefaultProcessEngineConfigurationCustomizer.class)
-public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConfigurationCustomizer  {
-
+public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConfigurationCustomizer {
     @Override
-    public void customize(ProcessEngineConfiguration configuration) {
-        // configure ProcessEngineConfiguration here, e.g.:
-        configuration.setProcessEngineName("CustomizedEngine");
+    public void customize(MnProcessEngineConfiguration processEngineConfiguration) {
+        // configure process engine configuration here, e.g.:
+        processEngineConfiguration.setProcessEngineName("CustomizedEngine");
     }
-
 }
 ```
 
@@ -248,16 +247,17 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 With the following bean it's possible to customize the job executor:
 
 ```java
+import info.novatec.micronaut.camunda.bpm.feature.DefaultJobExecutorCustomizer;
 import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer;
+import info.novatec.micronaut.camunda.bpm.feature.MnJobExecutor;
 import io.micronaut.context.annotation.Replaces;
 import javax.inject.Singleton;
 
 @Singleton
 @Replaces(DefaultJobExecutorCustomizer.class)
-public class CustomizedJobExecutor implements JobExecutorCustomizer {
-
+public class MyJobExecutorCustomizer implements JobExecutorCustomizer {
     @Override
-    public void customize(@Nonnull JobExecutor jobExecutor) {
+    public void customize(MnJobExecutor jobExecutor) {
         jobExecutor.setWaitTimeInMillis(300);
     }
 }
