@@ -42,6 +42,14 @@ java {
     targetCompatibility = JavaVersion.toVersion('1.8')
 }
 
+tasks {
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
