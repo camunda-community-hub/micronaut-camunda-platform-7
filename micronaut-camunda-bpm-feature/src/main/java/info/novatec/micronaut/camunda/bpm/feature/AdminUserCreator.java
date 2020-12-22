@@ -32,13 +32,13 @@ import static org.camunda.bpm.engine.authorization.Permissions.ALL;
 // Implementation based on: https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/configuration/impl/custom/CreateAdminUserConfiguration.java
 @Singleton
 @Requires(property = "camunda.bpm.admin-user.id")
-public class MnAdminUserConfiguration implements BeanCreatedEventListener<ProcessEngine> {
-    private static final Logger log = LoggerFactory.getLogger(MnAdminUserConfiguration.class);
+public class AdminUserCreator implements BeanCreatedEventListener<ProcessEngine> {
+    private static final Logger log = LoggerFactory.getLogger(AdminUserCreator.class);
 
     protected final Configuration.AdminUser adminUser;
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public MnAdminUserConfiguration(Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
+    public AdminUserCreator(Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
         adminUser = configuration.getAdminUser();
         this.transactionManager = transactionManager;
     }

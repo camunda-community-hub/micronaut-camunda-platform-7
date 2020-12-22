@@ -1,7 +1,7 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
-import info.novatec.micronaut.camunda.bpm.feature.MnAdminUserConfiguration
+import info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.event.BeanCreatedEvent
 import io.micronaut.core.value.PropertyNotFoundException
@@ -19,14 +19,14 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Tests for [info.novatec.micronaut.camunda.bpm.feature.MnAdminUserConfiguration]
+ * Tests for [info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator]
  *
  * @author Titus Meyer
  */
-class MnAdminUserConfigurationTest {
+class AdminUserCreatorTest {
     @MicronautTest
     @Nested
-    inner class MnAdminUserConfigurationTestWithoutProperties {
+    inner class AdminUserCreatorTestWithoutProperties {
         @Inject
         lateinit var processEngine: ProcessEngine
 
@@ -42,7 +42,7 @@ class MnAdminUserConfigurationTest {
 
     @MicronautTest(propertySources = ["classpath:adminusertest.yml"])
     @Nested
-    inner class MnAdminUserConfigurationTestWithProperties {
+    inner class AdminUserCreatorTestWithProperties {
         @Inject
         lateinit var processEngine: ProcessEngine
 
@@ -50,14 +50,14 @@ class MnAdminUserConfigurationTest {
         lateinit var configuration: Configuration
 
         @Inject
-        lateinit var mnAdminUserConfiguration: Optional<MnAdminUserConfiguration>
+        lateinit var adminUserCreator: Optional<AdminUserCreator>
 
         @Inject
         lateinit var applicationContext: ApplicationContext
 
         @Test
         fun adminUserCreated() {
-            assertTrue(mnAdminUserConfiguration.isPresent)
+            assertTrue(adminUserCreator.isPresent)
 
             assertEquals("admin", configuration.adminUser.id)
             assertEquals("password", configuration.adminUser.password)
@@ -73,7 +73,7 @@ class MnAdminUserConfigurationTest {
         fun adminUserCreationCalledAgain() {
             val event: BeanCreatedEvent<ProcessEngine> = BeanCreatedEvent(applicationContext, null, null, processEngine)
 
-            mnAdminUserConfiguration.get().onCreated(event)
+            adminUserCreator.get().onCreated(event)
 
             assertEquals(1, processEngine.identityService.createUserQuery().count())
             assertAdminUserExists(processEngine, configuration.adminUser.id)
