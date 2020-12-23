@@ -3,7 +3,6 @@ micronaut:
     name: micronaut-camunda-example
 camunda:
   bpm:
-    telemetry.initializeTelemetry: true
     admin-user:
       id: admin
       password: admin
@@ -12,4 +11,4 @@ camunda:
       email: donald@duck.com
     generic-properties:
       properties:
-        defaultNumberOfRetries: 1
+        initialize-telemetry: true

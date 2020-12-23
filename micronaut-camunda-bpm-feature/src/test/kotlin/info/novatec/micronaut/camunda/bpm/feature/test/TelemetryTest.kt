@@ -18,6 +18,6 @@ class TelemetryTest {
     fun `telemetry is disabled in tests`() {
         val pec = processEngine.processEngineConfiguration as ProcessEngineConfigurationImpl
         assertFalse(pec.isTelemetryReporterActivate)
-        assertNull(pec.isInitializeTelemetry)
+        assertFalse(pec.isInitializeTelemetry)
     }
 }

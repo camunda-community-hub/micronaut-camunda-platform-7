@@ -9,8 +9,8 @@ import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.interceptor.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +66,10 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.environment = environment;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
-        setDatabaseSchemaUpdate(configuration.getDatabase().getSchemaUpdate());
-        setHistory(configuration.getHistoryLevel());
-        setJobExecutorActivate(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
+
+        configureDefaultValues();
 
         applyGenericProperties(configuration);
 
@@ -87,12 +86,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 return super.buildProcessEngine();
             }
         );
-    }
-
-    @Override
-    public HistoryLevel getDefaultHistoryLevel() {
-        // Define default history level for history level "auto".
-        return HistoryLevel.HISTORY_LEVEL_FULL;
     }
 
     @Override
@@ -129,16 +122,22 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     }
 
     /**
-     * Configure telemetry based on configuration but always disable if the "test" profile is active,
-     * i.e. tests are being executed.
+     * Configure telemetry registry and always disable if the "test" profile is active, i.e. tests are being executed.
      */
     protected void configureTelemetry() {
-        boolean testProfileActive = environment.getActiveNames().contains("test");
-        setTelemetryReporterActivate(!testProfileActive && configuration.getTelemetry().isTelemetryReporterActivate());
-        if (!testProfileActive && configuration.getTelemetry().isInitializeTelemetry()) {
-            setInitializeTelemetry(true);
-        }
         setTelemetryRegistry(telemetryRegistry);
+        if (environment.getActiveNames().contains("test")) {
+            setInitializeTelemetry(false);
+            setTelemetryReporterActivate(false);
+        }
+    }
+
+    /**
+     * Configure sensible defaults so that the user must not take care of it.
+     */
+    protected void configureDefaultValues() {
+        setJobExecutorActivate(true);
+        setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
     }
 
     protected void applyGenericProperties(Configuration configuration) {
@@ -168,5 +167,11 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         } else {
             return value;
         }
+    }
+
+    public ProcessEngineConfigurationImpl setInitializeTelemetry(Boolean telemetryInitialized) {
+        // This method makes the Boolean telemetryInitialized a writable property.
+        // Otherwise applyGenericProperties cannot set the property.
+        return super.setInitializeTelemetry(telemetryInitialized);
     }
 }
