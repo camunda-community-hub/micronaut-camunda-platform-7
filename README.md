@@ -213,10 +213,6 @@ You may use the following properties (typically in application.yml) to configure
 
 | Prefix                |Property          | Default                                      | Description            |
 |-----------------------|------------------|----------------------------------------------|------------------------|
-| camunda.bpm           | .history-level   | auto                                         | Camunda history level, use one of [`full`, `audit`, `activity`, `none`, `auto`]. `auto` uses the level already present in the database, defaulting to `full`. |
-| camunda.bpm.database  | .schema-update   | true                                         | If automatic schema update should be applied, use one of [`true`, `false`, `create`, `create-drop`, `drop-create`] |
-| camunda.bpm.telemetry | .telemetryReporterActivate | true                               | Enable to report anonymized data about the installation to Camunda |
-| camunda.bpm.telemetry | .initializeTelemetry       | false                              | Enable to report anonymized data about the process engine usage to Camunda |
 | camunda.bpm.admin-user| .id             |                                               | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
 | camunda.bpm.admin-user| .password       |                                               | Admin's password (mandatory if the id is present)  |
 | camunda.bpm.admin-user| .firstname      |                                               | Admin's firstname (mandatory if the id is present) |
