@@ -126,7 +126,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
      */
     protected void configureTelemetry() {
         setTelemetryRegistry(telemetryRegistry);
-        if (environment.getActiveNames().contains("test")) {
+        if (environment.getActiveNames().contains(Environment.TEST)) {
             setInitializeTelemetry(false);
             setTelemetryReporterActivate(false);
         }
