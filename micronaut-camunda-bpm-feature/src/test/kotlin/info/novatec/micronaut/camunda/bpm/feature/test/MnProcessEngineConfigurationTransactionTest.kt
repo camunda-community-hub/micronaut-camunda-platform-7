@@ -19,7 +19,7 @@ import javax.inject.Inject
  * @author Tobias Schäfer
  */
 @MicronautTest(transactional = false)
-open class MnProcessEngineConfigurationTest {
+open class MnProcessEngineConfigurationTransactionTest {
     @Inject
     lateinit var runtimeService: RuntimeService
 

@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * @author Tobias Schäfer
  */
 @MicronautTest(transactional = false)
-class MnJpaProcessEngineConfigurationTest : MnProcessEngineConfigurationTest() {
+class MnJpaProcessEngineConfigurationTransactionTest : MnProcessEngineConfigurationTransactionTest() {
     @Inject
     lateinit var repositoryService: RepositoryService
 

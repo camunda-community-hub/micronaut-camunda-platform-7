@@ -27,13 +27,14 @@ Micronaut + Camunda BPM = :heart:
 # Features
 * Camunda BPM can be integrated into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#add-dependency-using-gradle). Other [data sources can be configured](#data-source) via properties.
-* The Camunda process engine with its job executor is started automatically.
-* A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
+* The Camunda process engine with its job executor is started automatically.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#calling-camunda-bpm-process-engine-and-related-services).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
-* The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * The process engine [integrates with Micronaut's transaction manager](#using-micronaut-data-jdbc-or-micronaut-data-jpa). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
+* The process engine can be configured with [generic properties](#generic-properties).
+* The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
+* A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda BPM's telemetry feature is automatically deactivated during test execution 
 
 # Getting Started
@@ -221,6 +222,28 @@ You may use the following properties (typically in application.yml) to configure
 | camunda.bpm.admin-user| .firstname      |                                               | Admin's firstname (mandatory if the id is present) |
 | camunda.bpm.admin-user| .lastname       |                                               | Admin's lastname (mandatory if the id is present) |
 | camunda.bpm.admin-user| .email          |                                               | Admin's email address (optional) |
+
+## Generic Properties
+
+The process engine can be configured using generic properties listed in Camunda's Documentation: [Configuration Properties](https://docs.camunda.org/manual/latest/reference/deployment-descriptors/tags/process-engine/#configuration-properties).
+
+The properties can be set in kebab case (lowercase and hyphen separated) or camel case (indicating the separation of words with a single capitalized letter as written in Camunda's documentation). Kebab case is preferred when setting properties.
+
+Some of the most relevant properties are:
+* database-schema-update (databaseSchemaUpdate)
+* history
+* initialize-telemetry (initializeTelemetry)
+* telemetry-reporter-activate (telemetryReporterActivate)
+
+Example:
+
+```yaml
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        initialize-telemetry: true
+```
 
 ### Custom Process Engine Configuration
 With the following bean it's possible to customize the process engine configuration:
