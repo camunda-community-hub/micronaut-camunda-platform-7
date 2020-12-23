@@ -6,7 +6,7 @@ This project allows you to easily integrate [Camunda BPM](https://camunda.com/pr
 We configure Camunda BPM with sensible defaults, so that you can get started with minimum configuration: simply add a dependency in your Micronaut project!
 
 Advantages of Micronaut together with Camunda BPM:
-* Monumental leap in startup time (Currently still blocked by [micronaut-core#2867](https://github.com/micronaut-projects/micronaut-core/issues/2867)) and MyBatis initialization.
+* Monumental leap in startup time (Currently blocked by slow MyBatis initialization)
 * Minimal memory footprint
 * (...)
 
@@ -25,7 +25,7 @@ Micronaut + Camunda BPM = :heart:
 [![Join the chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/NovatecConsulting/micronaut-camunda-bpm)
 
 # Features
-* Camunda BPM can be integrated into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
+* Camunda BPM can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#add-dependency-using-gradle). Other [data sources can be configured](#data-source) via properties.
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
 * The Camunda process engine with its job executor is started automatically.
