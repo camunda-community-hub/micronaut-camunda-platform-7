@@ -1,7 +1,0 @@
-camunda:
-  bpm:
-    admin-user:
-      id: admin
-      password: password
-      firstname: Firstname
-      lastname: Lastname
