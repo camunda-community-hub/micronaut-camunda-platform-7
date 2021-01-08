@@ -1,12 +1,11 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.BeanCreatedEvent;
-import io.micronaut.context.event.BeanCreatedEventListener;
+import io.micronaut.context.event.ApplicationEventListener;
+import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
-import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Resource;
 import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.identity.Group;
@@ -28,29 +27,29 @@ import static org.camunda.bpm.engine.authorization.Permissions.ALL;
  * Bean creating Camunda Admin User, Group and Authorizations if {@code camunda.bpm.admin-user.id} Property is present.
  *
  * @author Titus Meyer
+ * @author Tobias Schäfer
  */
 // Implementation based on: https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/configuration/impl/custom/CreateAdminUserConfiguration.java
 @Singleton
 @Requires(property = "camunda.bpm.admin-user.id")
-public class AdminUserCreator implements BeanCreatedEventListener<ProcessEngine> {
+public class AdminUserCreator implements ApplicationEventListener<ServerStartupEvent> {
     private static final Logger log = LoggerFactory.getLogger(AdminUserCreator.class);
 
+    protected final IdentityService identityService;
+    protected final AuthorizationService authorizationService;
     protected final Configuration.AdminUser adminUser;
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public AdminUserCreator(Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
+    public AdminUserCreator(IdentityService identityService, AuthorizationService authorizationService, Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
+        this.identityService = identityService;
+        this.authorizationService = authorizationService;
         adminUser = configuration.getAdminUser();
         this.transactionManager = transactionManager;
     }
 
     @Override
-    public ProcessEngine onCreated(BeanCreatedEvent<ProcessEngine> event) {
-        ProcessEngine processEngine = event.getBean();
-
-        IdentityService identityService = processEngine.getIdentityService();
-        AuthorizationService authorizationService = processEngine.getAuthorizationService();
-
-        return transactionManager.executeWrite(
+    public void onApplicationEvent(ServerStartupEvent event) {
+        transactionManager.executeWrite(
             transactionStatus -> {
                 if (!userAlreadyExists(identityService, adminUser.getId())) {
                     // create user
@@ -69,8 +68,7 @@ public class AdminUserCreator implements BeanCreatedEventListener<ProcessEngine>
 
                     log.info("Created initial Admin User: {}", adminUser.getId());
                 }
-
-                return processEngine;
+                return null;
             }
         );
     }
