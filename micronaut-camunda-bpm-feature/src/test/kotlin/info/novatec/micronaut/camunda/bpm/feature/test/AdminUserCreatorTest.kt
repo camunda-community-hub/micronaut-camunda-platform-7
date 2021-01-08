@@ -6,6 +6,7 @@ import io.micronaut.core.value.PropertyNotFoundException
 import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.runtime.server.event.ServerStartupEvent
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.authorization.Authorization.ANY
 import org.camunda.bpm.engine.authorization.Groups.CAMUNDA_ADMIN
@@ -15,6 +16,7 @@ import org.camunda.bpm.engine.identity.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito.mock
 import java.util.*
 import javax.inject.Inject
@@ -45,9 +47,20 @@ class AdminUserCreatorTest {
         }
     }
 
-    @MicronautTest(propertySources = ["classpath:adminusertest.yml"])
+    @MicronautTest
     @Nested
-    inner class AdminUserCreatorTestWithProperties {
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class AdminUserCreatorTestWithProperties : TestPropertyProvider {
+
+        override fun getProperties(): MutableMap<String, String> {
+            return mutableMapOf(
+                "camunda.bpm.admin-user.id" to "admin",
+                "camunda.bpm.admin-user.password" to "password",
+                "camunda.bpm.admin-user.firstname" to "Firstname",
+                "camunda.bpm.admin-user.lastname" to "Lastname",
+            )
+        }
+
         @Inject
         lateinit var processEngine: ProcessEngine
 
