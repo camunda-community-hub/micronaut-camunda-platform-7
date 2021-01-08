@@ -2,9 +2,9 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
 import info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator
-import io.micronaut.context.ApplicationContext
-import io.micronaut.context.event.BeanCreatedEvent
 import io.micronaut.core.value.PropertyNotFoundException
+import io.micronaut.runtime.server.EmbeddedServer
+import io.micronaut.runtime.server.event.ServerStartupEvent
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.authorization.Authorization.ANY
@@ -15,6 +15,7 @@ import org.camunda.bpm.engine.identity.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import java.util.*
 import javax.inject.Inject
 
@@ -33,9 +34,13 @@ class AdminUserCreatorTest {
         @Inject
         lateinit var configuration: Configuration
 
+        @Inject
+        lateinit var adminUserCreator: Optional<AdminUserCreator>
+
         @Test
         fun adminUserNotDefined() {
             assertThrows(PropertyNotFoundException::class.java) { configuration.adminUser.id }
+            assertFalse(adminUserCreator.isPresent)
             assertEquals(0, processEngine.identityService.createUserQuery().count())
         }
     }
@@ -52,12 +57,11 @@ class AdminUserCreatorTest {
         @Inject
         lateinit var adminUserCreator: Optional<AdminUserCreator>
 
-        @Inject
-        lateinit var applicationContext: ApplicationContext
-
         @Test
         fun adminUserCreated() {
             assertTrue(adminUserCreator.isPresent)
+
+            triggerServerStartupEvent(adminUserCreator.get())
 
             assertEquals("admin", configuration.adminUser.id)
             assertEquals("password", configuration.adminUser.password)
@@ -70,15 +74,23 @@ class AdminUserCreatorTest {
         }
 
         @Test
-        fun adminUserCreationCalledAgain() {
-            val event: BeanCreatedEvent<ProcessEngine> = BeanCreatedEvent(applicationContext, null, null, processEngine)
+        fun adminUserOnlyCreatedOnce() {
+            assertTrue(adminUserCreator.isPresent)
 
-            adminUserCreator.get().onCreated(event)
+            triggerServerStartupEvent(adminUserCreator.get())
+            triggerServerStartupEvent(adminUserCreator.get())
 
             assertEquals(1, processEngine.identityService.createUserQuery().count())
             assertAdminUserExists(processEngine, configuration.adminUser.id)
             assertAdminGroupExists(processEngine)
             assertAdminGroupAuthorizationsExist(processEngine)
+        }
+
+        /**
+         * Provide method to trigger event manually because we don't have an application in the feature project to fire the event
+         */
+        fun triggerServerStartupEvent(adminUserCreator: AdminUserCreator) {
+            adminUserCreator.onApplicationEvent(ServerStartupEvent(mock(EmbeddedServer::class.java)))
         }
 
         fun queryUser(processEngine: ProcessEngine, userId: String): User {
