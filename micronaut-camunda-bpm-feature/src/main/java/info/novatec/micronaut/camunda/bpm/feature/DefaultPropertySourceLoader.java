@@ -7,7 +7,6 @@ import io.micronaut.core.io.ResourceLoader;
 import io.micronaut.core.order.Ordered;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +24,17 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordere
      */
     protected static final int POSITION = Ordered.LOWEST_PRECEDENCE;
 
-    protected static final int MAXIMUM_POOL_SIZE = 100;
+    /** The (Hikari) datasource pool size must be larger than the number of competing threads
+     * so that they don't get blocked while waiting for a connection and smaller than the maximum parallel
+     * connections supported by the database, e.g. 100 on PostgreSQL.
+     */
+    protected static final int MAXIMUM_POOL_SIZE = 50;
+
+    /**
+     * By default, the (Hikari) minimum-idle value is the same as the maximumPoolSize, see https://github.com/brettwooldridge/HikariCP
+     * However, multiple applications would not work with this default. Therefore we reduce the minimum-idle configuration.
+     */
+    protected static final int MINIMUM_POOL_SIZE = 10;
 
     @Override
     public int getOrder() {
@@ -34,12 +43,13 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordere
 
     @Override
     public Optional<PropertySource> load(String resourceName, ResourceLoader resourceLoader) {
-        // The (Hikari) datasource pool size must be larger than the number of competing threads
-        // so that they don't get blocked while waiting for a connection.
         return Optional.of(
                 PropertySource.of(
                         "micronaut-camunda-bpm-defaults",
-                        Collections.singletonMap("datasources.default.maximum-pool-size", MAXIMUM_POOL_SIZE)));
+                        new HashMap<String, Object>() {{
+                            put("datasources.default.maximum-pool-size", MAXIMUM_POOL_SIZE);
+                            put("datasources.default.minimum-idle", MINIMUM_POOL_SIZE);
+                        }}));
     }
 
     @Override

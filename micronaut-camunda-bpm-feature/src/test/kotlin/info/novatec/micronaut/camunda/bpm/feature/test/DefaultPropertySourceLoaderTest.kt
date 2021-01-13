@@ -23,8 +23,7 @@ class DefaultPropertySourceLoaderTest {
 
         @Test
         fun `default value`() {
-            assertEquals(100,
-                    applicationContext.environment.getProperty("datasources.default.maximum-pool-size", Int::class.java).get())
+            assertEquals(50, applicationContext.environment.getProperty("datasources.default.maximum-pool-size", Int::class.java).get())
         }
     }
 
@@ -37,8 +36,7 @@ class DefaultPropertySourceLoaderTest {
         @Test
         @Property(name = "datasources.default.maximum-pool-size", value = "42")
         fun `property can be overwritten`() {
-            assertEquals(42,
-                    applicationContext.environment.getProperty("datasources.default.maximum-pool-size", Int::class.java).get())
+            assertEquals(42, applicationContext.environment.getProperty("datasources.default.maximum-pool-size", Int::class.java).get())
         }
     }
 }
