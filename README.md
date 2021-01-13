@@ -207,6 +207,12 @@ after adding the appropriate driver as a dependency:
 runtimeOnly "org.postgresql:postgresql:42.2.18"
 ```
 
+### Connection Pool with HikariCP
+
+This integration uses HikariCP as a database connection pool to optimize performance. By default, the following configuration applies
+* `datasources.default.minimum-idle: 10`
+* `datasources.default.maximum-pool-size: 50`
+
 ### Properties
 
 You may use the following properties (typically in application.yml) to configure the Camunda BPM integration.
