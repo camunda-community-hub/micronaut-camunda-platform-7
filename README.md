@@ -188,7 +188,7 @@ public String startHelloWorldProcess() {
 
 ### Data Source
 
-By default, an in-memory H2 data source will be used. Remember to add the runtime dependency `com.h2database:h2` mentioned in [Getting Started](#getting-started).
+By default, an in-memory H2 data source is preconfigured. Remember to add the runtime dependency `com.h2database:h2` mentioned in [Getting Started](#getting-started).
 
 However, you can configure any other database, e.g. in `application.yml`:
 
@@ -198,7 +198,7 @@ datasources:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: secret
-    driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
 ```
 
 after adding the appropriate driver as a dependency:
@@ -209,7 +209,7 @@ runtimeOnly "org.postgresql:postgresql:42.2.18"
 
 ### Connection Pool with HikariCP
 
-This integration uses HikariCP as a database connection pool to optimize performance. By default, the following configuration applies
+This integration uses HikariCP as a database connection pool to optimize performance. By default, the following configuration is applied:
 * `datasources.default.minimum-idle: 10`
 * `datasources.default.maximum-pool-size: 50`
 
