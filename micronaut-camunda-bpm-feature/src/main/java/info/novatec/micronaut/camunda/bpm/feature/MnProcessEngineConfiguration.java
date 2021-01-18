@@ -136,7 +136,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
      * Configure sensible defaults so that the user must not take care of it.
      */
     protected void configureDefaultValues() {
-        setJobExecutorActivate(true);
+        setJobExecutorActivate(!environment.getActiveNames().contains(Environment.TEST));
         setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
     }
 
