@@ -28,14 +28,14 @@ Micronaut + Camunda BPM = :heart:
 * Camunda BPM can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#add-dependency-using-gradle) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#add-dependency-using-gradle). Other [data sources can be configured](#data-source) via properties.
 * Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
-* The Camunda process engine with its job executor is started automatically.
+* The Camunda process engine with its job executor is started automatically - but disabled for tests by default.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#calling-camunda-bpm-process-engine-and-related-services).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
 * The process engine [integrates with Micronaut's transaction manager](#using-micronaut-data-jdbc-or-micronaut-data-jpa). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 * The process engine can be configured with [generic properties](#generic-properties).
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
-* Camunda BPM's telemetry feature is automatically deactivated during test execution 
+* Camunda BPM's telemetry feature is automatically deactivated during test execution.
 
 # Getting Started
 
@@ -168,7 +168,7 @@ class HelloWorldProcessTest {
 }
 ```
 
-Note: the integration will automatically disable the process engine's telemetry feature during test execution. This is triggered by the "test" profile.
+Note: the integration automatically disables the job executor and the process engine's telemetry feature during test execution. This is deduced from the "test" profile.
 
 See also a test in our example application: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java)
 
