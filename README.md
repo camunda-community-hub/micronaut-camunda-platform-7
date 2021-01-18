@@ -336,14 +336,13 @@ camunda:
 With the following bean it's possible to customize the process engine configuration:
 
 ```java
-import info.novatec.micronaut.camunda.bpm.feature.DefaultProcessEngineConfigurationCustomizer;
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration;
 import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer;
 import io.micronaut.context.annotation.Replaces;
 import javax.inject.Singleton;
 
 @Singleton
-@Replaces(DefaultProcessEngineConfigurationCustomizer.class)
+@Replaces(ProcessEngineConfigurationCustomizer.class)
 public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConfigurationCustomizer {
     @Override
     public void customize(MnProcessEngineConfiguration processEngineConfiguration) {
@@ -357,14 +356,13 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 With the following bean it's possible to customize the job executor:
 
 ```java
-import info.novatec.micronaut.camunda.bpm.feature.DefaultJobExecutorCustomizer;
 import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer;
 import info.novatec.micronaut.camunda.bpm.feature.MnJobExecutor;
 import io.micronaut.context.annotation.Replaces;
 import javax.inject.Singleton;
 
 @Singleton
-@Replaces(DefaultJobExecutorCustomizer.class)
+@Replaces(JobExecutorCustomizer.class)
 public class MyJobExecutorCustomizer implements JobExecutorCustomizer {
     @Override
     public void customize(MnJobExecutor jobExecutor) {
