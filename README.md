@@ -132,10 +132,33 @@ and then reference it the process model with the expression`${loggerDelegate}`.
 
 Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-assert` library as a dependency:
 
+<details>
+<summary>Click to show Gradle dependencies</summary>
+
 ```groovy
 testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:8.0.0")
 testImplementation("org.assertj:assertj-core:3.16.1")
 ```
+</details>
+
+<details>
+<summary>Click to show Maven dependencies</summary>
+
+```xml
+<dependency>
+    <groupId>org.camunda.bpm.assert</groupId>
+    <artifactId>camunda-bpm-assert</artifactId>
+    <version>8.0.0</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.16.1</version>
+    <scope>test</scope>
+</dependency>
+```
+</details>
 
 and then implement the test using the usual `@MicronautTest` annotation:
 
