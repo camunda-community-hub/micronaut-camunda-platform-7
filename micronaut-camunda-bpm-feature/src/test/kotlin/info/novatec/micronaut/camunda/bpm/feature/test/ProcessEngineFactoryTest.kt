@@ -3,7 +3,6 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineFactory
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.camunda.bpm.engine.ProcessEngine
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import javax.inject.Inject
