@@ -1,7 +1,6 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import org.camunda.bpm.engine.RepositoryService
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
 import org.camunda.bpm.model.bpmn.Bpmn
@@ -19,22 +18,17 @@ import javax.inject.Singleton
  */
 @MicronautTest(transactional = false)
 class MnJpaProcessEngineConfigurationTransactionTest : MnProcessEngineConfigurationTransactionTest() {
-    @Inject
-    lateinit var repositoryService: RepositoryService
 
     @Inject
     lateinit var bookRepository: BookRepository
 
     @BeforeEach
-    fun deployProcessModel() {
-        val xml = Bpmn.convertToString(Bpmn.createProcess("SaveBookProcess")
+    override fun deployProcessModel() {
+        ProcessUtil.deploy(repositoryService, Bpmn.createProcess("SaveBookProcess")
                 .executable()
                 .startEvent()
                 .serviceTask().camundaDelegateExpression("\${saveBookDelegate}")
-                .endEvent().done())
-        repositoryService.createDeployment()
-                .addString("savebook.bpmn", xml)
-                .deploy()
+                .endEvent())
     }
 
     @Test
