@@ -33,7 +33,6 @@ class BeanInvocationTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun `service task with expression delegate`() {
         val processId = "processWithExpressionDelegate"
         deploy(Bpmn.createProcess(processId)
@@ -46,7 +45,6 @@ class BeanInvocationTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun `service task with Java class name`() {
         val processId = "processWithJavaClassName"
         deploy(Bpmn.createProcess(processId)
