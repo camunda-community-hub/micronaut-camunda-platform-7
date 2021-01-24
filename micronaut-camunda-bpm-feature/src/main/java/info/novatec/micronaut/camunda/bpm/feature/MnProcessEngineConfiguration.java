@@ -46,8 +46,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final MnJobExecutor jobExecutor;
 
-    protected final Configuration configuration;
-
     protected final MnTelemetryRegistry telemetryRegistry;
 
     protected final Environment environment;
@@ -63,7 +61,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
         this.jobExecutor = jobExecutor;
-        this.configuration = configuration;
         this.telemetryRegistry = telemetryRegistry;
         this.environment = environment;
         setDataSource(dataSource);
@@ -156,7 +153,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         }
     }
 
-    protected Object resolveGenericPropertyValue(Object value, Class type) {
+    protected Object resolveGenericPropertyValue(Object value, Class<?> type) {
         // Even if the value is not of type String we cannot assume that it is of the correct type,
         // e.g. a value of "30" will have the type "int" and can then not be set as a value if the
         // configuration is of type "long".

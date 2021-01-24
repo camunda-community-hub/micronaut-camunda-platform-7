@@ -60,7 +60,7 @@ open class MnProcessEngineConfigurationTransactionTest {
     @Test
     open fun testSurroundingTransactionWithRollback() {
         assertThrows(RuntimeException::class.java) {
-            transactionManager.executeWrite(TransactionCallback<Connection, String> { transactionStatus: TransactionStatus<Connection> ->
+            transactionManager.executeWrite(TransactionCallback { transactionStatus: TransactionStatus<Connection> ->
                 try {
                     startProcess(TX_WITH_ROLLBACK)
                     return@TransactionCallback startProcessWithRuntimeError(TX_WITH_ROLLBACK)

@@ -2,7 +2,6 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 
 import io.micronaut.context.ApplicationContext
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
