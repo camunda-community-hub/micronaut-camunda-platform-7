@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -83,7 +85,10 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         return transactionManager.executeWrite(
             transactionStatus -> {
                 log.info("Building process engine connected to {}", dataSource.getConnection().getMetaData().getURL());
-                return super.buildProcessEngine();
+                Instant start = Instant.now();
+                ProcessEngine processEngine = super.buildProcessEngine();
+                log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
+                return processEngine;
             }
         );
     }
