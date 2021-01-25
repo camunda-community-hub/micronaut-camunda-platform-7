@@ -22,7 +22,7 @@ public class CamundaBpmVersion {
     protected CamundaBpmVersion(Package pkg) {
         version = Optional.ofNullable(pkg.getImplementationVersion())
                 .map(String::trim)
-                .orElseThrow(() -> new IllegalStateException("Could not determine version"));
+                .orElse("");
     }
 
     public String getVersion() {

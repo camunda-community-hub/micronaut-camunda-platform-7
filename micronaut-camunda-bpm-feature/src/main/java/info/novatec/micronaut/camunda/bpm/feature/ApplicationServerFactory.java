@@ -35,7 +35,12 @@ public class ApplicationServerFactory {
     @Requires(classes = io.micronaut.http.server.netty.NettyHttpServer.class)
     public ApplicationServer nettyServerInfo() {
         assertEmbeddedServerIsActive(NettyHttpServer.class);
-        return new ApplicationServer(Version.identify().get("netty-common").toString().replace("-common-", "-"));
+        Version version = Version.identify().get("netty-common");
+        if (version == null) {
+            throw new DisabledBeanException("Version information is not available for Netty.");
+        } else {
+            return new ApplicationServer(version.toString().replace("-common-", "-"));
+        }
     }
 
     @Singleton
