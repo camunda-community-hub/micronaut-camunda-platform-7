@@ -21,16 +21,12 @@ public class MnTelemetryRegistry extends TelemetryRegistry {
     protected static final String INTEGRATION_NAME = "micronaut-camunda-bpm";
 
     public MnTelemetryRegistry(Optional<ApplicationServer> applicationServer) {
+        setCamundaIntegration(INTEGRATION_NAME);
         if (applicationServer.isPresent()) {
             log.info("Server runtime version: vendor={}, version={}", applicationServer.get().getVendor(), applicationServer.get().getVersion());
             setApplicationServer(applicationServer.get());
         } else {
             log.warn("Unable to identify the application server for the telemetry data!");
         }
-    }
-
-    @Override
-    public String getCamundaIntegration() {
-        return INTEGRATION_NAME;
     }
 }
