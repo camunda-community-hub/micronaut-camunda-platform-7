@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest
-public class ExternalTaskWorkerApplicationTest {
+class ExternalTaskWorkerApplicationTest {
 
     @Inject
     EmbeddedApplication<?> application;

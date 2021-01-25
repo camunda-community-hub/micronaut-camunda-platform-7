@@ -5,9 +5,12 @@ import io.micronaut.transaction.SynchronousTransactionManager
 import io.micronaut.transaction.TransactionCallback
 import io.micronaut.transaction.TransactionStatus
 import org.camunda.bpm.engine.HistoryService
+import org.camunda.bpm.engine.RepositoryService
 import org.camunda.bpm.engine.RuntimeService
 import org.camunda.bpm.engine.history.HistoricProcessInstance
+import org.camunda.bpm.model.bpmn.Bpmn
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.sql.Connection
 import javax.inject.Inject
@@ -27,7 +30,20 @@ open class MnProcessEngineConfigurationTransactionTest {
     lateinit var historyService: HistoryService
 
     @Inject
+    lateinit var repositoryService: RepositoryService
+
+    @Inject
     lateinit var transactionManager: SynchronousTransactionManager<Connection>
+
+    @BeforeEach
+    open fun deployProcessModel() {
+        ProcessUtil.deploy(repositoryService,
+            Bpmn.createProcess("ProcessEmpty")
+                .executable()
+                .startEvent()
+                .endEvent()
+        )
+    }
 
     @Test
     open fun testCommit() {
@@ -60,7 +76,7 @@ open class MnProcessEngineConfigurationTransactionTest {
     @Test
     open fun testSurroundingTransactionWithRollback() {
         assertThrows(RuntimeException::class.java) {
-            transactionManager.executeWrite(TransactionCallback<Connection, String> { transactionStatus: TransactionStatus<Connection> ->
+            transactionManager.executeWrite(TransactionCallback { transactionStatus: TransactionStatus<Connection> ->
                 try {
                     startProcess(TX_WITH_ROLLBACK)
                     return@TransactionCallback startProcessWithRuntimeError(TX_WITH_ROLLBACK)

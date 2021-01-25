@@ -12,10 +12,7 @@ import javax.inject.Singleton;
 @Singleton
 public class MnJobExecutor extends DefaultJobExecutor {
 
-    protected final JobExecutorCustomizer jobExecutorCustomizer;
-
     public MnJobExecutor(JobExecutorCustomizer jobExecutorCustomizer) {
-        this.jobExecutorCustomizer = jobExecutorCustomizer;
         jobExecutorCustomizer.customize(this);
     }
 }

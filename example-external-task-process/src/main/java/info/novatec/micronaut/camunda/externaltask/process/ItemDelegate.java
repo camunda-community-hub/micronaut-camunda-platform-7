@@ -14,7 +14,7 @@ public class ItemDelegate implements JavaDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(ItemDelegate.class);
 
-    private AtomicInteger lastCount = new AtomicInteger(0);
+    private final AtomicInteger lastCount = new AtomicInteger(0);
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
