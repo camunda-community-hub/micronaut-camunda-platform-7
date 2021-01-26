@@ -55,9 +55,9 @@ class AdminUserCreatorTest {
         override fun getProperties(): MutableMap<String, String> {
             return mutableMapOf(
                 "camunda.bpm.admin-user.id" to "admin",
-                "camunda.bpm.admin-user.password" to "password",
-                "camunda.bpm.admin-user.firstname" to "Firstname",
-                "camunda.bpm.admin-user.lastname" to "Lastname",
+                "camunda.bpm.admin-user.password" to "admin",
+                "camunda.bpm.admin-user.firstname" to "Duck",
+                "camunda.bpm.admin-user.lastname" to "Donald",
             )
         }
 
@@ -77,9 +77,9 @@ class AdminUserCreatorTest {
             triggerServerStartupEvent(adminUserCreator.get())
 
             assertEquals("admin", configuration.adminUser.id)
-            assertEquals("password", configuration.adminUser.password)
-            assertEquals("Firstname", configuration.adminUser.firstname)
-            assertEquals("Lastname", configuration.adminUser.lastname)
+            assertEquals("admin", configuration.adminUser.password)
+            assertEquals("Duck", configuration.adminUser.firstname)
+            assertEquals("Donald", configuration.adminUser.lastname)
 
             assertAdminUserExists(processEngine, configuration.adminUser.id)
             assertAdminGroupExists(processEngine)

@@ -42,6 +42,18 @@ dependencies {
     api("io.micronaut.data:micronaut-data-tx")
     api("io.micronaut.sql:micronaut-jdbc-hikari")
 
+    // REST API + Webapps
+    implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
+    implementation("org.camunda.bpm:camunda-engine-rest:$camundaVersion:classes")
+    implementation("org.camunda.bpm.webapp:camunda-webapp-webjar:$camundaVersion")
+    implementation("org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion")
+    implementation("org.glassfish.jersey.containers:jersey-container-servlet-core:$jerseyVersion")
+    implementation("org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion")
+
+    // Dependencies for Jetty
+    implementation("org.eclipse.jetty:jetty-server:$jettyVersion")
+    implementation("org.eclipse.jetty:jetty-servlet:$jettyVersion")
+
     // Test
     testCompileOnly("org.junit.jupiter:junit-jupiter-params")
     testImplementation("org.mockito:mockito-core:3.7.7")
