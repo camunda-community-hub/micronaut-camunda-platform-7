@@ -20,8 +20,8 @@ class MnTelemetryRegistryTest {
     lateinit var telemetryRegistry: MnTelemetryRegistry
 
     @Test
-    fun `integration name is set to micronaut-camunda-bpm`() {
-        assertEquals("micronaut-camunda-bpm", telemetryRegistry.camundaIntegration)
+    fun `integration name is set to micronaut-camunda`() {
+        assertEquals("micronaut-camunda", telemetryRegistry.camundaIntegration)
     }
 
     @Test

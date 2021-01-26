@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MnTelemetryRegistry extends TelemetryRegistry {
     private static final Logger log = LoggerFactory.getLogger(MnTelemetryRegistry.class);
 
-    protected static final String INTEGRATION_NAME = "micronaut-camunda-bpm";
+    protected static final String INTEGRATION_NAME = "micronaut-camunda";
 
     public MnTelemetryRegistry(Optional<ApplicationServer> applicationServer) {
         setCamundaIntegration(INTEGRATION_NAME);
