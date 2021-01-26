@@ -26,7 +26,17 @@ public interface Configuration {
     AdminUser getAdminUser();
 
     @NotNull
+    Filter getFilter();
+
+    @NotNull
     GenericProperties getGenericProperties();
+
+    @ConfigurationProperties("filter")
+    interface Filter {
+
+        @Bindable()
+        Optional<String> getCreate();
+    }
 
     @ConfigurationProperties("adminUser")
     interface AdminUser {
