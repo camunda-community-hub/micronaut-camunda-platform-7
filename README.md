@@ -33,6 +33,7 @@ Micronaut + Camunda BPM = :heart:
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#invoking-java-delegates) within the process models.
 * The process engine [integrates with Micronaut's transaction manager](#using-micronaut-data-jdbc-or-micronaut-data-jpa). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 * The process engine can be configured with [generic properties](#generic-properties).
+* The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda BPM's telemetry feature is automatically deactivated during test execution.
@@ -206,6 +207,60 @@ public String startHelloWorldProcess() {
     return runtimeService.startProcessInstanceByKey("HelloWorld").getId();
 }
 ```
+## Camunda REST API and Webapps
+
+Currently, the Camunda REST API and Webapps (Cockpit, Task list, and Admin) are only supported on the server runtime Jetty. 
+
+To use them in your project, you have to set the micronaut runtime of your project to `jetty`, e.g.
+
+micronaut-gradle-plugin configuration in build.gradle:
+```groovy
+micronaut {
+  runtime("jetty")
+  [...]
+}
+```
+
+micronaut-maven-plugin configuration in pom.xml:
+```xml
+<properties>
+  [...]
+  <micronaut.runtime>jetty</micronaut.runtime>
+</properties>
+```
+
+If you use Maven, you have to remove this dependency in the pom.xml:
+```xml
+<dependency>
+    <groupId>io.micronaut</groupId>
+    <artifactId>micronaut-http-server-netty</artifactId>
+    <scope>compile</scope>
+</dependency>
+```
+and replace it with
+```xml
+<dependency>
+    <groupId>io.micronaut.servlet</groupId>
+    <artifactId>micronaut-http-server-jetty</artifactId>
+</dependency>
+```
+
+By default, REST API and the Webapps are not enabled. You have to configure them e.g. in the application.yaml as follows:
+
+```yaml
+camunda:
+  bpm:  
+    webapps:
+      enabled: true
+    rest:
+      enabled: true
+```
+
+Further Information:
+* The Webapps are by default available at `/camunda`. By default, `/` will redirect you there.
+* The REST API is by default available at `/engine-rest`, e.g. to get the engine name use `GET /engine-rest/engine`.
+* See [Configuration Properties](#properties) on how to enable basic authentication for REST, create a default user, or disable the redirect.
+* Enabling the REST API or the Webapps impacts the startup time. Depending on your hardware it increases by around 500-1000 milliseconds.
 
 ## Configuration
 
@@ -242,11 +297,18 @@ You may use the following properties (typically in application.yml) to configure
 
 | Prefix                |Property          | Default                                      | Description            |
 |-----------------------|------------------|----------------------------------------------|------------------------|
-| camunda.bpm.admin-user| .id             |                                               | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
-| camunda.bpm.admin-user| .password       |                                               | Admin's password (mandatory if the id is present)  |
-| camunda.bpm.admin-user| .firstname      |                                               | Admin's firstname (mandatory if the id is present) |
-| camunda.bpm.admin-user| .lastname       |                                               | Admin's lastname (mandatory if the id is present) |
-| camunda.bpm.admin-user| .email          |                                               | Admin's email address (optional) |
+| camunda.bpm.admin-user| .id              |                                              | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
+|                       | .password        |                                              | Admin's password (mandatory if the id is present)  |
+|                       | .firstname       |                                              | Admin's firstname (mandatory if the id is present) |
+|                       | .lastname        |                                              | Admin's lastname (mandatory if the id is present) |
+|                       | .email           |                                              | Admin's email address (optional) |
+| camunda.bpm.rest      | .enabled         | false                                        | Enable the REST API |
+|                       | .context-path    | /engine-rest                                 | Context path for the REST API |
+|                       | .basic-auth-enabled | false                                     | Enables basic authentication for the REST API |
+| camunda.bpm.webapps   | .enabled         | false                                        | Enable the Webapps (Cockpit, Task list, Admin) |
+|                       | .context-path    | /camunda                                     | Context path for the Webapps |
+|                       | .index-redirect-enabled | true                                  | Registers a redirect from / to the Webapps |
+| camunda.bpm.filter    | .create          |                                              | Name of a "show all" filter for the task list |
 
 ## Generic Properties
 

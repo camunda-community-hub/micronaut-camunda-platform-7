@@ -17,6 +17,12 @@ import java.util.Optional;
 public interface Configuration {
 
     @NotNull
+    Webapps getWebapps();
+
+    @NotNull
+    Rest getRest();
+
+    @NotNull
     AdminUser getAdminUser();
 
     @NotNull
@@ -53,4 +59,28 @@ public interface Configuration {
             return properties;
         }
     }
+
+    @ConfigurationProperties("webapps")
+    interface Webapps {
+
+        @Bindable(defaultValue = "false")
+        boolean isEnabled();
+
+        @Bindable(defaultValue = "/camunda")
+        String getContextPath();
+    }
+
+    @ConfigurationProperties("rest")
+    interface Rest {
+
+        @Bindable(defaultValue = "false")
+        boolean isEnabled();
+
+        @Bindable(defaultValue = "/engine-rest")
+        String getContextPath();
+
+        @Bindable(defaultValue = "false")
+        boolean isBasicAuthEnabled();
+    }
+
 }
