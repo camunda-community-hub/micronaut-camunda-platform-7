@@ -16,3 +16,5 @@ camunda:
       enabled: true
     rest:
       enabled: true
+    filter:
+      create: "All tasks"
