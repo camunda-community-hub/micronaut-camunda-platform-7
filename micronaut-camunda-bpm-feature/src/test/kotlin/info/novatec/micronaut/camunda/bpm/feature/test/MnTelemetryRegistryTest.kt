@@ -29,6 +29,6 @@ class MnTelemetryRegistryTest {
         val applicationServer = telemetryRegistry.applicationServer
         assertNotNull(applicationServer)
         assertEquals("netty", applicationServer.vendor)
-        assertTrue(applicationServer.version.startsWith("netty-"))
+        assertTrue(applicationServer.version.matches(Regex("""netty-\d+\.\d+\.\d+.*""")))
     }
 }
