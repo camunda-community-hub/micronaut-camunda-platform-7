@@ -74,8 +74,6 @@ class AdminUserCreatorTest {
         fun adminUserCreated() {
             assertTrue(adminUserCreator.isPresent)
 
-            triggerServerStartupEvent(adminUserCreator.get())
-
             assertEquals("admin", configuration.adminUser.id)
             assertEquals("admin", configuration.adminUser.password)
             assertEquals("Duck", configuration.adminUser.firstname)
@@ -90,20 +88,18 @@ class AdminUserCreatorTest {
         fun adminUserOnlyCreatedOnce() {
             assertTrue(adminUserCreator.isPresent)
 
-            triggerServerStartupEvent(adminUserCreator.get())
-            triggerServerStartupEvent(adminUserCreator.get())
+            assertEquals(1, processEngine.identityService.createUserQuery().count())
+            assertAdminUserExists(processEngine, configuration.adminUser.id)
+            assertAdminGroupExists(processEngine)
+            assertAdminGroupAuthorizationsExist(processEngine)
+
+            // Trigger event again and check that it is idempotent
+            adminUserCreator.get().onApplicationEvent(ServerStartupEvent(mock(EmbeddedServer::class.java)))
 
             assertEquals(1, processEngine.identityService.createUserQuery().count())
             assertAdminUserExists(processEngine, configuration.adminUser.id)
             assertAdminGroupExists(processEngine)
             assertAdminGroupAuthorizationsExist(processEngine)
-        }
-
-        /**
-         * Provide method to trigger event manually because we don't have an application in the feature project to fire the event
-         */
-        fun triggerServerStartupEvent(adminUserCreator: AdminUserCreator) {
-            adminUserCreator.onApplicationEvent(ServerStartupEvent(mock(EmbeddedServer::class.java)))
         }
 
         fun queryUser(processEngine: ProcessEngine, userId: String): User {
