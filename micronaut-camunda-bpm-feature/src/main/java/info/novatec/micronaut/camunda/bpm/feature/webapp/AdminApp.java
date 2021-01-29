@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class AdminApp extends ResourceConfig {
 
-    static AdminApplication adminApplication = new AdminApplication();
+    protected static final AdminApplication adminApplication = new AdminApplication();
 
     public AdminApp() {
         registerClasses(adminApplication.getClasses());

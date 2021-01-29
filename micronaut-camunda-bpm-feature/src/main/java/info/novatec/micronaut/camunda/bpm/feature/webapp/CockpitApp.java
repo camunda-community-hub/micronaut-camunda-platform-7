@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class CockpitApp extends ResourceConfig {
 
-    static CockpitApplication cockpitApplication = new CockpitApplication();
+    protected static final CockpitApplication cockpitApplication = new CockpitApplication();
 
     public CockpitApp() {
         registerClasses(cockpitApplication.getClasses());

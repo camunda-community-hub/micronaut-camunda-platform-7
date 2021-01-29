@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class EngineRestApp extends ResourceConfig {
 
-    static EngineRestApplication engineRestApplication = new EngineRestApplication();
+    protected static final EngineRestApplication engineRestApplication = new EngineRestApplication();
 
     public EngineRestApp() {
         registerClasses(engineRestApplication.getClasses());

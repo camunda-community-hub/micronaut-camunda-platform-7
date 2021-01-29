@@ -26,7 +26,7 @@ import java.sql.Connection;
  * Works: {@link io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource}
  * Doesn't work: {@link io.micronaut.transaction.jdbc.TransactionAwareDataSource}.
  * In case of TransactionAwareDataSource a {@link io.micronaut.transaction.jdbc.exceptions.CannotGetJdbcConnectionException}
- * will be thrown in {@link io.micronaut.transaction.jdbc.DataSourceUtils#doGetConnection(DataSource, boolean)} because
+ * will be thrown in {@link io.micronaut.transaction.jdbc.DataSourceUtils#doGetConnection(javax.sql.DataSource, boolean)} because
  * "allowCreate" is false.
  *
  * @author Tobias Schäfer

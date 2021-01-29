@@ -23,7 +23,7 @@ public class FilterAllTaskCreator implements ApplicationEventListener<ServerStar
 
     protected final ProcessEngine processEngine;
 
-    protected String filterName;
+    protected final String filterName;
 
     public FilterAllTaskCreator(ProcessEngine processEngine, Configuration configuration) {
         this.processEngine = processEngine;
