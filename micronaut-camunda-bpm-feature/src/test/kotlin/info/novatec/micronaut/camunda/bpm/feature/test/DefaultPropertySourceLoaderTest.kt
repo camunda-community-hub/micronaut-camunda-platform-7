@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
 /**
- * Test that [DefaultPropertySourceLoader] handles the custom properties correctly.
+ * Test that [info.novatec.micronaut.camunda.bpm.feature.DefaultPropertySourceLoader] handles the custom properties correctly.
  *
  * @author Tobias Schäfer
  */

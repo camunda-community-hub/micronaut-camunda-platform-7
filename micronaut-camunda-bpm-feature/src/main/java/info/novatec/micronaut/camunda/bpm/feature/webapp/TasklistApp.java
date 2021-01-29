@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class TasklistApp extends ResourceConfig {
 
-    static TasklistApplication tasklistApplication = new TasklistApplication();
+    protected static final TasklistApplication tasklistApplication = new TasklistApplication();
 
     public TasklistApp() {
         registerClasses(tasklistApplication.getClasses());

@@ -120,7 +120,7 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
     static class ServletContextInitializedListener implements ServletContextListener {
         private static final Logger log = LoggerFactory.getLogger(ServletContextInitializedListener.class);
 
-        protected static EnumSet<DispatcherType> DISPATCHER_TYPES = EnumSet.of(REQUEST);
+        protected static final EnumSet<DispatcherType> DISPATCHER_TYPES = EnumSet.of(REQUEST);
 
         protected static ServletContext servletContext;
 
