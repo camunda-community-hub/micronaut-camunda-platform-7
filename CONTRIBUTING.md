@@ -32,8 +32,8 @@ gradlew.bat clean run -p micronaut-camunda-bpm-example
 ## Call the example app
 
 Open in your browser:
-* http://localhost:8080/camunda/name will return "default" as the name of the default process engine.
-* http://localhost:8080/camunda/definitions will return "HelloWorld" as the currently deployed process model.
+* http://localhost:8080/example/name will return "default" as the name of the default process engine.
+* http://localhost:8080/example/definitions will return "HelloWorld" as the currently deployed process model.
 
 ## Persistent Database
 
