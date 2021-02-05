@@ -1,49 +1,6 @@
-# Developer Guide
-## Get the code
+# Getting Started
 
-Create a local Git clone:
-
-`git clone https://github.com/NovatecConsulting/micronaut-camunda-bpm.git`
-
-## Open and run in IntelliJ IDEA
-
-To import the project into IntelliJ IDEA simply open the build.gradle file and follow the instructions to import the project.
-
-For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
-
-Once you have enabled annotation processing in IntelliJ you can run the application and tests directly within the IDE without the need of an external build tool such as Gradle.
-
-## Build integration project and run the example application
-
-To build the integration project (subfolder [`micronaut-camunda-bpm-feature`](/micronaut-camunda-bpm-feature)) and start the
-example application (subfolder [`micronaut-camunda-bpm-example`](/micronaut-camunda-bpm-example)) simply execute:
-
-Unix/Mac:
-```
-./gradlew clean run -p micronaut-camunda-bpm-example
-```
-
-Windows:
-
-```
-gradlew.bat clean run -p micronaut-camunda-bpm-example
-```
-
-## Call the example app
-
-Open in your browser:
-* http://localhost:8080/example/name will return "default" as the name of the default process engine.
-* http://localhost:8080/example/definitions will return "HelloWorld" as the currently deployed process model.
-
-## Persistent Database
-
-By default, the example app will use an H2 in-memory database which is created on application start-up. If you need a
-persistent database then the easiest approach is to configure the H2 database to be backed up by a file by configuring
-the data source's URL:
-
-`datasources.default.url: jdbc:h2:file:~/micronautdb;DB_CLOSE_ON_EXIT=FALSE`
-
-To reset the database simply delete the `micronautdb*` files in your home directory.
+To get started see our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example).
 
 # Contribution Guidelines
 
