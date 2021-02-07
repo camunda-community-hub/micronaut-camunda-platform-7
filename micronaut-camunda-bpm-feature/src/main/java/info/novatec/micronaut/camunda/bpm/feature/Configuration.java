@@ -34,26 +34,20 @@ public interface Configuration {
     @ConfigurationProperties("filter")
     interface Filter {
 
-        @Bindable()
         Optional<String> getCreate();
     }
 
     @ConfigurationProperties("adminUser")
     interface AdminUser {
 
-        @Bindable
         String getId();
 
-        @Bindable
         String getPassword();
 
-        @Bindable
         String getFirstname();
 
-        @Bindable
         String getLastname();
 
-        @Bindable
         Optional<String> getEmail();
     }
 
