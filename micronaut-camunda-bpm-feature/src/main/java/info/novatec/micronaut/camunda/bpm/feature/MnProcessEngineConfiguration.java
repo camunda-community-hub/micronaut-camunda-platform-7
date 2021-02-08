@@ -50,11 +50,14 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final Environment environment;
 
+    protected final CamundaBpmVersion camundaBpmVersion;
+
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
                                         MnJobExecutor jobExecutor,
                                         Configuration configuration,
                                         MnTelemetryRegistry telemetryRegistry,
                                         Environment environment,
+                                        CamundaBpmVersion camundaBpmVersion,
                                         ApplicationContext applicationContext,
                                         DataSource dataSource,
                                         MnArtifactFactory artifactFactory,
@@ -63,6 +66,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.jobExecutor = jobExecutor;
         this.telemetryRegistry = telemetryRegistry;
         this.environment = environment;
+        this.camundaBpmVersion = camundaBpmVersion;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
@@ -130,6 +134,9 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         setTelemetryRegistry(telemetryRegistry);
         if (environment.getActiveNames().contains(Environment.TEST)) {
             setInitializeTelemetry(false);
+            setTelemetryReporterActivate(false);
+        } else if ( Boolean.TRUE.equals(isInitializeTelemetry()) && isTelemetryReporterActivate() && !camundaBpmVersion.getVersion().isPresent() ) {
+            log.warn("Disabling TelemetryReporter because required information 'Camunda Version' is not available.");
             setTelemetryReporterActivate(false);
         }
     }
