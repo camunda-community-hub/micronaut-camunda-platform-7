@@ -13,7 +13,7 @@ import java.util.Optional;
 @Singleton
 public class CamundaBpmVersion {
 
-    private final String version;
+    private final Optional<String> version;
 
     public CamundaBpmVersion() {
         this(ProcessEngine.class.getPackage());
@@ -21,11 +21,10 @@ public class CamundaBpmVersion {
 
     protected CamundaBpmVersion(Package pkg) {
         version = Optional.ofNullable(pkg.getImplementationVersion())
-                .map(String::trim)
-                .orElse("");
+                .map(String::trim);
     }
 
-    public String getVersion() {
+    public Optional<String> getVersion() {
         return version;
     }
 }

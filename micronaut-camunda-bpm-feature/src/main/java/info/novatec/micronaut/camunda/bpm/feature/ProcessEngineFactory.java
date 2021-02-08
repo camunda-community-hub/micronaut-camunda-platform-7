@@ -35,7 +35,7 @@ public class ProcessEngineFactory {
     @Bean(preDestroy = "close")
     public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaBpmVersion camundaBpmVersion) throws IOException {
 
-        log.info("Camunda BPM version: {}", camundaBpmVersion.getVersion());
+        log.info("Camunda BPM version: {}", camundaBpmVersion.getVersion().orElse(""));
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
