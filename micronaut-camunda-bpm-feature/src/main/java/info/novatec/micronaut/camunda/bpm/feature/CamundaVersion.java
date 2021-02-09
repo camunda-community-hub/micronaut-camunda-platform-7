@@ -42,4 +42,8 @@ public class CamundaVersion {
     public Optional<String> getVersion() {
         return version;
     }
+
+    public boolean isEnterprise() {
+        return version.map(s -> s.contains("-ee")).orElse(false);
+    }
 }
