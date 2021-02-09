@@ -21,6 +21,7 @@ import io.micronaut.core.convert.format.MapFormat;
 import io.micronaut.core.naming.conventions.StringConvention;
 
 import javax.validation.constraints.NotNull;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -49,6 +50,13 @@ public interface Configuration {
 
     @NotNull
     GenericProperties getGenericProperties();
+
+    /**
+     * Provide a URL to a license file; if no URL is present it will check your classpath for a file called "camunda-license.txt".
+     *
+     * @return the URL
+     */
+    Optional<URL> getLicenseFile();
 
     @ConfigurationProperties("filter")
     interface Filter {

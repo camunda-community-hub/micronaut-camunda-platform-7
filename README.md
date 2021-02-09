@@ -28,6 +28,7 @@ Micronaut + Camunda = :heart:
   * [Configuration](#configuration)
 * [Advanced Topics](#advanced-topics)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
+  * [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee)
   * [Process Engine Plugins](#process-engine-plugins)
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
   * [Custom JobExecutor Configuration](#custom-jobexecutor-configuration)
@@ -47,6 +48,7 @@ Micronaut + Camunda = :heart:
 * The process engine [integrates with Micronaut's transaction manager](#transaction-management). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 * The process engine can be configured with [generic properties](#generic-properties).
 * The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
+* The [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee) is supported. 
 * [Process Engine Plugins](#process-engine-plugins) are automatically activated on start.
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
@@ -205,6 +207,7 @@ You may use the following properties (typically in application.yml) to configure
 |                       | .context-path    | /camunda                                     | Context path for the Webapps |
 |                       | .index-redirect-enabled | true                                  | Registers a redirect from / to the Webapps |
 | camunda.filter        | .create          |                                              | Name of a "show all" filter for the task list |
+| camunda               | .license-file    |                                              | Provide a URL to a license file; if no URL is present it will check your classpath for a file called "camunda-license.txt" |
 
 ### Generic Properties
 
@@ -260,7 +263,7 @@ micronaut-maven-plugin configuration in pom.xml:
 </properties>
 ```
 
-If you use Maven, you have to remove this dependency in the pom.xml:
+You have to remove this dependency in the pom.xml:
 ```xml
 <dependency>
   <groupId>io.micronaut</groupId>
@@ -293,6 +296,117 @@ Further Information:
 * The REST API is by default available at `/engine-rest`, e.g. to get the engine name use `GET /engine-rest/engine`.
 * See [Configuration Properties](#properties) on how to enable basic authentication for REST, create a default user, or disable the redirect.
 * Enabling the REST API or the Webapps impacts the startup time. Depending on your hardware it increases by around 500-1000 milliseconds.
+
+## Camunda Enterprise Edition (EE)
+### Add Maven Coordinates
+
+To use the Camunda Enterprise Edition you have to add the Camunda Enterprise repository:
+
+<details>
+<summary>Click to show Gradle configuration</summary>
+
+In `build.gradle`:
+```groovy
+repositories {
+    maven {
+        url "https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee"
+        credentials(PasswordCredentials) {
+            username "YOUR_USERNAME"
+            password "YOUR_PASSWORD"
+        }
+    }
+}
+```
+</details>
+<details>
+<summary>Click to show Maven configuration</summary>
+
+In `pom.xml`:
+```xml
+<repositories>
+  <repository>
+    <id>camunda-bpm-nexus-ee</id>
+    <name>camunda-bpm-nexus</name>
+    <url>
+      https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee
+    </url>
+  </repository>
+</repositories>
+```
+
+Furthermore, you have to add your credentials in `~/.m2/settings.xml`:
+```xml
+<servers>
+  <server>
+    <id>camunda-bpm-nexus-ee</id>
+    <username>YOUR_USERNAME</username>
+    <password>YOUR_PASSWORD</password>
+  </server>
+</servers>
+```
+</details>
+
+### Replace CE with EE Dependencies
+Then remove the CE dependencies and replace them with the EE ones. Here are some example snippets 
+on how to do that. Keep in mind using the correct version of the libraries.
+<details>
+<summary>Click to show Gradle configuration</summary>
+
+In `build.gradle`:
+```groovy
+implementation("info.novatec:micronaut-camunda-bpm-feature:0.19.0") {
+  exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
+  exclude group: 'org.camunda.bpm', module: 'camunda-engine'
+}
+
+implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.14.0-ee")
+implementation("org.camunda.bpm:camunda-engine:7.14.0-ee")
+```
+</details>
+<details>
+<summary>Click to show Maven configuration</summary>
+
+In `pom.xml`:
+```xml
+<dependency>
+  <groupId>info.novatec</groupId>
+  <artifactId>micronaut-camunda-bpm-feature</artifactId>
+  <version>0.19.0</version>
+  <exclusions>
+    <exclusion>
+      <groupId>org.camunda.bpm.webapp</groupId>
+      <artifactId>camunda-webapp-webjar</artifactId>
+    </exclusion>
+    <exclusion>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-engine</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+<dependency>
+  <groupId>org.camunda.bpm.webapp</groupId>
+  <artifactId>camunda-webapp-webjar-ee</artifactId>
+  <version>7.14.0-ee</version>
+</dependency>
+<dependency>
+  <groupId>org.camunda.bpm</groupId>
+  <artifactId>camunda-engine</artifactId>
+  <version>7.14.0-ee</version>
+</dependency>
+```
+</details>
+
+### Configure your EE license
+
+Camunda will use the license configured in the Cockpit. 
+
+If no license is registered, then the following locations will be checked during startup to register the license:
+
+1. The URL referenced by the property `camunda.license-file`
+2. The file `camunda-license.txt` in the resource's root if the property `camunda.license-file` has an empty value
+3. The path `.camunda/license.txt` in the user's home directory
+
+If you want to update your license key, use the Camunda Cockpit.
 
 ## Process Engine Plugins
 Every bean that implements the interface `org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin` is automatically added to the process engine's configuration on start.
@@ -501,7 +615,8 @@ Instead, of creating a Fat/Uber/Shadow JAR, please use the [Micronaut Applicatio
 and use the resulting image to run a Docker container.
 
 Missing version information leads to
-* Detailed telemetry cannot be sent to Camunda because the version is mandatory. 
+* Detailed telemetry cannot be sent to Camunda because the version is mandatory 
+* EE license cannot be configured
 
 ### Executing Blocking Operations on Netty's I/O Thread Pool
 When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
