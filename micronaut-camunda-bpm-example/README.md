@@ -7,14 +7,14 @@ Create a local Git clone:
 
 ## Open in IntelliJ IDEA
 
-To import the project into IntelliJ IDEA simply open the `micronaut-camunda-bpm-example/build.gradle` file and follow the instructions to import the project.
+To import the project into IntelliJ IDEA simply open the top-level `build.gradle` file and follow the instructions to import the project.
 
-For IntelliJ IDEA if you plan to use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
+If you use the IntelliJ compiler then you should enable annotation processing under the "Build, Execution, Deployment → Compiler → Annotation Processors" by ticking the "Enable annotation processing" checkbox.
 
 ## Run the Example Application
 
 ### IntelliJ IDEA
-To run the example application simply start `info.novatec.micronaut.camunda.bpm.example.Application` from IntelliJ IDEA.
+To run the application in IntelliJ IDEA simply expand the sub-module `micronaut-camunda-bpm-example` and start `info.novatec.micronaut.camunda.bpm.example.Application`.
 
 ### Unix/Mac Console
 To run the application in a console on Unix/Mac:
