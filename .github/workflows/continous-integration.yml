@@ -40,3 +40,27 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build with Gradle Wrapper
         run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
+
+  spotbugs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDKs with Matrix Build
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+      - name: Cache Dependencies #see https://github.com/actions/cache/blob/master/examples.md#java---gradle
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: spotbugs-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            spotbugs-gradle-
+      - name: spotbugs
+        id: spotbugs_checks
+        run: ./gradlew spotbugsMain spotbugsTest
+      - name: publish spotbugs
+        uses: arolfes/spotbugs-github-action@master
+        with:
+          path: '**/spotbugs/*.xml'

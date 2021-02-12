@@ -122,7 +122,7 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
 
         protected static final EnumSet<DispatcherType> DISPATCHER_TYPES = EnumSet.of(REQUEST);
 
-        protected static ServletContext servletContext;
+        protected ServletContext servletContext;
 
         @Override
         public void contextInitialized(ServletContextEvent sce) {
