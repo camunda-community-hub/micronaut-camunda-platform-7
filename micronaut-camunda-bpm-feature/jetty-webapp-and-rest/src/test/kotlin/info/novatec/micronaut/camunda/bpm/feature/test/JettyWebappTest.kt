@@ -30,7 +30,7 @@ class JettyWebappTest {
     lateinit var configuration: Configuration
 
     @Test
-    fun redirect() {
+    fun `redirect per default`() {
         val request: HttpRequest<String> = HttpRequest.GET("/")
         val res: HttpResponse<*> = client.toBlocking().exchange<String, Any>(request)
         assertEquals(HttpStatus.OK, res.status())

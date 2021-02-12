@@ -9,8 +9,11 @@ import io.micronaut.http.annotation.Get;
 import java.net.URI;
 
 /***
+ * Registers a temporary redirect from / to the camunda webapps.
+ *
  * @author Martin Sawilla
  */
+@Requires(property = "camunda.bpm.webapps.enabled", value = "true")
 @Requires(property = "camunda.bpm.webapps.index-redirect-enabled", notEquals = "false", defaultValue = "true")
 @Controller
 public class RedirectToWebappsController {
