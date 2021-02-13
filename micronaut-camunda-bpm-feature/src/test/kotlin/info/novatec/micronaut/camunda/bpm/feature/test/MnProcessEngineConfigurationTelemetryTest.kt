@@ -38,7 +38,7 @@ class MnProcessEngineConfigurationTelemetryTest {
 
         ApplicationContext.builder()
             .deduceEnvironment(false)
-            .properties(Collections.singletonMap("camunda.bpm.generic-properties.properties.initialize-telemetry", true) as Map<String, String>)
+            .properties(mapOf("camunda.bpm.generic-properties.properties.initialize-telemetry" to true))
             .build()
             .registerSingleton(CamundaBpmVersion::class.java, camundaBpmVersion)
             .start()
