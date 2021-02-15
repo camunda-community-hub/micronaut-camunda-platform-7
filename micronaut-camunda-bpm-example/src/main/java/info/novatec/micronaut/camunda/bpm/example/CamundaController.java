@@ -39,7 +39,8 @@ public class CamundaController {
     public String definitions() {
         return repositoryService.createProcessDefinitionQuery().list().stream()
                 .map(ResourceDefinition::getKey)
-                .collect(Collectors.joining());
+                .sorted()
+                .collect(Collectors.joining(","));
     }
 
     @Post("/hello-world-process")
