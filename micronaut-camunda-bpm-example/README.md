@@ -30,7 +30,7 @@ gradlew.bat clean run -p micronaut-camunda-bpm-example
 
 ## Using the Example Application
 
-A simple process is deployed automatically.
+Two simple processes are deployed automatically.
 
 The Camunda Cockpit is available at `http://localhost:8080/`. Login with `admin`/`admin`.
 
@@ -39,6 +39,7 @@ The Camunda REST API is available at the context path `/engine-rest`, e.g. `GET 
 The following HTTP endpoints have been implemented as examples:
 * `GET http://localhost:8080/example/name` will return "default" as the name of the default process engine.
 * `GET http://localhost:8080/example/definitions` will return "HelloWorld" as the currently deployed process model.
+* `POST http://localhost:8080/example/onboarding/cancel/OnStartup` can be called to cancel an Onboarding instance by the business key "OnStartup". Further calls will fail (unless a new process instance is created manually via the Tasklist with the menu item "Start process").
 
 ## Persistent Database
 
