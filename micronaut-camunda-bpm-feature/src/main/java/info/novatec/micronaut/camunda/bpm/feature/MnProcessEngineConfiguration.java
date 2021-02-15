@@ -7,6 +7,7 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanProperty;
+import io.micronaut.jdbc.BasicJdbcConfiguration;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
@@ -55,6 +56,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final CamundaBpmVersion camundaBpmVersion;
 
+    protected final BasicJdbcConfiguration basicJdbcConfiguration;
+
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
                                         MnJobExecutor jobExecutor,
                                         Configuration configuration,
@@ -62,6 +65,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         Environment environment,
                                         CamundaBpmVersion camundaBpmVersion,
                                         ApplicationContext applicationContext,
+                                        BasicJdbcConfiguration basicJdbcConfiguration,
                                         DataSource dataSource,
                                         MnArtifactFactory artifactFactory,
                                         MnBeansResolverFactory beansResolverFactory,
@@ -72,6 +76,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.beansResolverFactory = beansResolverFactory;
         this.environment = environment;
         this.camundaBpmVersion = camundaBpmVersion;
+        this.basicJdbcConfiguration = basicJdbcConfiguration;
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
@@ -90,7 +95,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     public ProcessEngine buildProcessEngine() {
         return transactionManager.executeWrite(
                 transactionStatus -> {
-                    log.info("Building process engine connected to {}", dataSource.getConnection().getMetaData().getURL());
+                    log.info("Building process engine connected to {}", basicJdbcConfiguration.getUrl());
                     Instant start = Instant.now();
                     ProcessEngine processEngine = super.buildProcessEngine();
                     log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
