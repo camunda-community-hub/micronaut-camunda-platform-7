@@ -1,6 +1,5 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
-
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.exceptions.DisabledBeanException;
