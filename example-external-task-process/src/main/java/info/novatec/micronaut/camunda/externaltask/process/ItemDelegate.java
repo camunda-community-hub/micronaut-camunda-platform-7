@@ -1,5 +1,6 @@
 package info.novatec.micronaut.camunda.externaltask.process;
 
+import java.util.concurrent.ThreadLocalRandom;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class ItemDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) {
-        int itemValue = (int) (Math.random() * 1000);
+        int itemValue = ThreadLocalRandom.current().nextInt(0, 1001);
         delegateExecution.setVariable("itemValue", itemValue);
         int itemNumber = lastCount.incrementAndGet();
         delegateExecution.setVariable("itemNumber", itemNumber);
