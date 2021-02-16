@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 @Singleton
 public class ItemDelegate implements JavaDelegate {
 
