@@ -6,9 +6,6 @@ camunda:
     admin-user:
       id: admin
       password: admin
-      firstname: Donald
-      lastname: Duck
-      email: donald@duck.com
     generic-properties:
       properties:
         initialize-telemetry: true

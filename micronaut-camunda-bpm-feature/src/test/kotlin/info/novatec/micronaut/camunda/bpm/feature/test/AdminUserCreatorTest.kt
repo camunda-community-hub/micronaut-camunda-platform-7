@@ -50,14 +50,15 @@ class AdminUserCreatorTest {
     @MicronautTest
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class AdminUserCreatorTestWithProperties : TestPropertyProvider {
+    inner class AdminUserCreatorTestWithAllProperties : TestPropertyProvider {
 
         override fun getProperties(): MutableMap<String, String> {
             return mutableMapOf(
                 "camunda.bpm.admin-user.id" to "admin",
                 "camunda.bpm.admin-user.password" to "admin",
-                "camunda.bpm.admin-user.firstname" to "Duck",
-                "camunda.bpm.admin-user.lastname" to "Donald",
+                "camunda.bpm.admin-user.firstname" to "Donald",
+                "camunda.bpm.admin-user.lastname" to "Duck",
+                "camunda.bpm.admin-user.email" to "Donald.Duck@example.org",
             )
         }
 
@@ -76,10 +77,15 @@ class AdminUserCreatorTest {
 
             assertEquals("admin", configuration.adminUser.id)
             assertEquals("admin", configuration.adminUser.password)
-            assertEquals("Duck", configuration.adminUser.firstname)
-            assertEquals("Donald", configuration.adminUser.lastname)
+            assertEquals("Donald", configuration.adminUser.firstname.get())
+            assertEquals("Duck", configuration.adminUser.lastname.get())
+            assertEquals("Donald.Duck@example.org", configuration.adminUser.email.get())
 
             assertAdminUserExists(processEngine, configuration.adminUser.id)
+            val adminUser = queryUser(processEngine, configuration.adminUser.id)
+            assertEquals("Donald", adminUser.firstName)
+            assertEquals("Duck", adminUser.lastName)
+            assertEquals("Donald.Duck@example.org", adminUser.email)
             assertAdminGroupExists(processEngine)
             assertAdminGroupAuthorizationsExist(processEngine)
         }
@@ -101,31 +107,71 @@ class AdminUserCreatorTest {
             assertAdminGroupExists(processEngine)
             assertAdminGroupAuthorizationsExist(processEngine)
         }
+    }
 
-        fun queryUser(processEngine: ProcessEngine, userId: String): User {
-            return processEngine.identityService.createUserQuery().userId(userId).singleResult()
+    @MicronautTest
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class AdminUserCreatorTestWithOnlyRequiredProperties : TestPropertyProvider {
+
+        override fun getProperties(): MutableMap<String, String> {
+            return mutableMapOf(
+                "camunda.bpm.admin-user.id" to "admin2",
+                "camunda.bpm.admin-user.password" to "admin2",
+            )
         }
 
-        fun assertAdminUserExists(processEngine: ProcessEngine, userId: String) {
-            val adminUser = queryUser(processEngine, userId)
-            assertNotNull(adminUser)
-            assertEquals(userId, adminUser.id)
+        @Inject
+        lateinit var processEngine: ProcessEngine
+
+        @Inject
+        lateinit var configuration: Configuration
+
+        @Inject
+        lateinit var adminUserCreator: Optional<AdminUserCreator>
+
+        @Test
+        fun adminUserCreated() {
+            assertTrue(adminUserCreator.isPresent)
+
+            assertEquals("admin2", configuration.adminUser.id)
+            assertEquals("admin2", configuration.adminUser.password)
+
+            assertAdminUserExists(processEngine, configuration.adminUser.id)
+            val adminUser = queryUser(processEngine, configuration.adminUser.id)
+            assertEquals("Admin2", adminUser.firstName)
+            assertEquals("Admin2", adminUser.lastName)
+            assertEquals("admin2@localhost", adminUser.email)
+            assertAdminGroupExists(processEngine)
+            assertAdminGroupAuthorizationsExist(processEngine)
         }
 
-        fun assertAdminGroupExists(processEngine: ProcessEngine) {
-            val adminGroup = processEngine.identityService.createGroupQuery().groupId(CAMUNDA_ADMIN).singleResult()
-            assertNotNull(adminGroup)
-            assertEquals(GROUP_TYPE_SYSTEM, adminGroup.type)
-        }
+    }
 
-        fun assertAdminGroupAuthorizationsExist(processEngine: ProcessEngine) {
-            for (resource in Resources.values()) {
-                assertEquals(
-                    1,
-                    processEngine.authorizationService.createAuthorizationQuery()
-                        .groupIdIn(CAMUNDA_ADMIN).resourceType(resource).resourceId(ANY).count()
-                )
-            }
+    fun queryUser(processEngine: ProcessEngine, userId: String): User {
+        return processEngine.identityService.createUserQuery().userId(userId).singleResult()
+    }
+
+    fun assertAdminUserExists(processEngine: ProcessEngine, userId: String) {
+        val adminUser = queryUser(processEngine, userId)
+        assertNotNull(adminUser)
+        assertEquals(userId, adminUser.id)
+    }
+
+    fun assertAdminGroupExists(processEngine: ProcessEngine) {
+        val adminGroup = processEngine.identityService.createGroupQuery().groupId(CAMUNDA_ADMIN).singleResult()
+        assertNotNull(adminGroup)
+        assertEquals(GROUP_TYPE_SYSTEM, adminGroup.type)
+    }
+
+    fun assertAdminGroupAuthorizationsExist(processEngine: ProcessEngine) {
+        for (resource in Resources.values()) {
+            assertEquals(
+                1,
+                processEngine.authorizationService.createAuthorizationQuery()
+                    .groupIdIn(CAMUNDA_ADMIN).resourceType(resource).resourceId(ANY).count()
+            )
         }
     }
+
 }

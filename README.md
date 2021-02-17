@@ -189,9 +189,9 @@ You may use the following properties (typically in application.yml) to configure
 |-----------------------|------------------|----------------------------------------------|------------------------|
 | camunda.bpm.admin-user| .id              |                                              | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
 |                       | .password        |                                              | Admin's password (mandatory if the id is present)  |
-|                       | .firstname       |                                              | Admin's firstname (mandatory if the id is present) |
-|                       | .lastname        |                                              | Admin's lastname (mandatory if the id is present) |
-|                       | .email           |                                              | Admin's email address (optional) |
+|                       | .firstname       |                                              | Admin's first name (optional, defaults to the capitalized id) |
+|                       | .lastname        |                                              | Admin's last name (optional, defaults to the capitalized id) |
+|                       | .email           |                                              | Admin's email address (optional, defaults to &lt;id&gt;@localhost) |
 | camunda.bpm.rest      | .enabled         | false                                        | Enable the REST API |
 |                       | .context-path    | /engine-rest                                 | Context path for the REST API |
 |                       | .basic-auth-enabled | false                                     | Enables basic authentication for the REST API |
