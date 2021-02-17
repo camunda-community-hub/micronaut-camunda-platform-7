@@ -44,9 +44,9 @@ public interface Configuration {
 
         String getPassword();
 
-        String getFirstname();
+        Optional<String> getFirstname();
 
-        String getLastname();
+        Optional<String> getLastname();
 
         Optional<String> getEmail();
     }

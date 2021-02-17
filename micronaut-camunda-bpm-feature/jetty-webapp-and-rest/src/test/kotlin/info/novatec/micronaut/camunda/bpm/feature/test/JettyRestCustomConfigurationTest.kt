@@ -32,9 +32,6 @@ class JettyRestCustomConfigurationTest : TestPropertyProvider {
             "camunda.bpm.rest.basic-auth-enabled" to "true",
             "camunda.bpm.admin-user.id" to "admin",
             "camunda.bpm.admin-user.password" to "admin",
-            "camunda.bpm.admin-user.firstname" to "Donald",
-            "camunda.bpm.admin-user.lastname" to "Duck",
-            "camunda.bpm.admin-user.email" to "donald@duck.com",
         )
     }
 
@@ -71,6 +68,6 @@ class JettyRestCustomConfigurationTest : TestPropertyProvider {
         val body = client.toBlocking().retrieve(request)
 
         assertEquals(
-            """{"id":"admin","firstName":"Donald","lastName":"Duck","email":"donald@duck.com"}""", body)
+            """{"id":"admin","firstName":"Admin","lastName":"Admin","email":"admin@localhost"}""", body)
     }
 }

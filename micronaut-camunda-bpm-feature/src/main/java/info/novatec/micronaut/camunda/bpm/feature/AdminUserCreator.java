@@ -2,6 +2,7 @@ package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ApplicationEventListener;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.AuthorizationService;
@@ -80,9 +81,10 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
     protected void createUser() {
         User newUser = identityService.newUser(adminUser.getId());
         newUser.setPassword(adminUser.getPassword());
-        newUser.setFirstName(adminUser.getFirstname());
-        newUser.setLastName(adminUser.getLastname());
-        adminUser.getEmail().ifPresent(newUser::setEmail);
+        newUser.setFirstName(adminUser.getFirstname().orElse(StringUtils.capitalize(adminUser.getId())));
+        newUser.setLastName(adminUser.getLastname().orElse(StringUtils.capitalize(adminUser.getId())));
+        newUser.setEmail(adminUser.getEmail().orElse(adminUser.getId() + "@localhost"));
+
         identityService.saveUser(newUser);
     }
 
