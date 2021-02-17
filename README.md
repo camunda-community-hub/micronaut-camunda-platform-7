@@ -230,17 +230,24 @@ Currently, the Camunda REST API and Webapps (Cockpit, Task list, and Admin) are 
 
 To use them in your project, you have to set the micronaut runtime of your project to `jetty`, e.g.
 
-### Gradle
+<details>
+<summary>Click to show Gradle configuration</summary>
+
 micronaut-gradle-plugin configuration in build.gradle:
+
 ```groovy
 micronaut {
   runtime("jetty")
   [...]
 }
 ```
+</details>
 
-### Maven
+<details>
+<summary>Click to show Maven configuration</summary>
+
 micronaut-maven-plugin configuration in pom.xml:
+
 ```xml
 <properties>
   [...]
@@ -263,6 +270,7 @@ and replace it with
   <artifactId>micronaut-http-server-jetty</artifactId>
 </dependency>
 ```
+</details>
 
 ### Configuration of REST API and Webapps
 By default, REST API and the Webapps are not enabled. You have to configure them e.g. in the application.yaml as follows:
