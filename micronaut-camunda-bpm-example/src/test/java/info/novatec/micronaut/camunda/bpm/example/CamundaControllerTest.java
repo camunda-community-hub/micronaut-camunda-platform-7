@@ -30,6 +30,6 @@ class CamundaControllerTest {
         HttpRequest<String> request = HttpRequest.GET("/definitions");
         String body = client.toBlocking().retrieve(request);
 
-        assertEquals("HelloWorld", body);
+        assertEquals("HelloWorld,Onboarding", body);
     }
 }
