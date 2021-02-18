@@ -15,7 +15,7 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             assertEquals("removalTimeBased", processEngineConfiguration.historyCleanupStrategy)
             assertEquals(0, processEngineConfiguration.batchJobPriority)
             assertEquals(3, processEngineConfiguration.defaultNumberOfRetries)
-            assertEquals(true, processEngineConfiguration.isCmmnEnabled)
+            assertEquals(true, processEngineConfiguration.isDmnEnabled)
         }
     }
 
@@ -28,14 +28,14 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             "camunda.bpm.generic-properties.properties.history-cleanup-strategy" to "endTimeBased",
             "camunda.bpm.generic-properties.properties.batch-job-priority" to "30",
             "camunda.bpm.generic-properties.properties.default-number-of-retries" to "1",
-            "camunda.bpm.generic-properties.properties.cmmn-enabled" to "false"
+            "camunda.bpm.generic-properties.properties.dmn-enabled" to "false"
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals("endTimeBased", processEngineConfiguration.historyCleanupStrategy)
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
-            assertEquals(false, processEngineConfiguration.isCmmnEnabled)
+            assertEquals(false, processEngineConfiguration.isDmnEnabled)
         }
     }
 
@@ -47,13 +47,13 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
         val properties: Map<String, Any> = mapOf(
             "camunda.bpm.generic-properties.properties.batch-job-priority" to 30,
             "camunda.bpm.generic-properties.properties.default-number-of-retries" to 1,
-            "camunda.bpm.generic-properties.properties.cmmn-enabled" to false
+            "camunda.bpm.generic-properties.properties.dmn-enabled" to false
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
-            assertEquals(false, processEngineConfiguration.isCmmnEnabled)
+            assertEquals(false, processEngineConfiguration.isDmnEnabled)
         }
     }
 
