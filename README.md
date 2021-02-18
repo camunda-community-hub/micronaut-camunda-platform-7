@@ -23,7 +23,7 @@ Micronaut + Camunda = :heart:
 * [Getting Started](#getting-started)
   * [Supported JDKs](#supported-jdks)
   * [Dependency Management](#dependency-management)
-  * [Deploying Process Models](#deploying-process-models)
+  * [Deploying Models](#deploying-models)
   * [Camunda Integration](#camunda-integration)
   * [Configuration](#configuration)
 * [Advanced Topics](#advanced-topics)
@@ -39,7 +39,7 @@ Micronaut + Camunda = :heart:
 # Features
 * Camunda can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#dependency-management) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#dependency-management). Other [data sources can be configured](#data-source) via properties.
-* Models (*.bpmn, *.cmmn, and *.dmn) found in the root of the resources are [automatically deployed](#deploying-process-models).
+* BPMN process models and DMN decision tables found in the root of the resources are [automatically deployed](#deploying-models).
 * The Camunda process engine with its job executor is started automatically - but the job executor is disabled for tests by default.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#camunda-integration).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#java-delegates) within the process models.
@@ -92,8 +92,8 @@ Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.ca
 
 Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
-##  Deploying process models
-To deploy a process model create an executable BPMN file (*.bpmn) and save it to `src/main/resources`.
+##  Deploying Models
+BPMN process models (`*.bpmn`) and DMN decision tables (`*.dmn`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved  in `src/main/resources`.
 
 When starting the application you'll see the log output: `Deploying model: xxxxxxx.bpmn`
 

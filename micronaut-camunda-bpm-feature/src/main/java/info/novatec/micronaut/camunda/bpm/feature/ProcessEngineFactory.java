@@ -56,7 +56,7 @@ public class ProcessEngineFactory {
         log.info("Searching non-recursively for models in the resources");
         PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
         // Order of extensions has been chosen as a best fit for inter process dependencies.
-        for (String extension : Arrays.asList("dmn", "cmmn", "bpmn")) {
+        for (String extension : Arrays.asList("dmn", "bpmn")) {
             for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "*." + extension)) {
                 log.info("Deploying model: {}", resource.getFilename());
                 processEngine.getRepositoryService().createDeployment()
