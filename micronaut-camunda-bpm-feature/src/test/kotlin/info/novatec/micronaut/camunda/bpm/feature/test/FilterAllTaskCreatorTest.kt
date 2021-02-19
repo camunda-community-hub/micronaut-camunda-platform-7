@@ -36,7 +36,7 @@ class FilterAllTaskCreatorTest {
     }
 
     @MicronautTest
-    @Property(name = "camunda.bpm.filter.create", value = "Custom Filter")
+    @Property(name = "camunda.filter.create", value = "Custom Filter")
     @Nested
     inner class Filter {
 

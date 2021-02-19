@@ -2,11 +2,10 @@ micronaut:
   application:
     name: jetty-webapp-and-rest
 camunda:
-  bpm:
-    admin-user:
-      id: admin
-      password: admin
-    webapps:
-      enabled: true
-    rest:
-      enabled: true
+  admin-user:
+    id: admin
+    password: admin
+  webapps:
+    enabled: true
+  rest:
+    enabled: true

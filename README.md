@@ -187,18 +187,18 @@ You may use the following properties (typically in application.yml) to configure
 
 | Prefix                |Property          | Default                                      | Description            |
 |-----------------------|------------------|----------------------------------------------|------------------------|
-| camunda.bpm.admin-user| .id              |                                              | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
+| camunda.admin-user    | .id              |                                              | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
 |                       | .password        |                                              | Admin's password (mandatory if the id is present)  |
 |                       | .firstname       |                                              | Admin's first name (optional, defaults to the capitalized id) |
 |                       | .lastname        |                                              | Admin's last name (optional, defaults to the capitalized id) |
 |                       | .email           |                                              | Admin's email address (optional, defaults to &lt;id&gt;@localhost) |
-| camunda.bpm.rest      | .enabled         | false                                        | Enable the REST API |
+| camunda.rest          | .enabled         | false                                        | Enable the REST API |
 |                       | .context-path    | /engine-rest                                 | Context path for the REST API |
 |                       | .basic-auth-enabled | false                                     | Enables basic authentication for the REST API |
-| camunda.bpm.webapps   | .enabled         | false                                        | Enable the Webapps (Cockpit, Task list, Admin) |
+| camunda.webapps       | .enabled         | false                                        | Enable the Webapps (Cockpit, Task list, Admin) |
 |                       | .context-path    | /camunda                                     | Context path for the Webapps |
 |                       | .index-redirect-enabled | true                                  | Registers a redirect from / to the Webapps |
-| camunda.bpm.filter    | .create          |                                              | Name of a "show all" filter for the task list |
+| camunda.filter        | .create          |                                              | Name of a "show all" filter for the task list |
 
 ### Generic Properties
 
@@ -216,10 +216,9 @@ Example:
 
 ```yaml
 camunda:
-  bpm:
-    generic-properties:
-      properties:
-        initialize-telemetry: true
+  generic-properties:
+    properties:
+      initialize-telemetry: true
 ```
 
 # Advanced Topics
@@ -277,11 +276,10 @@ By default, REST API and the Webapps are not enabled. You have to configure them
 
 ```yaml
 camunda:
-  bpm:
-    webapps:
-      enabled: true
-    rest:
-      enabled: true
+  webapps:
+    enabled: true
+  rest:
+    enabled: true
 ```
 
 Further Information:

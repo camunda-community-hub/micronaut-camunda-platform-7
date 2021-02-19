@@ -54,11 +54,11 @@ class AdminUserCreatorTest {
 
         override fun getProperties(): MutableMap<String, String> {
             return mutableMapOf(
-                "camunda.bpm.admin-user.id" to "admin",
-                "camunda.bpm.admin-user.password" to "admin",
-                "camunda.bpm.admin-user.firstname" to "Donald",
-                "camunda.bpm.admin-user.lastname" to "Duck",
-                "camunda.bpm.admin-user.email" to "Donald.Duck@example.org",
+                "camunda.admin-user.id" to "admin",
+                "camunda.admin-user.password" to "admin",
+                "camunda.admin-user.firstname" to "Donald",
+                "camunda.admin-user.lastname" to "Duck",
+                "camunda.admin-user.email" to "Donald.Duck@example.org",
             )
         }
 
@@ -116,8 +116,8 @@ class AdminUserCreatorTest {
 
         override fun getProperties(): MutableMap<String, String> {
             return mutableMapOf(
-                "camunda.bpm.admin-user.id" to "admin2",
-                "camunda.bpm.admin-user.password" to "admin2",
+                "camunda.admin-user.id" to "admin2",
+                "camunda.admin-user.password" to "admin2",
             )
         }
 

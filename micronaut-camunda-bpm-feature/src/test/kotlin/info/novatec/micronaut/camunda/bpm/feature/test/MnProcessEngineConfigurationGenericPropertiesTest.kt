@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import java.util.*
 
+/**
+ * Generic property tests for [info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration].
+ *
+ * @author Tobias Schäfer
+ */
 class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun correctDefaultValue() {
@@ -25,10 +30,10 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun validGenericPropertyAsString() {
         val properties: Map<String, Any> = mapOf(
-            "camunda.bpm.generic-properties.properties.history-cleanup-strategy" to "endTimeBased",
-            "camunda.bpm.generic-properties.properties.batch-job-priority" to "30",
-            "camunda.bpm.generic-properties.properties.default-number-of-retries" to "1",
-            "camunda.bpm.generic-properties.properties.dmn-enabled" to "false"
+            "camunda.generic-properties.properties.history-cleanup-strategy" to "endTimeBased",
+            "camunda.generic-properties.properties.batch-job-priority" to "30",
+            "camunda.generic-properties.properties.default-number-of-retries" to "1",
+            "camunda.generic-properties.properties.dmn-enabled" to "false"
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
@@ -45,9 +50,9 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun validGenericPropertyAsPrimitive() {
         val properties: Map<String, Any> = mapOf(
-            "camunda.bpm.generic-properties.properties.batch-job-priority" to 30,
-            "camunda.bpm.generic-properties.properties.default-number-of-retries" to 1,
-            "camunda.bpm.generic-properties.properties.dmn-enabled" to false
+            "camunda.generic-properties.properties.batch-job-priority" to 30,
+            "camunda.generic-properties.properties.default-number-of-retries" to 1,
+            "camunda.generic-properties.properties.dmn-enabled" to false
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
@@ -60,7 +65,7 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun validGenericPropertyOfTypeStringAsBoolean() {
         val properties: Map<String, Any> = mapOf(
-            "camunda.bpm.generic-properties.properties.database-schema-update" to true,
+            "camunda.generic-properties.properties.database-schema-update" to true,
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
@@ -74,7 +79,7 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun camelCase() {
         val properties: Map<String, Any> = mapOf(
-            "camunda.bpm.generic-properties.properties.historyCleanupStrategy" to "endTimeBased"
+            "camunda.generic-properties.properties.historyCleanupStrategy" to "endTimeBased"
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
@@ -84,7 +89,7 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
 
     @Test
     fun invalidGenericProperty() {
-        val properties = Collections.singletonMap<String, Any>("camunda.bpm.generic-properties.properties.xyz", "1")
+        val properties = Collections.singletonMap<String, Any>("camunda.generic-properties.properties.xyz", "1")
         assertThrows(RuntimeException::class.java) { ApplicationContext.run(properties) }
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * @author Tobias Schäfer
  */
-@ConfigurationProperties("camunda.bpm")
+@ConfigurationProperties( "camunda")
 public interface Configuration {
 
     @NotNull

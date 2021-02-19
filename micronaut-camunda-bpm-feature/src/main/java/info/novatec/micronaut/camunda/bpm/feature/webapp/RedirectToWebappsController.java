@@ -13,8 +13,8 @@ import java.net.URI;
  *
  * @author Martin Sawilla
  */
-@Requires(property = "camunda.bpm.webapps.enabled", value = "true")
-@Requires(property = "camunda.bpm.webapps.index-redirect-enabled", notEquals = "false", defaultValue = "true")
+@Requires(property = "camunda.webapps.enabled", value = "true")
+@Requires(property = "camunda.webapps.index-redirect-enabled", notEquals = "false", defaultValue = "true")
 @Controller
 public class RedirectToWebappsController {
     protected final Configuration configuration;
