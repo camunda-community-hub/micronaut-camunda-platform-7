@@ -28,6 +28,7 @@ Micronaut + Camunda = :heart:
   * [Configuration](#configuration)
 * [Advanced Topics](#advanced-topics)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
+  * [Process Engine Plugins](#process-engine-plugins)
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
   * [Custom JobExecutor Configuration](#custom-jobexecutor-configuration)
   * [Transaction Management](#transaction-management)
@@ -46,6 +47,7 @@ Micronaut + Camunda = :heart:
 * The process engine [integrates with Micronaut's transaction manager](#transaction-management). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 * The process engine can be configured with [generic properties](#generic-properties).
 * The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
+* [Process Engine Plugins](#process-engine-plugins) are automatically activated on start.
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda's telemetry feature is automatically deactivated during test execution.
@@ -291,6 +293,11 @@ Further Information:
 * The REST API is by default available at `/engine-rest`, e.g. to get the engine name use `GET /engine-rest/engine`.
 * See [Configuration Properties](#properties) on how to enable basic authentication for REST, create a default user, or disable the redirect.
 * Enabling the REST API or the Webapps impacts the startup time. Depending on your hardware it increases by around 500-1000 milliseconds.
+
+## Process Engine Plugins
+Every bean that implements the interface `org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin` is automatically added to the process engine's configuration on start.
+
+You can either annotate your class with `@javax.inject.Singleton` or implement a bean factory with `@io.micronaut.context.annotation.Factory` and add one or more methods annotated with a bean scope annotation.
 
 ## Custom Process Engine Configuration
 With the following bean it's possible to customize the process engine configuration:
