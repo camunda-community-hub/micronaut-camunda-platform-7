@@ -27,6 +27,7 @@ import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
 import org.camunda.bpm.engine.impl.interceptor.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final BasicJdbcConfiguration basicJdbcConfiguration;
 
+    protected final List<ProcessEnginePlugin> plugins;
+
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
                                         MnJobExecutor jobExecutor,
                                         Configuration configuration,
@@ -84,6 +87,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         DataSource dataSource,
                                         MnArtifactFactory artifactFactory,
                                         MnBeansResolverFactory beansResolverFactory,
+                                        List<ProcessEnginePlugin> plugins,
                                         ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
         this.jobExecutor = jobExecutor;
@@ -92,6 +96,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.environment = environment;
         this.camundaVersion = camundaVersion;
         this.basicJdbcConfiguration = basicJdbcConfiguration;
+        this.plugins = plugins;
         checkForDeprecatedConfiguration();
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
@@ -103,6 +108,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         applyGenericProperties(configuration);
 
         configureTelemetry();
+
+        registerProcessEnginePlugins();
 
         processEngineConfigurationCustomizer.customize(this);
     }
@@ -224,4 +231,9 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         // Otherwise applyGenericProperties cannot set the property.
         return super.setInitializeTelemetry(telemetryInitialized);
     }
+
+    protected void registerProcessEnginePlugins() {
+        setProcessEnginePlugins(plugins);
+    }
+
 }
