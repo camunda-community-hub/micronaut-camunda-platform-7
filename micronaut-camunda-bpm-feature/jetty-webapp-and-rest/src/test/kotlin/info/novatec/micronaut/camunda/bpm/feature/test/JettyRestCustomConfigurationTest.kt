@@ -28,10 +28,10 @@ class JettyRestCustomConfigurationTest : TestPropertyProvider {
 
     override fun getProperties(): MutableMap<String, String> {
         return mutableMapOf(
-            "camunda.bpm.rest.context-path" to "/custom-rest-path",
-            "camunda.bpm.rest.basic-auth-enabled" to "true",
-            "camunda.bpm.admin-user.id" to "admin",
-            "camunda.bpm.admin-user.password" to "admin",
+            "camunda.rest.context-path" to "/custom-rest-path",
+            "camunda.rest.basic-auth-enabled" to "true",
+            "camunda.admin-user.id" to "admin",
+            "camunda.admin-user.password" to "admin",
         )
     }
 

@@ -32,7 +32,7 @@ import java.sql.Connection;
  * @author Tobias Schäfer
  */
 @Singleton
-@Requires(property = "camunda.bpm.webapps.enabled", value="true")
+@Requires(property = "camunda.webapps.enabled", value="true")
 public class CockpitRuntimeDelegateInitializer implements ApplicationEventListener<ServerStartupEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(CockpitRuntimeDelegateInitializer.class);

@@ -17,8 +17,8 @@ class RedirectToWebappsControllerTest : TestPropertyProvider {
 
     override fun getProperties(): MutableMap<String, String> {
         return mutableMapOf(
-            "camunda.bpm.webapps.enabled" to "false",
-            "camunda.bpm.webapps.index-redirect-enabled" to "true",
+            "camunda.webapps.enabled" to "false",
+            "camunda.webapps.index-redirect-enabled" to "true",
         )
     }
 

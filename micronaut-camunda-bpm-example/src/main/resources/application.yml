@@ -2,16 +2,15 @@ micronaut:
   application:
     name: micronaut-camunda-example
 camunda:
-  bpm:
-    admin-user:
-      id: admin
-      password: admin
-    generic-properties:
-      properties:
-        initialize-telemetry: true
-    webapps:
-      enabled: true
-    rest:
-      enabled: true
-    filter:
-      create: "All tasks"
+  admin-user:
+    id: admin
+    password: admin
+  generic-properties:
+    properties:
+      initialize-telemetry: true
+  webapps:
+    enabled: true
+  rest:
+    enabled: true
+  filter:
+    create: "All tasks"

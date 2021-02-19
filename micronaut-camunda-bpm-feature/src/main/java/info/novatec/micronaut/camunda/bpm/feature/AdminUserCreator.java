@@ -25,14 +25,14 @@ import static org.camunda.bpm.engine.authorization.Groups.GROUP_TYPE_SYSTEM;
 import static org.camunda.bpm.engine.authorization.Permissions.ALL;
 
 /**
- * Bean creating Camunda Admin User, Group and Authorizations if {@code camunda.bpm.admin-user.id} Property is present.
+ * Bean creating Camunda Admin User, Group and Authorizations if {@code camunda.admin-user.id} Property is present.
  *
  * @author Titus Meyer
  * @author Tobias Schäfer
  */
 // Implementation based on: https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/configuration/impl/custom/CreateAdminUserConfiguration.java
 @Singleton
-@Requires(property = "camunda.bpm.admin-user.id")
+@Requires(property = "camunda.admin-user.id")
 public class AdminUserCreator implements ApplicationEventListener<ServerStartupEvent> {
     private static final Logger log = LoggerFactory.getLogger(AdminUserCreator.class);
 

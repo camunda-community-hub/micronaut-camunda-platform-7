@@ -77,6 +77,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.environment = environment;
         this.camundaBpmVersion = camundaBpmVersion;
         this.basicJdbcConfiguration = basicJdbcConfiguration;
+        checkForDeprecatedConfiguration();
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
@@ -142,6 +143,14 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 new MnTransactionInterceptor(transactionManager, requiresNew ? REQUIRES_NEW : REQUIRED),
                 new CommandContextInterceptor(commandContextFactory, this, requiresNew)
         );
+    }
+
+    protected void checkForDeprecatedConfiguration() {
+        if (!environment.getPropertyEntries("camunda.bpm").isEmpty()) {
+            String msg = "All properties with the prefix 'camunda.bpm.*' have been renamed to 'camunda.*'. Please update your configuration!";
+            log.error(msg);
+            throw new IllegalArgumentException(msg);
+        }
     }
 
     /**

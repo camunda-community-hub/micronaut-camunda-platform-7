@@ -29,9 +29,9 @@ class JettyWebappCustomConfigurationTest : TestPropertyProvider {
 
     override fun getProperties(): MutableMap<String, String> {
         return mutableMapOf(
-            "camunda.bpm.webapps.context-path" to "/custom-webapp-path",
-            "camunda.bpm.webapps.index-redirect-enabled" to "false",
-            "camunda.bpm.rest.context-path" to "/custom-rest-path",
+            "camunda.webapps.context-path" to "/custom-webapp-path",
+            "camunda.webapps.index-redirect-enabled" to "false",
+            "camunda.rest.context-path" to "/custom-rest-path",
         )
     }
 
