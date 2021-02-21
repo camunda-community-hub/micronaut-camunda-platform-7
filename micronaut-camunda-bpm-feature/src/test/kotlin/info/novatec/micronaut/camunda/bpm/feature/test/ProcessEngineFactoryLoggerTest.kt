@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 class ProcessEngineFactoryLoggerTest {
 
     @Test
-    fun `Camunda BPM version is logged on application start`() {
+    fun `Camunda version is logged on application start`() {
 
         val logger = LoggerFactory.getLogger(ProcessEngineFactory::class.java) as Logger
 
@@ -29,6 +29,6 @@ class ProcessEngineFactoryLoggerTest {
         ApplicationContext.run()
 
         assertTrue(listAppender.list.stream()
-            .anyMatch { e -> e.formattedMessage.contains(Regex("""Camunda BPM version: \d+\.\d+\.\d+""")) })
+            .anyMatch { e -> e.formattedMessage.contains(Regex("""Camunda version: \d+\.\d+\.\d+""")) })
     }
 }

@@ -475,6 +475,23 @@ See also a test in our example application: [HelloWorldProcessTest](/micronaut-c
 
 ## Pitfalls
 
+### No version information in Fat/Uber/Shadow JAR
+
+If you create a Fat/Uber/Shadow JAR and run that you will see a warning:
+
+`WARN  i.n.m.c.b.f.MnProcessEngineConfiguration - The Camunda version cannot be determined. If you created a Fat/Uber/Shadow JAR then please consider using the Micronaut Application Plugin's 'dockerBuild' task to create a Docker image.`
+
+This is because the repackaging of the jars implicitly removes the META-INF information.
+
+Instead, of creating a Fat/Uber/Shadow JAR, please use the [Micronaut Application Plugin](https://github.com/micronaut-projects/micronaut-gradle-plugin/blob/master/README.md#micronaut-application-plugin)'s `dockerBuild` task to create a layered Docker image:
+
+`./gradlew dockerBuild`
+
+and use the resulting image to run a Docker container.
+
+Missing version information leads to
+* Detailed telemetry cannot be sent to Camunda because the version is mandatory. 
+
 ### Executing Blocking Operations on Netty's I/O Thread Pool
 When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
 A frequently occurring example is the implementation of a REST endpoint which interacts with the process engine. By default, Micronaut would use a Netty thread for this blocking operation. To prevent the use of a Netty thread it is recommended to use the annotation [`@ExecuteOn(TaskExecutors.IO)`](https://docs.micronaut.io/latest/guide/index.html#reactiveServer). This will make sure that an I/O thread is used.

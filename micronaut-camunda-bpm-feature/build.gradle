@@ -88,7 +88,7 @@ publishing {
             from components.java
             pom {
                 name = 'micronaut-camunda-bpm-feature'
-                description = 'Integration between Micronaut and Camunda BPM Process Engine'
+                description = 'Integration between Micronaut and Camunda Process Engine'
                 url = 'https://github.com/NovatecConsulting/micronaut-camunda-bpm'
                 licenses {
                     license {

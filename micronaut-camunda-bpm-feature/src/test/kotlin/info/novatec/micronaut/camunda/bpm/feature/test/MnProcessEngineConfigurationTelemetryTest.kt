@@ -1,6 +1,6 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import info.novatec.micronaut.camunda.bpm.feature.CamundaBpmVersion
+import info.novatec.micronaut.camunda.bpm.feature.CamundaVersion
 import io.micronaut.context.ApplicationContext
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl
@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import java.util.*
 import java.util.Optional.empty
 import java.util.Optional.of
 
@@ -33,14 +32,14 @@ class MnProcessEngineConfigurationTelemetryTest {
     @ParameterizedTest
     @ValueSource(strings = ["true", "false"])
     fun `telemetry reporter can only be enabled if version info is available`(versionInfoAvailable: Boolean) {
-        val camundaBpmVersion = mock(CamundaBpmVersion::class.java)
+        val camundaBpmVersion = mock(CamundaVersion::class.java)
         `when`(camundaBpmVersion.version).thenReturn(if (versionInfoAvailable) of("7.14.0") else empty())
 
         ApplicationContext.builder()
             .deduceEnvironment(false)
             .properties(mapOf("camunda.generic-properties.properties.initialize-telemetry" to true))
             .build()
-            .registerSingleton(CamundaBpmVersion::class.java, camundaBpmVersion)
+            .registerSingleton(CamundaVersion::class.java, camundaBpmVersion)
             .start()
             .use { applicationContext ->
                 val pec = applicationContext.getBean(ProcessEngine::class.java).processEngineConfiguration as ProcessEngineConfigurationImpl

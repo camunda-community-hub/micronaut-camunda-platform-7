@@ -11,15 +11,15 @@ import java.util.Optional;
 
 //Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/util/CamundaBpmVersion.java
 @Singleton
-public class CamundaBpmVersion {
+public class CamundaVersion {
 
     private final Optional<String> version;
 
-    public CamundaBpmVersion() {
+    public CamundaVersion() {
         this(ProcessEngine.class.getPackage());
     }
 
-    protected CamundaBpmVersion(Package pkg) {
+    protected CamundaVersion(Package pkg) {
         version = Optional.ofNullable(pkg.getImplementationVersion())
                 .map(String::trim);
     }

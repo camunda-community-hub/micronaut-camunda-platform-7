@@ -90,7 +90,7 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
 
     protected void createAdminGroup() {
         Group camundaAdminGroup = identityService.newGroup(CAMUNDA_ADMIN);
-        camundaAdminGroup.setName("Camunda BPM Administrators");
+        camundaAdminGroup.setName("Camunda Administrators");
         camundaAdminGroup.setType(GROUP_TYPE_SYSTEM);
         identityService.saveGroup(camundaAdminGroup);
     }
