@@ -54,7 +54,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final Environment environment;
 
-    protected final CamundaBpmVersion camundaBpmVersion;
+    protected final CamundaVersion camundaVersion;
 
     protected final BasicJdbcConfiguration basicJdbcConfiguration;
 
@@ -63,7 +63,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         Configuration configuration,
                                         MnTelemetryRegistry telemetryRegistry,
                                         Environment environment,
-                                        CamundaBpmVersion camundaBpmVersion,
+                                        CamundaVersion camundaVersion,
                                         ApplicationContext applicationContext,
                                         BasicJdbcConfiguration basicJdbcConfiguration,
                                         DataSource dataSource,
@@ -75,7 +75,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.telemetryRegistry = telemetryRegistry;
         this.beansResolverFactory = beansResolverFactory;
         this.environment = environment;
-        this.camundaBpmVersion = camundaBpmVersion;
+        this.camundaVersion = camundaVersion;
         this.basicJdbcConfiguration = basicJdbcConfiguration;
         checkForDeprecatedConfiguration();
         setDataSource(dataSource);
@@ -161,7 +161,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         if (environment.getActiveNames().contains(Environment.TEST)) {
             setInitializeTelemetry(false);
             setTelemetryReporterActivate(false);
-        } else if ( Boolean.TRUE.equals(isInitializeTelemetry()) && isTelemetryReporterActivate() && !camundaBpmVersion.getVersion().isPresent() ) {
+        } else if ( Boolean.TRUE.equals(isInitializeTelemetry()) && isTelemetryReporterActivate() && !camundaVersion.getVersion().isPresent() ) {
             log.warn("Disabling TelemetryReporter because required information 'Camunda Version' is not available.");
             setTelemetryReporterActivate(false);
         }
