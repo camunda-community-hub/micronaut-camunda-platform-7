@@ -68,7 +68,7 @@ We officially support the following JDKs:
 1. Optional: Create an empty Micronaut project using [Micronaut Launch](https://launch.micronaut.io) or alternatively with the CLI: `mn create-app my-example`. 
 2. Add the dependency to the build.gradle:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:0.17.0")
+implementation("info.novatec:micronaut-camunda-bpm-feature:0.18.0")
 runtimeOnly("com.h2database:h2")
 ```
 
@@ -81,7 +81,7 @@ Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.ca
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.17.0</version>
+  <version>0.18.0</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -513,13 +513,14 @@ Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda |
 |--------|-------|--------|
-| 0.17.0 | 2.3.2 | 7.14.0 |
+| 0.18.0 | 2.3.2 | 7.14.0 |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release |Micronaut | Camunda |
 |--------|-------|--------|
+| 0.17.0 | 2.3.2 | 7.14.0 |
 | 0.16.1 | 2.3.1 | 7.14.0 |
 | 0.16.0 | 2.3.0 | 7.14.0 |
 | 0.15.0 | 2.3.0 | 7.14.0 |
