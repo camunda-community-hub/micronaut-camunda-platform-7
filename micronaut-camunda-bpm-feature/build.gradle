@@ -56,7 +56,7 @@ dependencies {
 
     // Test
     testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.mockito:mockito-core:3.7.7")
+    testImplementation("org.mockito:mockito-core:3.8.0")
     testImplementation("ch.qos.logback:logback-classic")
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty")
