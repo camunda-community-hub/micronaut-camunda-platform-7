@@ -38,23 +38,16 @@ public class ProcessEngineFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ProcessEngineFactory.class);
 
-    protected final ProcessEngineConfiguration processEngineConfiguration;
-    protected final CamundaVersion camundaVersion;
-
-    public ProcessEngineFactory(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion) {
-        this.processEngineConfiguration = processEngineConfiguration;
-        this.camundaVersion = camundaVersion;
-    }
-
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
-     *
+     * @param processEngineConfiguration the {@link ProcessEngineConfiguration} to build the {@link ProcessEngine}.
+     * @param camundaVersion the @{@link CamundaVersion} to log on application start.
      * @return the initialized {@link ProcessEngine} in the application context.
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     @Bean(preDestroy = "close")
-    public ProcessEngine processEngine() throws IOException {
+    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion) throws IOException {
 
         if (camundaVersion.getVersion().isPresent()) {
             log.info("Camunda version: {}", camundaVersion.getVersion().get());
