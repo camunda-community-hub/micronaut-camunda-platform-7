@@ -54,7 +54,11 @@ Micronaut + Camunda = :heart:
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
 
-Do you need an example? See our example application at [/micronaut-camunda-bpm-example](/micronaut-camunda-bpm-example).
+Here are some example applications:
+* [Onboarding Process](https://github.com/tobiasschaefer/micronaut-camunda-example-onboarding) with service tasks, user tasks, and message correlation.
+* Simple [application with Java/Maven](https://github.com/tobiasschaefer/micronaut-camunda-example-java-maven)
+* Simple [application with Kotlin/Gradle](https://github.com/tobiasschaefer/micronaut-camunda-example-kotlin-gradle)
+* [Internal example application](/micronaut-camunda-bpm-example) used during development
 
 ## Supported JDKs
 
