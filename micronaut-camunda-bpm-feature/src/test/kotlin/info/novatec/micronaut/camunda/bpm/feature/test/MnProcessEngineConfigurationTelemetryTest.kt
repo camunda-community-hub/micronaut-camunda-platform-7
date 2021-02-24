@@ -47,14 +47,14 @@ class MnProcessEngineConfigurationTelemetryTest {
     @ParameterizedTest
     @ValueSource(strings = ["true", "false"])
     fun `telemetry reporter can only be enabled if version info is available`(versionInfoAvailable: Boolean) {
-        val camundaBpmVersion = mock(CamundaVersion::class.java)
-        `when`(camundaBpmVersion.version).thenReturn(if (versionInfoAvailable) of("7.14.0") else empty())
+        val camundaVersion = mock(CamundaVersion::class.java)
+        `when`(camundaVersion.version).thenReturn(if (versionInfoAvailable) of("7.14.0") else empty())
 
         ApplicationContext.builder()
             .deduceEnvironment(false)
             .properties(mapOf("camunda.generic-properties.properties.initialize-telemetry" to true))
             .build()
-            .registerSingleton(CamundaVersion::class.java, camundaBpmVersion)
+            .registerSingleton(CamundaVersion::class.java, camundaVersion)
             .start()
             .use { applicationContext ->
                 val pec = applicationContext.getBean(ProcessEngine::class.java).processEngineConfiguration as ProcessEngineConfigurationImpl
