@@ -29,6 +29,7 @@ import javax.inject.Inject
  * @author Tobias Schäfer
  */
 class DefaultPropertySourceLoaderTest {
+
     @MicronautTest
     @Nested
     internal inner class DefaultPropertyValue {
@@ -43,12 +44,13 @@ class DefaultPropertySourceLoaderTest {
 
     @MicronautTest
     @Nested
+    @Property(name = "datasources.default.maximumPoolSize", value = "42")
     internal inner class OverwrittenPropertyValue {
+
         @Inject
         lateinit var applicationContext: ApplicationContext
 
         @Test
-        @Property(name = "datasources.default.maximum-pool-size", value = "42")
         fun `property can be overwritten`() {
             assertEquals(42, applicationContext.environment.getProperty("datasources.default.maximum-pool-size", Int::class.java).get())
         }
