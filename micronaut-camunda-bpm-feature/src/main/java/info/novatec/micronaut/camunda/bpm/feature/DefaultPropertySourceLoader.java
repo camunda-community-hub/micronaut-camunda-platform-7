@@ -19,7 +19,6 @@ import io.micronaut.context.env.ActiveEnvironment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.core.io.ResourceLoader;
-import io.micronaut.core.order.Ordered;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -32,12 +31,12 @@ import java.util.Optional;
  *
  * @author Tobias Schäfer
  */
-public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordered {
+public class DefaultPropertySourceLoader implements PropertySourceLoader {
 
     /**
      * Position for the system property source loader in the chain.
      */
-    protected static final int POSITION = Ordered.LOWEST_PRECEDENCE;
+    protected static final int POSITION = Integer.MIN_VALUE;
 
     /** The (Hikari) datasource pool size must be larger than the number of competing threads
      * so that they don't get blocked while waiting for a connection and smaller than the maximum parallel
@@ -52,11 +51,6 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordere
     protected static final int MINIMUM_POOL_SIZE = 10;
 
     @Override
-    public int getOrder() {
-        return POSITION;
-    }
-
-    @Override
     public Optional<PropertySource> load(String resourceName, ResourceLoader resourceLoader) {
         return Optional.of(
                 PropertySource.of(
@@ -64,7 +58,7 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader, Ordere
                         new HashMap<String, Object>() {{
                             put("datasources.default.maximum-pool-size", MAXIMUM_POOL_SIZE);
                             put("datasources.default.minimum-idle", MINIMUM_POOL_SIZE);
-                        }}));
+                        }}, POSITION));
     }
 
     @Override
