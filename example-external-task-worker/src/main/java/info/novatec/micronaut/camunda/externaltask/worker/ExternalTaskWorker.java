@@ -34,13 +34,13 @@ public class ExternalTaskWorker {
         log.info("Starting ExternalTaskClient");
 
         ExternalTaskClient client = ExternalTaskClient.create()
-                .baseUrl("http://localhost:8080")
+                .baseUrl("http://localhost:8080/engine-rest")
                 .asyncResponseTimeout(10000) // long polling timeout
                 .build();
 
 
         // subscribe to an external task topic as specified in the process
-        client.subscribe("item")
+        client.subscribe("my-topic")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
                     // Put your business logic here
