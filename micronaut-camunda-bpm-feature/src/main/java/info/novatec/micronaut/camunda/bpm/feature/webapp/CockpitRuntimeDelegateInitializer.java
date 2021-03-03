@@ -69,7 +69,18 @@ public class CockpitRuntimeDelegateInitializer implements ApplicationEventListen
                 return new org.camunda.bpm.cockpit.impl.db.CommandExecutorImpl(processEngineConfiguration, getMappingFiles() ) {
                     @Override
                     public <T> T executeCommand(Command<T> command) {
-                        return transactionManager.executeWrite( transactionStatus -> super.executeCommand(command));
+                        return transactionManager.executeWrite( transactionStatus -> {
+                            T result = super.executeCommand(command);
+                            Connection connection = transactionManager.getConnection();
+                            if (connection.getAutoCommit()) {
+                                // We disable auto-commit here, otherwise PostgreSQL will fail with exception "org.postgresql.util.PSQLException: Cannot commit when autoCommit is enabled."
+                                // See also JdbcTransaction#resetAutoCommit where MyBatis enables auto-commit
+                                // See also DataSourceTransactionManager#doBegin which does the same as we do here. It seems that Micronaut always wants to take full control.
+                                log.debug("Switching JDBC Connection [{}] to manual commit", connection);
+                                connection.setAutoCommit(false);
+                            }
+                            return result;
+                        });
                     }
                 };
             }
