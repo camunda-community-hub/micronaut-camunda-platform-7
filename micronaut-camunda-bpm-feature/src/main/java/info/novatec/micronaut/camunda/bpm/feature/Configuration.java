@@ -87,6 +87,10 @@ public interface Configuration {
 
         @Bindable(defaultValue = "/camunda")
         String getContextPath();
+
+        // Close #219 - This method is needed so that the auto-completion of properties works
+        boolean isIndexRedirectEnabled();
+
     }
 
     @ConfigurationProperties("rest")
