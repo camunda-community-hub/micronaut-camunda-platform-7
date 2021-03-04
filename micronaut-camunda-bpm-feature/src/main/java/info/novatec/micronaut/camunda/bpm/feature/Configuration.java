@@ -26,6 +26,10 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Configuration of the Micronaut Camunda Integration.
+ *
+ * Note: When using IntelliJ IDEA Ultimate the properties' Javadoc will be shown in the auto-completion of the properties.
+ *
  * @author Tobias Schäfer
  */
 @ConfigurationProperties( "camunda")
@@ -49,20 +53,50 @@ public interface Configuration {
     @ConfigurationProperties("filter")
     interface Filter {
 
+        /**
+         * Name of a "show all" filter for the task list.
+         *
+         * @return the name of the filter
+         */
         Optional<String> getCreate();
     }
 
     @ConfigurationProperties("adminUser")
     interface AdminUser {
 
+        /**
+         * If present, a Camunda admin account will be created by this id (including admin group and authorizations).
+         *
+         * @return the ID
+         */
         String getId();
 
+        /**
+         * Admin's password (mandatory if the id is present).
+         *
+         * @return the password
+         */
         String getPassword();
 
+        /**
+         * Admin's first name (optional, defaults to the capitalized id).
+         *
+         * @return the first name
+         */
         Optional<String> getFirstname();
 
+        /**
+         * Admin's last name (optional, defaults to the capitalized id).
+         *
+         * @return the last name
+         */
         Optional<String> getLastname();
 
+        /**
+         * Admin's email address (optional, defaults to "id"@localhost).
+         *
+         * @return the email
+         */
         Optional<String> getEmail();
     }
 
@@ -70,6 +104,11 @@ public interface Configuration {
     class GenericProperties {
         Map<String, Object> properties = new HashMap<>();
 
+        /**
+         * Key-value pairs of generic properties supported by the process engine configuration.
+         *
+         * @param properties key-value pairs of generic properties.
+         */
         public void setProperties(@MapFormat(transformation = MapFormat.MapTransformation.FLAT, keyFormat = StringConvention.CAMEL_CASE) Map<String, Object> properties) {
             this.properties = properties;
         }
@@ -82,26 +121,55 @@ public interface Configuration {
     @ConfigurationProperties("webapps")
     interface Webapps {
 
+        /**
+         * Enable the Webapps (Cockpit, Task list, Admin).
+         *
+         * @return is enabled?
+         */
         @Bindable(defaultValue = "false")
         boolean isEnabled();
 
+        /**
+         * Context path for the Webapps.
+         *
+         * @return the context path
+         */
         @Bindable(defaultValue = "/camunda")
         String getContextPath();
 
+        /**
+         * Registers a redirect from / to the Webapps.
+         *
+         * @return is index redirect enabled?
+         */
         // Close #219 - This method is needed so that the auto-completion of properties works
         boolean isIndexRedirectEnabled();
-
     }
 
     @ConfigurationProperties("rest")
     interface Rest {
 
+        /**
+         * Enable the REST API.
+         *
+         * @return is enabled?
+         */
         @Bindable(defaultValue = "false")
         boolean isEnabled();
 
+        /**
+         * Context path for the REST API.
+         *
+         * @return the context path
+         */
         @Bindable(defaultValue = "/engine-rest")
         String getContextPath();
 
+        /**
+         * Enables basic authentication for the REST API.
+         *
+         * @return is enabled?
+         */
         @Bindable(defaultValue = "false")
         boolean isBasicAuthEnabled();
     }
