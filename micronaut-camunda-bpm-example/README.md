@@ -38,8 +38,10 @@ The Camunda REST API is available at the context path `/engine-rest`, e.g. `GET 
 
 The following HTTP endpoints have been implemented as examples:
 * `GET http://localhost:8080/example/name` will return "default" as the name of the default process engine.
-* `GET http://localhost:8080/example/definitions` will return "HelloWorld" as the currently deployed process model.
+* `GET http://localhost:8080/example/definitions` will return "Calculation,HelloWorld,Onboarding" as the currently deployed process models.
 * `POST http://localhost:8080/example/onboarding/cancel/OnStartup` can be called to cancel an Onboarding instance by the business key "OnStartup". Further calls will fail (unless a new process instance is created manually via the Tasklist with the menu item "Start process").
+
+If you start `ExternalTaskWorkerApplication` from the sub-module `example-external-task-worker` the external worker will process the external tasks which otherwise timeout after 10 seconds.
 
 ## Persistent Database
 
