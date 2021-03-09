@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.novatec.micronaut.camunda.externaltask.process;
+package info.novatec.micronaut.camunda.bpm.example.calculation;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -21,17 +21,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Singleton
-public class ResultDelegate implements JavaDelegate {
+public class CreateItemDelegate implements JavaDelegate {
 
-    private static final Logger log = LoggerFactory.getLogger(ResultDelegate.class);
+    private static final Logger log = LoggerFactory.getLogger(CreateItemDelegate.class);
+
+    private final AtomicInteger count = new AtomicInteger(0);
 
     @Override
-    public void execute(DelegateExecution execution) {
-        log.info("Item {} with value {} approved {}",
-                execution.getVariable("itemNumber"),
-                execution.getVariable("itemValue"),
-                execution.getVariable("approved"));
+    public void execute(DelegateExecution delegateExecution) {
+        int itemValue = ThreadLocalRandom.current().nextInt(0, 1001);
+        delegateExecution.setVariable("itemValue", itemValue);
+        int itemNumber = count.incrementAndGet();
+        delegateExecution.setVariable("itemNumber", itemNumber);
+        log.info("Process instance for item {} with value {} running.", itemNumber, itemValue);
     }
 }

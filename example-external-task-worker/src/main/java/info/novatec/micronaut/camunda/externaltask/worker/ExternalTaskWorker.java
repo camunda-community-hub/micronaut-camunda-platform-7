@@ -15,36 +15,35 @@
  */
 package info.novatec.micronaut.camunda.externaltask.worker;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import org.camunda.bpm.client.ExternalTaskClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class ExternalTaskWorker {
-    private final static Logger log = Logger.getLogger(ExternalTaskWorker.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(ExternalTaskWorker.class);
+
+    private static final String BASE_URL = "http://localhost:8080/engine-rest";
 
     @EventListener
     void onStartup(ServerStartupEvent event) {
-        log.info("Starting ExternalTaskClient");
+        log.info("Starting ExternalTaskClient connected to {}", BASE_URL);
 
         ExternalTaskClient client = ExternalTaskClient.create()
-                .baseUrl("http://localhost:8080/engine-rest")
+                .baseUrl(BASE_URL)
                 .asyncResponseTimeout(10000) // long polling timeout
                 .build();
-
 
         // subscribe to an external task topic as specified in the process
         client.subscribe("my-topic")
                 .lockDuration(1000) // the default lock duration is 20 seconds, but you can override this
                 .handler((externalTask, externalTaskService) -> {
-                    // Put your business logic here
-
                     // Get a process variable
                     Integer item = externalTask.getVariable("itemNumber");
                     Integer value = externalTask.getVariable("itemValue");
@@ -54,10 +53,9 @@ public class ExternalTaskWorker {
                     Map<String, Object> variables = new HashMap<>();
                     variables.put("approved", approved);
 
-
                     // Complete the task
                     externalTaskService.complete(externalTask, variables);
-                    log.info("Finished item " + item + " with Value " + value);
+                    log.info("Finished item {} with value {}", item, value);
                 })
                 .open();
     }

@@ -1,6 +1,0 @@
-micronaut:
-  application:
-    name: micronaut-external-task-process
-camunda:
-  rest:
-    enabled: true
