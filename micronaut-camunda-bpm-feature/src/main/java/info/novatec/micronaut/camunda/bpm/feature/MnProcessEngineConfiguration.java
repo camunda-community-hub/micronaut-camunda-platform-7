@@ -233,6 +233,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     }
 
     protected void registerProcessEnginePlugins() {
+        log.info("Registering process engine plugins: {}", plugins);
         setProcessEnginePlugins(plugins);
     }
 
