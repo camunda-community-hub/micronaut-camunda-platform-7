@@ -27,7 +27,7 @@
     <bpmn:textAnnotation id="TextAnnotation_0h50m82">
       <bpmn:text>This makes sure that we always have instances running:
 - about two instances if the job executor runs every five seconds (default)
-- about ten instances if the job exector has been configured to run in intervals of less than a second, e.g. 300 ms.</bpmn:text>
+- about ten instances if the job executor has been configured to run in intervals of less than a second, e.g. 300 ms.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_079qo1o" sourceRef="TimerEvent_Wait" targetRef="TextAnnotation_0h50m82" />
   </bpmn:process>
