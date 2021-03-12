@@ -22,7 +22,6 @@ import io.micronaut.runtime.server.event.ServerStartupEvent
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import org.camunda.bpm.engine.ManagementService
-import org.camunda.bpm.engine.ProcessEngine
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.Mockito

@@ -24,13 +24,12 @@ import org.camunda.bpm.model.bpmn.Bpmn
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
 
 /**
- * Tests for [MnBeansResolverFactory]
+ * Tests for [info.novatec.micronaut.camunda.bpm.feature.MnBeansResolverFactory]
  *
  * @author Titus Meyer
  */

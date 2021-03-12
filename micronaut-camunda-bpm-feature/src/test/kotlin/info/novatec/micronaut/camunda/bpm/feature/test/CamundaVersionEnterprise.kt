@@ -17,8 +17,6 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.CamundaVersion
 import io.micronaut.context.annotation.Replaces
-import org.camunda.bpm.engine.ProcessEngine
-import java.util.*
 import javax.inject.Singleton
 
 /**
@@ -26,7 +24,7 @@ import javax.inject.Singleton
  */
 @Singleton
 @Replaces(CamundaVersion::class)
-class CamundaVersionEnterprise() : CamundaVersion() {
+class CamundaVersionEnterprise : CamundaVersion() {
 
     override fun isEnterprise(): Boolean {
         return true

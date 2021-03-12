@@ -1,13 +1,10 @@
 # example-external-task-worker
 
-Example application for processing Camunda external tasks with Micronaut.
-In this example it is used in conjunction with a Camunda engine
-running in micronaut-camunda-integration, but it may also be used in 
-conjunction with a Camunda engine running in Spring Boot or any other
-technology stack.
+This is an example application for processing Camunda external tasks with Micronaut.
 
-see also [README](../example-external-task-process/README.md) for 
-example-external-task-process
+This example works together with [micronaut-camunda-bpm-example](../micronaut-camunda-bpm-example/README.md)
+but it may also be used in with a Camunda engine running in Spring Boot or any other
+technology stack.
 
 ## Function
 
@@ -15,6 +12,6 @@ An item is approved if its value is less or equal than 500.
 
 ## Start the external task worker
 
-Start external task worker application with
+Start external task worker application from the root directory with
 
-`../gradlew run`
+`./gradlew clean run -p example-external-task-worker`
