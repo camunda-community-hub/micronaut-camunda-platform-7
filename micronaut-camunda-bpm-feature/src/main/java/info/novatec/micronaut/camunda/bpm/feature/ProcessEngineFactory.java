@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.repository.DeploymentBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -73,16 +74,21 @@ public class ProcessEngineFactory {
     protected void deployProcessModels(ProcessEngine processEngine) throws IOException {
         log.info("Searching non-recursively for models in the resources");
         PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
-        // Order of extensions has been chosen as a best fit for inter process dependencies.
+
+        DeploymentBuilder builder = processEngine.getRepositoryService().createDeployment()
+                .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
+                .enableDuplicateFiltering(true);
+
+        boolean deploy = false;
         for (String extension : Arrays.asList("dmn", "bpmn")) {
             for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "*." + extension)) {
                 log.info("Deploying model: {}", resource.getFilename());
-                processEngine.getRepositoryService().createDeployment()
-                        .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
-                        .addInputStream(resource.getFilename(), resource.getInputStream())
-                        .enableDuplicateFiltering(true)
-                        .deploy();
+                builder.addInputStream(resource.getFilename(), resource.getInputStream());
+                deploy = true;
             }
+        }
+        if (deploy) {
+            builder.deploy();
         }
     }
 }
