@@ -35,21 +35,21 @@ import java.util.Scanner;
 public class LicenseKeyConfiguration implements ApplicationEventListener<ServerStartupEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(LicenseKeyConfiguration.class);
-    protected static String DEFAULT_LICENSE_FILE = "camunda-license.txt";
-    protected static String HEADER_FOOTER_REGEX = "(?i)[-\\s]*(BEGIN|END)\\s*(OPTIMIZE|CAMUNDA|CAMUNDA\\s*BPM)\\s*LICENSE\\s*KEY[-\\s]*";
+    protected static final String DEFAULT_LICENSE_FILE = "camunda-license.txt";
+    protected static final String HEADER_FOOTER_REGEX = "(?i)[-\\s]*(BEGIN|END)\\s*(OPTIMIZE|CAMUNDA|CAMUNDA\\s*BPM)\\s*LICENSE\\s*KEY[-\\s]*";
 
-    protected Configuration configuration;
+    protected final Configuration configuration;
 
-    protected ManagementService managementService;
+    protected final ManagementService managementService;
 
-    protected CamundaVersion camundaVersion;
+    protected final CamundaVersion camundaVersion;
 
     protected String licenseKey;
 
     public LicenseKeyConfiguration(Configuration configuration, ManagementService managementService, CamundaVersion camundaVersion) {
         this.configuration = configuration;
-        this.camundaVersion = camundaVersion;
         this.managementService = managementService;
+        this.camundaVersion = camundaVersion;
     }
 
     @Override
