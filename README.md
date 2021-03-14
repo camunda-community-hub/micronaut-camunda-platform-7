@@ -34,6 +34,7 @@ Micronaut + Camunda = :heart:
   * [Custom JobExecutor Configuration](#custom-jobexecutor-configuration)
   * [Transaction Management](#transaction-management)
   * [Process Tests](#process-tests)
+  * [Docker](#docker)
   * [Pitfalls](#pitfalls)
 * [Releases](#releases)
 * [Contact](#contact)
@@ -598,6 +599,26 @@ Note: the integration automatically disables the job executor and the process en
 
 See also a test in our example application: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java)
 
+## Docker
+
+When using Gradle we recommend the [Micronaut Application Plugin](https://github.com/micronaut-projects/micronaut-gradle-plugin/blob/master/README.md#micronaut-application-plugin)'s `dockerBuild` task to create a layered Docker image.
+
+Jetty by default only listens on the "localhost" interface. Therefore, you need to configure it to listen on all interfaces by adding the following to your `build.gradle`:
+
+```groovy
+dockerfile {
+    args.set(['-Dmicronaut.server.host=0.0.0.0'])
+}
+```
+
+Build the Docker image:
+
+`./gradlew dockerBuild`
+
+Run the Docker image:
+
+`docker run -p 8080:8080 <IMAGE>`
+
 ## Pitfalls
 
 ### No version information in Fat/Uber/Shadow JAR
@@ -608,15 +629,11 @@ If you create a Fat/Uber/Shadow JAR and run that you will see a warning:
 
 This is because the repackaging of the jars implicitly removes the META-INF information.
 
-Instead, of creating a Fat/Uber/Shadow JAR, please use the [Micronaut Application Plugin](https://github.com/micronaut-projects/micronaut-gradle-plugin/blob/master/README.md#micronaut-application-plugin)'s `dockerBuild` task to create a layered Docker image:
-
-`./gradlew dockerBuild`
-
-and use the resulting image to run a Docker container.
-
 Missing version information leads to
 * Detailed telemetry cannot be sent to Camunda because the version is mandatory 
 * EE license cannot be configured
+
+Instead, of creating a Fat/Uber/Shadow JAR, please see instructions on creating a [Docker](#docker) image and use the resulting image to run a Docker container.
 
 ### Executing Blocking Operations on Netty's I/O Thread Pool
 When using the default server implementation Netty, blocking operations must be performed on I/O instead of Netty threads to avoid possible deadlocks. Therefore, as soon as Camunda ["borrows a client thread"](https://docs.camunda.org/manual/current/user-guide/process-engine/transactions-in-processes/)  you have to make sure that the [event loop is not blocked](https://objectcomputing.com/resources/publications/sett/june-2020-micronaut-2-dont-let-event-loops-own-you).
