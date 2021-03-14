@@ -48,7 +48,8 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             "camunda.generic-properties.properties.history-cleanup-strategy" to "endTimeBased",
             "camunda.generic-properties.properties.batch-job-priority" to "30",
             "camunda.generic-properties.properties.default-number-of-retries" to "1",
-            "camunda.generic-properties.properties.dmn-enabled" to "false"
+            "camunda.generic-properties.properties.dmn-enabled" to "false", //primitive data type: boolean
+            "camunda.generic-properties.properties.initialize-telemetry" to "false" //non primitive data type: Boolean
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
@@ -56,6 +57,7 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
             assertEquals(false, processEngineConfiguration.isDmnEnabled)
+            assertEquals(false, processEngineConfiguration.isInitializeTelemetry)
         }
     }
 
@@ -67,13 +69,15 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
         val properties: Map<String, Any> = mapOf(
             "camunda.generic-properties.properties.batch-job-priority" to 30,
             "camunda.generic-properties.properties.default-number-of-retries" to 1,
-            "camunda.generic-properties.properties.dmn-enabled" to false
+            "camunda.generic-properties.properties.dmn-enabled" to false, //primitive data type: boolean
+            "camunda.generic-properties.properties.initialize-telemetry" to false //non primitive data type: Boolean
         )
         ApplicationContext.run(properties).use { applicationContext ->
             val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
             assertEquals(false, processEngineConfiguration.isDmnEnabled)
+            assertEquals(false, processEngineConfiguration.isInitializeTelemetry)
         }
     }
 

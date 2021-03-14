@@ -217,7 +217,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
             return Integer.valueOf(String.valueOf(value));
         } else if (type == long.class) {
             return Long.valueOf(String.valueOf(value));
-        } else if (type == boolean.class) {
+        } else if (type == boolean.class || type == Boolean.class) {
             return Boolean.valueOf(String.valueOf(value));
         } else if (type == String.class) {
             return String.valueOf(value);
