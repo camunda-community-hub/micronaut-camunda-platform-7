@@ -28,6 +28,13 @@ To run the application in a Windows command line:
 gradlew.bat clean run -p micronaut-camunda-bpm-example
 ```
 
+### Docker
+To run the application in Docker:
+```
+./gradlew clean dockerBuild -p micronaut-camunda-bpm-example
+docker run -p 8080:8080 micronaut-camunda-bpm-example:latest
+```
+
 ## Using the Example Application
 
 Two simple processes are deployed automatically.

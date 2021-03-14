@@ -36,3 +36,7 @@ java {
     sourceCompatibility = JavaVersion.toVersion("1.8")
     targetCompatibility = JavaVersion.toVersion("1.8")
 }
+
+dockerfile {
+    args.set(['-Dmicronaut.server.host=0.0.0.0']) // Jetty must listen on all interfaces, not only on "localhost"
+}
