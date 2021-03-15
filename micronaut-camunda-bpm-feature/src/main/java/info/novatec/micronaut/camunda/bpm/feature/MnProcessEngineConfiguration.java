@@ -202,7 +202,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
         for (Map.Entry<String, Object> entry : configuration.getGenericProperties().getProperties().entrySet()) {
             BeanProperty<MnProcessEngineConfiguration, Object> property = introspection.getProperty(entry.getKey())
-                    .orElseThrow(() -> new RuntimeException("Invalid engine property: " + entry.getKey()));
+                    .orElseThrow(() -> new RuntimeException("Invalid process engine property: " + entry.getKey()));
 
             property.set(this, resolveGenericPropertyValue(entry.getValue(), property.getType()));
         }

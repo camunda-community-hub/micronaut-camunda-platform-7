@@ -6,6 +6,16 @@ Micronaut is known for its efficient use of resources. With this integration you
 
 The integration is preconfigured with sensible defaults, so that you can get started with minimal configuration: simply add a dependency in your Micronaut project!
 
+---
+_We're not aware of all installations of our Open Source project. However, we love_
+* _listening to your feedback,_
+* _discussing possible use cases with you,_
+* _aligning the roadmap to your needs!_
+
+_Please [contact](#contact) us!_
+
+---
+
 Do you want to try it out? Please jump to the [Getting Started](#getting-started) section.
 
 Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md) and [contact us](#contact).
@@ -73,17 +83,23 @@ We officially support the following JDKs:
 * JDK 15 (latest version supported by Micronaut)
 
 ## Dependency Management
-### Gradle
+
+The Camunda integration works with both Gradle and Maven, but we recommend using Gradle because it has better Micronaut Support.
+
+<details>
+<summary>Click to show Gradle configuration</summary>
+
 1. Optional: Create an empty Micronaut project using [Micronaut Launch](https://launch.micronaut.io) or alternatively with the CLI: `mn create-app my-example`. 
 2. Add the dependency to the build.gradle:
 ```groovy
 implementation("info.novatec:micronaut-camunda-bpm-feature:0.20.0")
 runtimeOnly("com.h2database:h2")
 ```
+</details>
 
-Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
+<details>
+<summary>Click to show Maven configuration</summary>
 
-### Maven
 1. Optional: Create an empty Micronaut using [Micronaut Launch](https://launch.micronaut.io) or alternatively with the CLI:  `mn create-app my-example --build=maven`.
 2. Add the dependency to the pom.xml:
 ```xml
@@ -98,6 +114,7 @@ Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.ca
   <scope>runtime</scope>
 </dependency>
 ```
+</details>
 
 Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
@@ -702,10 +719,10 @@ Download of Releases:
 
 This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via Gitter or mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via GitHub Disscussions or mail.
 
-We'd also like to hear from you if you're using the project :-)
+We love listening to your feedback. And of course also discussing the project roadmap and possible use cases with you!
 
-Do you want to contact the core team?
-* [Chat via Gitter](https://gitter.im/NovatecConsulting/micronaut-camunda-bpm)
+You can reach us:
+* [GitHub Discussions](https://github.com/NovatecConsulting/micronaut-camunda-bpm/discussions)
 * [mailto:micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de)
