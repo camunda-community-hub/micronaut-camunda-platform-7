@@ -429,7 +429,39 @@ If you want to update your license key, use the Camunda Cockpit.
 ## Process Engine Plugins
 Every bean that implements the interface `org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin` is automatically added to the process engine's configuration on start.
 
-You can either annotate your class with `@javax.inject.Singleton` or implement a bean factory with `@io.micronaut.context.annotation.Factory` and add one or more methods annotated with a bean scope annotation.
+You can either
+* implement a bean factory with `@io.micronaut.context.annotation.Factory` and add one or more methods returning `ProcessEnginePlugin` instances and annotate each with a bean scope annotation
+* annotate your class with `@javax.inject.Singleton` and implement the `ProcessEnginePlugin` interface
+
+Example with the LDAP plugin:
+
+```groovy
+implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.14.0")
+```
+
+```java
+import io.micronaut.context.annotation.Factory;
+import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
+import org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin;
+import javax.inject.Singleton;
+
+@Factory
+public class PluginConfiguration {
+
+  @Singleton
+  public ProcessEnginePlugin ldap() {
+    // Using a public online LDAP:
+    // https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/
+    // Log in e.g. with 'einstein' / 'password'
+    LdapIdentityProviderPlugin ldap = new LdapIdentityProviderPlugin();
+    ldap.setServerUrl("ldap://ldap.forumsys.com:389");
+    ldap.setManagerDn("cn=read-only-admin,dc=example,dc=com");
+    ldap.setManagerPassword("password");
+    ldap.setBaseDn("dc=example,dc=com");
+    return ldap;
+  }
+}
+```
 
 ## Custom Process Engine Configuration
 With the following bean it's possible to customize the process engine configuration:
