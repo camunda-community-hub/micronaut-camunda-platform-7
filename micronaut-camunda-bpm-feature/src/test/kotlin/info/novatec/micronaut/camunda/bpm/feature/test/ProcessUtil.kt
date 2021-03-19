@@ -35,8 +35,9 @@ class ProcessUtil {
         fun deploy(repositoryService: RepositoryService, endEventBuilder: EndEventBuilder) {
             val xml = Bpmn.convertToString(endEventBuilder.done())
             repositoryService.createDeployment()
-            .addString("model.bpmn", xml)
-            .deploy()
+                .name("ProcessUtilDeployment")
+                .addString("model.bpmn", xml)
+                .deploy()
         }
     }
 }

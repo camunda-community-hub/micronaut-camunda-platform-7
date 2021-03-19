@@ -25,9 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Tobias Schäfer
@@ -39,16 +41,19 @@ public class ProcessEngineFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ProcessEngineFactory.class);
 
+    protected PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.
      * @param processEngineConfiguration the {@link ProcessEngineConfiguration} to build the {@link ProcessEngine}.
      * @param camundaVersion the @{@link CamundaVersion} to log on application start.
+     * @param configuration the @{@link Configuration}
      * @return the initialized {@link ProcessEngine} in the application context.
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     @Bean(preDestroy = "close")
-    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion) throws IOException {
+    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion, Configuration configuration) throws IOException {
 
         if (camundaVersion.getVersion().isPresent()) {
             log.info("Camunda version: {}", camundaVersion.getVersion().get());
@@ -58,22 +63,21 @@ public class ProcessEngineFactory {
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
-        deployProcessModels(processEngine);
+        deployProcessModels(processEngine, configuration);
 
         return processEngine;
     }
 
     /**
-     * Deploys all process models found in root directory of the resources.
-     * <p>
-     * Note: Currently this is not recursive!
+     * Deploys all process models found in configured directories.
      *
      * @param processEngine the {@link ProcessEngine}
+     * @param configuration the @{@link Configuration}
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
-    protected void deployProcessModels(ProcessEngine processEngine) throws IOException {
-        log.info("Searching non-recursively for models in the resources");
-        PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+    protected void deployProcessModels(ProcessEngine processEngine, Configuration configuration) throws IOException {
+        List<String> locations = Arrays.asList(configuration.getLocations());
+        log.info("Searching for models in the resources at configured locations: {}", locations);
 
         DeploymentBuilder builder = processEngine.getRepositoryService().createDeployment()
                 .name(MICRONAUT_AUTO_DEPLOYMENT_NAME)
@@ -81,14 +85,33 @@ public class ProcessEngineFactory {
 
         boolean deploy = false;
         for (String extension : Arrays.asList("dmn", "bpmn")) {
-            for (Resource resource : resourceLoader.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "*." + extension)) {
-                log.info("Deploying model: {}", resource.getFilename());
-                builder.addInputStream(resource.getFilename(), resource.getInputStream());
-                deploy = true;
+            for (String location : locations) {
+                String pattern = replacePrefix(location) + "/*." + extension;
+                Resource[] models = resourceLoader.getResources(pattern);
+                for (Resource model : models) {
+                    builder.addInputStream(model.getFilename(), model.getInputStream());
+                    log.info("Deploying model: {}{}", normalizedPath(location), model.getFilename());
+                    deploy = true;
+                }
             }
         }
+
         if (deploy) {
             builder.deploy();
         }
+    }
+
+    protected String replacePrefix(String location) {
+        return location.replace("classpath:", ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX);
+    }
+
+    protected String normalizedPath(String location) {
+        if (location.endsWith(".")) {
+            location = location.substring(0, location.length()-1);
+        }
+        if (!location.endsWith("/") && !location.endsWith("classpath:")) {
+            location += "/";
+        }
+        return location;
     }
 }

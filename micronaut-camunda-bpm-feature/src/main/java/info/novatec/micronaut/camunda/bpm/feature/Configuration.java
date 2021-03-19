@@ -16,6 +16,7 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.convert.format.MapFormat;
 import io.micronaut.core.naming.conventions.StringConvention;
@@ -33,8 +34,17 @@ import java.util.Optional;
  *
  * @author Tobias Schäfer
  */
+@Context
 @ConfigurationProperties( "camunda")
 public interface Configuration {
+
+    /**
+     * List of locations to scan for model files (default is the resources's root only).
+     *
+     * @return the list of locations.
+     */
+    @Bindable(defaultValue = "classpath:.")
+    String[] getLocations();
 
     @NotNull
     Webapps getWebapps();
