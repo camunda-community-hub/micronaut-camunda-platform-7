@@ -53,7 +53,7 @@ open class MnProcessEngineConfigurationTransactionTest {
     @BeforeEach
     open fun deployProcessModel() {
         ProcessUtil.deploy(repositoryService,
-            Bpmn.createProcess("ProcessEmpty")
+            Bpmn.createProcess("TransactionTest")
                 .executable()
                 .startEvent()
                 .endEvent()

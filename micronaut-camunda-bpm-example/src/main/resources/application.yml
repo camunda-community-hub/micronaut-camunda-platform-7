@@ -2,6 +2,8 @@ micronaut:
   application:
     name: micronaut-camunda-example
 camunda:
+  locations:
+    - classpath:bpm
   admin-user:
     id: admin
     password: admin

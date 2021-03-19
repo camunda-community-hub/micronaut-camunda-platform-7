@@ -52,7 +52,7 @@ Micronaut + Camunda = :heart:
 # ✨ Features
 * Camunda can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#dependency-management) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#dependency-management). Other [data sources can be configured](#data-source) via properties.
-* BPMN process models and DMN decision tables found in the root of the resources are [automatically deployed](#deploying-models).
+* BPMN process models and DMN decision tables are [automatically deployed](#deploying-models) for all configured locations.
 * The Camunda process engine with its job executor is started automatically - but the job executor is disabled for tests by default.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#camunda-integration).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#java-delegates) within the process models.
@@ -119,9 +119,11 @@ runtimeOnly("com.h2database:h2")
 Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
 ##  Deploying Models
-BPMN process models (`*.bpmn`) and DMN decision tables (`*.dmn`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved  in `src/main/resources`.
+BPMN process models (`*.bpmn`) and DMN decision tables (`*.dmn`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved in the resources.
 
-When starting the application you'll see the log output: `Deploying model: xxxxxxx.bpmn`
+By default only the root of the resources will be scanned, but with the [property](#properties) `camunda.locations` you can configure the locations.
+
+When starting the application you'll see the log output: `Deploying model: classpath:xxxxxxx.bpmn`
 
 ## Camunda Integration
 
@@ -213,6 +215,7 @@ You may use the following properties (typically in application.yml) to configure
 
 | Prefix                |Property          | Default                                      | Description            |
 |-----------------------|------------------|----------------------------------------------|------------------------|
+| camunda               | .locations       | classpath:.                                  | List of locations to scan for model files (default is the resources's root only) |
 | camunda.admin-user    | .id              |                                              | If present, a Camunda admin account will be created by this id (including admin group and authorizations) |
 |                       | .password        |                                              | Admin's password (mandatory if the id is present)  |
 |                       | .firstname       |                                              | Admin's first name (optional, defaults to the capitalized id) |
