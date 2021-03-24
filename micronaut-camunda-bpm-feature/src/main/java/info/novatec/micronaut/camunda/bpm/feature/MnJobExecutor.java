@@ -15,19 +15,50 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature;
 
-import org.camunda.bpm.engine.impl.jobexecutor.DefaultJobExecutor;
-
+import io.micronaut.scheduling.TaskExecutors;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
+import javax.inject.Named;
 import javax.inject.Singleton;
+import org.camunda.bpm.engine.impl.ProcessEngineImpl;
+import org.camunda.bpm.engine.impl.jobexecutor.JobExecutor;
 
 /**
  * Micronaut specific implementation of the {@link org.camunda.bpm.engine.impl.jobexecutor.JobExecutor}
  *
  * @author Tobias Schäfer
+ * @author Alexander Rolfes
  */
 @Singleton
-public class MnJobExecutor extends DefaultJobExecutor {
+// Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/engine-spring/core/src/main/java/org/camunda/bpm/engine/spring/components/jobexecutor/SpringJobExecutor.java
+public class MnJobExecutor extends JobExecutor {
 
-    public MnJobExecutor(JobExecutorCustomizer jobExecutorCustomizer) {
+    protected final ExecutorService ioExecutor;
+
+    public MnJobExecutor(@Named(TaskExecutors.IO) ExecutorService ioExecutor, JobExecutorCustomizer jobExecutorCustomizer) {
+        this.ioExecutor = ioExecutor;
         jobExecutorCustomizer.customize(this);
     }
+
+    @Override
+    protected void startExecutingJobs() {
+        startJobAcquisitionThread();
+    }
+
+    @Override
+    protected void stopExecutingJobs() {
+        stopJobAcquisitionThread();
+    }
+
+    @Override
+    public void executeJobs(List<String> jobIds, ProcessEngineImpl processEngine) {
+        try {
+            ioExecutor.execute(getExecuteJobsRunnable(jobIds, processEngine));
+        } catch (RejectedExecutionException e) {
+            logRejectedExecution(processEngine, jobIds.size());
+            rejectedJobsHandler.jobsRejected(jobIds, processEngine, this);
+        }
+    }
+
 }
