@@ -61,6 +61,7 @@ Micronaut + Camunda = :heart:
 * The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
 * The [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee) is supported. 
 * [Process Engine Plugins](#process-engine-plugins) are automatically activated on start.
+* The job executor uses the Micronaut IO Executor's [thread pools](https://docs.micronaut.io/latest/guide/index.html#threadPools).
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda's telemetry feature is automatically deactivated during test execution.
