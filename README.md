@@ -617,8 +617,10 @@ and then implement the test using the usual `@MicronautTest` annotation:
 
 ```java
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
@@ -629,7 +631,15 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 class HelloWorldProcessTest {
 
     @Inject
+    ProcessEngine processEngine;
+
+    @Inject
     RuntimeService runtimeService;
+
+    @BeforeEach
+    void setUp() {
+        init(processEngine);
+    }
 
     @Test
     void happyPath() {
@@ -695,6 +705,24 @@ public String startHelloWorldProcess() {
     return runtimeService.startProcessInstanceByKey("HelloWorld").getId();
 }
 ```
+
+### Camunda Platform Assertions - Multiple process tests
+If you create multiple process tests, you need to add the following initialisation code in each test:
+
+```java
+@Inject
+ProcessEngine processEngine;
+
+@BeforeEach
+void setUp() {
+    init(processEngine);
+}
+```
+
+This makes the assertions aware of your process engine. Otherwise, it tries to reuse the engine of the test that got
+executed first and that may already be shut down, see [Camunda Platform Assert User Guide](https://github.com/camunda/camunda-bpm-assert/blob/master/docs/README.md#using-a-non-default-process-engine).
+
+Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java).
 
 # Releases
 
