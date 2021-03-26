@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 original authors
+ * Copyright 2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.novatec.micronaut.camunda.externaltask.worker;
+package info.novatec.external.task.worker.feature;
 
-import io.micronaut.runtime.Micronaut;
+import org.camunda.bpm.client.ExternalTaskClientBuilder;
 
-public class ExternalTaskWorkerApplication {
+import javax.inject.Singleton;
 
-    public static void main(String[] args) {
-        Micronaut.run(ExternalTaskWorkerApplication.class, args);
+/**
+ * @author Martin Sawilla
+ */
+@Singleton
+public class DefaultExternalClientCustomizer implements ExternalClientCustomizer {
+
+    @Override
+    public void customize(ExternalTaskClientBuilder builder) {
+        // no customization
     }
 }

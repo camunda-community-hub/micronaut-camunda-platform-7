@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 original authors
+ * Copyright 2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.novatec.micronaut.camunda.bpm.externaltask.worker;
+package info.novatec.external.task.worker.feature;
 
-import io.micronaut.runtime.EmbeddedApplication;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import org.junit.jupiter.api.Test;
+import io.micronaut.context.annotation.DefaultImplementation;
+import org.camunda.bpm.client.ExternalTaskClientBuilder;
 
-import javax.inject.Inject;
+/**
+ * @author Martin Sawilla
+ */
+@FunctionalInterface
+@DefaultImplementation(DefaultExternalClientCustomizer.class)
+public interface ExternalClientCustomizer {
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@MicronautTest
-class ExternalTaskWorkerApplicationTest {
-
-    @Inject
-    EmbeddedApplication<?> application;
-
-    @Test
-    void testItWorks() {
-        assertTrue(application.isRunning());
-    }
+    void customize(ExternalTaskClientBuilder builder);
 
 }

@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: external-task-worker-feature-test
+camunda:
+  external-client:
+    base-url: http://localhost:8080/engine-rest
+    worker-id: test-worker
