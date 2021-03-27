@@ -12,7 +12,7 @@ _We're not aware of all installations of our Open Source project. However, we lo
 * _discussing possible use cases with you,_
 * _aligning the roadmap to your needs!_
 
-_Please [contact](#contact) us!_
+_📨  Please [contact](#contact) us!_
 
 ---
 
@@ -29,14 +29,14 @@ Micronaut + Camunda = :heart:
 
 # Table of Contents
 
-* [Features](#features)
-* [Getting Started](#getting-started)
+* [✨ Features](#features)
+* [🚀 Getting Started](#getting-started)
   * [Supported JDKs](#supported-jdks)
   * [Dependency Management](#dependency-management)
   * [Deploying Models](#deploying-models)
   * [Camunda Integration](#camunda-integration)
   * [Configuration](#configuration)
-* [Advanced Topics](#advanced-topics)
+* [🏆 Advanced Topics](#advanced-topics)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
   * [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee)
   * [Process Engine Plugins](#process-engine-plugins)
@@ -46,10 +46,10 @@ Micronaut + Camunda = :heart:
   * [Process Tests](#process-tests)
   * [Docker](#docker)
   * [Pitfalls](#pitfalls)
-* [Releases](#releases)
-* [Contact](#contact)
+* [📚 Releases](#releases)
+* [📨 Contact](#contact)
 
-# Features
+# ✨ Features
 * Camunda can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#dependency-management) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#dependency-management). Other [data sources can be configured](#data-source) via properties.
 * BPMN process models and DMN decision tables found in the root of the resources are [automatically deployed](#deploying-models).
@@ -65,7 +65,7 @@ Micronaut + Camunda = :heart:
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda's telemetry feature is automatically deactivated during test execution.
 
-# Getting Started
+# 🚀 Getting Started
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
 
@@ -248,7 +248,7 @@ camunda:
       initialize-telemetry: true
 ```
 
-# Advanced Topics
+# 🏆 Advanced Topics
 
 ## Camunda REST API and Webapps
 
@@ -724,9 +724,11 @@ executed first and that may already be shut down, see [Camunda Platform Assert U
 
 Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java).
 
-# Releases
+# 📚 Releases
 
 The list of [releases](/releases) contains a detailed changelog.
+
+We use [Semantic Versioning](https://semver.org/) which does allow incompatible changes before release 1.0.0 but we try to minimize them. Until now only [v0.18.0](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases/tag/v0.18.0) made use of this exception.
 
 The following compatibility matrix shows the officially supported Micronaut and Camunda versions for each release.
 Other combinations might also work but have not been tested.
@@ -776,7 +778,7 @@ Download of Releases:
 * [GitHub Artifacts](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
 * [Maven Central Artifacts](https://search.maven.org/artifact/info.novatec/micronaut-camunda-bpm-feature)
 
-# Contact
+# 📨 Contact
 
 This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
