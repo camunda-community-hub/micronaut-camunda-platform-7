@@ -12,7 +12,7 @@ _We're not aware of all installations of our Open Source project. However, we lo
 * _discussing possible use cases with you,_
 * _aligning the roadmap to your needs!_
 
-_📨  Please [contact](#contact) us!_
+📨 _Please [contact](#contact) us!_
 
 ---
 
@@ -29,25 +29,25 @@ Micronaut + Camunda = :heart:
 
 # Table of Contents
 
-* [✨ Features](#features)
-* [🚀 Getting Started](#getting-started)
+* ✨ [Features](#features)
+* 🚀 [Getting Started](#getting-started)
   * [Supported JDKs](#supported-jdks)
   * [Dependency Management](#dependency-management)
   * [Deploying Models](#deploying-models)
   * [Camunda Integration](#camunda-integration)
   * [Configuration](#configuration)
-* [🏆 Advanced Topics](#advanced-topics)
+* 🏆 [Advanced Topics](#advanced-topics)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
   * [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee)
   * [Process Engine Plugins](#process-engine-plugins)
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
-  * [Custom JobExecutor Configuration](#custom-jobexecutor-configuration)
+  * [Custom Job Executor Configuration](#custom-job-executor-configuration)
   * [Transaction Management](#transaction-management)
   * [Process Tests](#process-tests)
   * [Docker](#docker)
   * [Pitfalls](#pitfalls)
-* [📚 Releases](#releases)
-* [📨 Contact](#contact)
+* 📚 [Releases](#releases)
+* 📨 [Contact](#contact)
 
 # ✨Features
 * Camunda can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#dependency-management) in build.gradle (Gradle) or pom.xml (Maven).
@@ -62,7 +62,7 @@ Micronaut + Camunda = :heart:
 * The [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee) is supported. 
 * [Process Engine Plugins](#process-engine-plugins) are automatically activated on start.
 * The job executor uses the Micronaut IO Executor's [thread pools](https://docs.micronaut.io/latest/guide/index.html#threadPools).
-* The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-jobexecutor-configuration) can be customized programmatically.
+* The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-job-executor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
 * Camunda's telemetry feature is automatically deactivated during test execution.
 
@@ -81,41 +81,42 @@ Here are some example applications:
 We officially support the following JDKs:
 * JDK 8 (LTS)
 * JDK 11 (LTS)
-* JDK 15 (latest version supported by Micronaut)
+* JDK 15 (the latest version supported by Micronaut)
 
 ## Dependency Management
 
 The Camunda integration works with both Gradle and Maven, but we recommend using Gradle because it has better Micronaut Support.
 
-<details>
-<summary>Click to show Gradle configuration</summary>
+You have the following options to integrate the Camunda integration:
+* Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch) and select the "camunda" feature. If you don't select any database then an in-memory H2 will be included by default.
+* Manually add the dependency to an existing Micronaut project:
+  <details>
+  <summary>Click to show Gradle configuration</summary>
 
-1. Optional: Create an empty Micronaut project using [Micronaut Launch](https://launch.micronaut.io) or alternatively with the CLI: `mn create-app my-example`. 
-2. Add the dependency to the build.gradle:
-```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:0.22.0")
-runtimeOnly("com.h2database:h2")
-```
-</details>
+  Add the dependency to the build.gradle file:
+  ```groovy
+  implementation("info.novatec:micronaut-camunda-bpm-feature:0.22.0")
+  runtimeOnly("com.h2database:h2")
+  ```
+  </details>
 
-<details>
-<summary>Click to show Maven configuration</summary>
+  <details>
+  <summary>Click to show Maven configuration</summary>
 
-1. Optional: Create an empty Micronaut using [Micronaut Launch](https://launch.micronaut.io) or alternatively with the CLI:  `mn create-app my-example --build=maven`.
-2. Add the dependency to the pom.xml:
-```xml
-<dependency>
-  <groupId>info.novatec</groupId>
-  <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.22.0</version>
-</dependency>
-<dependency>
-  <groupId>com.h2database</groupId>
-  <artifactId>h2</artifactId>
-  <scope>runtime</scope>
-</dependency>
-```
-</details>
+  Add the dependency to the pom.xml file:
+  ```xml
+  <dependency>
+    <groupId>info.novatec</groupId>
+    <artifactId>micronaut-camunda-bpm-feature</artifactId>
+    <version>0.22.0</version>
+  </dependency>
+  <dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+  </dependency>
+  ```
+  </details>
 
 Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
@@ -132,8 +133,6 @@ When starting the application you'll see the log output: `Deploying model: class
 
 Inject the process engine or any of the Camunda services using constructor injection:
 ```java
-// ...
-
 import javax.inject.Singleton;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.RuntimeService;
@@ -187,7 +186,7 @@ Therefore, you can use the annotation `javax.inject.Named` to define an explicit
 
 By default, an in-memory H2 data source is preconfigured. Remember to add the runtime dependency `com.h2database:h2` mentioned in [Dependency Management](#dependency-management).
 
-However, you can configure any other database, e.g. in `application.yml`:
+However, you can configure any other database supported by Camunda, e.g. in `application.yml`:
 
 ```yaml
 datasources:
@@ -486,7 +485,7 @@ public class MyProcessEngineConfigurationCustomizer implements ProcessEngineConf
 }
 ```
 
-## Custom JobExecutor Configuration
+## Custom Job Executor Configuration
 With the following bean it's possible to customize the job executor:
 
 ```java
@@ -787,9 +786,9 @@ Download of Releases:
 
 This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via GitHub Disscussions or mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via GitHub Discussions or mail.
 
-We love listening to your feedback. And of course also discussing the project roadmap and possible use cases with you!
+We love listening to your feedback, and of course also discussing the project roadmap and possible use cases with you!
 
 You can reach us:
 * [GitHub Discussions](https://github.com/NovatecConsulting/micronaut-camunda-bpm/discussions)
