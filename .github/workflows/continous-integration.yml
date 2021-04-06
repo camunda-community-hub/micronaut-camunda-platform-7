@@ -28,7 +28,7 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v2
       - name: Set up JDKs with Matrix Build
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java }}
       - name: Cache Dependencies #see https://github.com/actions/cache/blob/master/examples.md#java---gradle
