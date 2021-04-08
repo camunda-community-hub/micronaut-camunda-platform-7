@@ -27,6 +27,9 @@ Micronaut + Camunda = :heart:
 [![Continuous Integration](https://github.com/NovatecConsulting/micronaut-camunda-bpm/workflows/Continuous%20Integration/badge.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions)
 [![GitHub Discussions](https://img.shields.io/badge/Forum-GitHub_Discussions-blue)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/discussions)
 
+[![](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)](https://github.com/camunda-community-hub/community)
+[![](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#stable-)
+
 # Table of Contents
 
 * ✨ [Features](#features)
@@ -47,6 +50,7 @@ Micronaut + Camunda = :heart:
   * [Docker](#docker)
   * [Pitfalls](#pitfalls)
 * 📚 [Releases](#releases)
+* 📆 [Publications](#publications)
 * 📨 [Contact](#contact)
 
 # ✨Features
@@ -593,7 +597,7 @@ Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-
 
 ```groovy
 testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:8.0.0")
-testImplementation("org.assertj:assertj-core:3.16.1")
+testImplementation("org.assertj:assertj-core")
 ```
 </details>
 
@@ -781,6 +785,13 @@ Other combinations might also work but have not been tested.
 Download of Releases:
 * [GitHub Artifacts](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
 * [Maven Central Artifacts](https://search.maven.org/artifact/info.novatec/micronaut-camunda-bpm-feature)
+
+# 📆Publications
+
+* 2021-02: Automating Processes with Microservices on Micronaut and Camunda  
+  [Webinar](https://micronaut.io/2021/02/25/webinar-micronaut-and-camunda/) by Tobias Schäfer, Bernd Rücker, and Sergio del Amo
+* 2020-04: Micronaut meets Camunda BPM  
+  [Blogpost](https://www.novatec-gmbh.de/en/blog/micronaut-meets-camunda-bpm/) by Tobias Schäfer
 
 # 📨Contact
 
