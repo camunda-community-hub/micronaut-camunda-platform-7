@@ -340,6 +340,36 @@ Further Information:
 * See [Configuration Properties](#properties) on how to enable basic authentication for REST, create a default user, or disable the redirect.
 * Enabling the REST API or the Webapps impacts the startup time. Depending on your hardware it increases by around 500-1000 milliseconds.
 
+### Advanced Webapps Configuration
+The security of the Webapps can be configured with the following properties:
+<details>
+  <summary>Click to show configuration options.</summary>
+
+| Prefix                | Property          | Default                                      | Description            |
+|-----------------------|------------------|----------------------------------------------|------------------------|
+| camunda.webapps.header-security | .xss-protection-disabled | false | The header can be entirely disabled if set to true. |
+|                       | .xss-protection-option| BLOCK | The allowed set of values: BLOCK - If the browser detects a cross-site scripting attack, the page is blocked completely; SANITIZE - If the browser detects a cross-site scripting attack, the page is sanitized from suspicious parts (value 0). Note: Is ignored when xss-protection-disabled is set to true and cannot be set in conjunction with xss-protection-value |
+|                       | .xss-protection-value| 1; mode=block | A custom value for the header can be specified. Is ignored when xss-protection-disabled is set to true and cannot be set in conjunction with xss-protection-option. |
+|                       | .content-security-policy-disabled | false| The header can be entirely disabled if set to true. |
+|                       | .content-security-policy-value | base-uri 'self' | A custom value for the header can be specified. Note: Property is ignored when content-security-policy-disabled is set to true. |
+|                       | .content-type-options-disabled | false | The header can be entirely disabled if set to true. |
+|                       | .content-type-options-value | | A custom value for the header can be specified. Note: Property is ignored when content-security-policy-disabled is set to true. |
+|                       | .hsts-disabled | true | Set to false to enable the header. |
+|                       | .hsts-max-age | 31536000 | Amount of seconds, the browser should remember to access the webapp via HTTPS. Note: Is ignored when hstsDisabled is true, Cannot be set in conjunction with hstsValue, and allows a maximum value of 2^31-1. |
+|                       | .hsts-include-subdomains-disabled | true | HSTS is additionally to the domain of the webapp enabled for all its subdomains. Note: Is ignored when hstsDisabled is true and cannot be set in conjunction with hstsValue. |
+|                       | .hsts-value | max-age=31536000 | A custom value for the header can be specified. Note: Is ignored when hstsDisabled is true and cannot be set in conjunction with hstsMaxAge or hstsIncludeSubdomainsDisabled. |
+| camunda.webapps.csrf  | .target-origin | | Sets the application expected deployment domain. |
+|                       | .deny-status | | Sets the HTTP response status code used for a denied request. |
+|                       | .random-class | | Sets the name of the class used to generate tokens. |
+|                       | .entry-points | | Sets additional URLs that will not be tested for the presence of a valid token. |
+|                       | .enable-secure-cookie | false | If true, the cookie flag Secure is enabled. |
+|                       | .enable-same-site-cookie | true | If set to false, the cookie flag SameSite is disabled. The default value of the cookie is LAX and it can be changed via same-site-cookie-option configuration property. |
+|                       | .same-site-cookie-option | | Can be configured either to STRICT or LAX. Note: Is ignored when enable-same-site-cookie is set to false and cannot be set in conjunction with same-site-cookie-value. |
+|                       | .same-site-cookie-value | | A custom value for the cookie property. Note: Is ignored when enable-same-site-cookie is set to false and cannot be set in conjunction with same-site-cookie-option. |
+|                       | .cookie-name | | A custom value to change the cookie name. Default ist 'XSRF-Token'. Note: Please make sure to additionally change the cookie name for each webapp (e.g. Cockpit) separately. |
+
+</details>
+
 ## Camunda Enterprise Edition (EE)
 ### Add Maven Coordinates
 
