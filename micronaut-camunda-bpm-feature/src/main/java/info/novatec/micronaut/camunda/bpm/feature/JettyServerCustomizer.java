@@ -27,6 +27,7 @@ import org.camunda.bpm.engine.rest.filter.EmptyBodyFilter;
 import org.camunda.bpm.tasklist.impl.web.bootstrap.TasklistContainerBootstrap;
 import org.camunda.bpm.webapp.impl.engine.ProcessEnginesFilter;
 import org.camunda.bpm.webapp.impl.security.auth.AuthenticationFilter;
+import org.camunda.bpm.webapp.impl.security.filter.CsrfPreventionFilter;
 import org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter;
 import org.camunda.bpm.webapp.impl.security.filter.util.HttpSessionMutexListener;
 import org.camunda.bpm.welcome.impl.web.bootstrap.WelcomeContainerBootstrap;
@@ -46,7 +47,10 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import javax.servlet.*;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
+import static java.util.Collections.*;
 import static javax.servlet.DispatcherType.*;
 
 /**
@@ -113,7 +117,7 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             webappsContextHandler.addEventListener(new TasklistContainerBootstrap());
             webappsContextHandler.addEventListener(new WelcomeContainerBootstrap());
             webappsContextHandler.addEventListener(new HttpSessionMutexListener());
-            webappsContextHandler.addEventListener(new ServletContextInitializedListener());
+            webappsContextHandler.addEventListener(new ServletContextInitializedListener(configuration));
 
             webappsContextHandler.setSessionHandler(new SessionHandler());
 
@@ -139,6 +143,12 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
 
         protected static ServletContext servletContext;
 
+        protected final Configuration configuration;
+
+        public ServletContextInitializedListener(Configuration configuration) {
+            this.configuration = configuration;
+        }
+
         @Override
         public void contextInitialized(ServletContextEvent sce) {
             servletContext = sce.getServletContext();
@@ -150,10 +160,9 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             servletContext.addServlet("WelcomeApp", new ServletContainer(new WelcomeApp())).addMapping("/api/welcome/*");
             registerFilter("ProcessEnginesFilter", ProcessEnginesFilter.class, "/api/*", "/app/*");
             registerFilter("AuthenticationFilter", AuthenticationFilter.class, "/api/*", "/app/*");
-            // TODO add Security Filter
-            // TODO add CsrfPreventionFilter
-            // TODO configure headerSecurityProperties
-            registerFilter("HttpHeaderSecurityFilter", HttpHeaderSecurityFilter.class, "/api/*", "/app/*");
+            registerFilter("SecurityFilter", WebappSecurityFilter.class, singletonMap("configFile", "/securityFilterRules.json"), "/api/*", "/app/*");
+            registerFilter("CsrfPreventionFilter", CsrfPreventionFilter.class, getCsrfInitParams(), "/api/*", "/app/*");
+            registerFilter("HttpHeaderSecurityFilter", HttpHeaderSecurityFilter.class, getHeaderSecurityInitParams(), "/api/*", "/app/*");
             registerFilter("EmptyBodyFilter", EmptyBodyFilter.class, "/api/*", "/app/*");
             registerFilter("CacheControlFilter", CacheControlFilter.class, "/api/*", "/app/*");
         }
@@ -161,11 +170,73 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
         @Override
         public void contextDestroyed(ServletContextEvent sce) {}
 
+        protected Map<String, String> getCsrfInitParams(){
+            Map<String, String> initParams = new HashMap<>();
+
+            configuration.getWebapps().getCsrf().getTargetOrigin().ifPresent(it -> initParams.put("targetOrigin", it));
+            configuration.getWebapps().getCsrf().getDenyStatus().ifPresent(it -> initParams.put("denyStatus", it.toString()));
+            configuration.getWebapps().getCsrf().getRandomClass().ifPresent(it -> initParams.put("randomClass", it));
+            configuration.getWebapps().getCsrf().getEntryPoints().ifPresent(it -> initParams.put("entryPoints", String.join(",", it)));
+            if(configuration.getWebapps().getCsrf().getEnableSecureCookie()) {
+                initParams.put("enableSecureCookie", "true");
+            }
+            if(configuration.getWebapps().getCsrf().getEnableSameSiteCookie()) {
+                configuration.getWebapps().getCsrf().getSameSiteCookieOption().ifPresent(it -> initParams.put("sameSiteCookieOption", it));
+                configuration.getWebapps().getCsrf().getSameSiteCookieValue().ifPresent(it -> initParams.put("sameSiteCookieValue", it));
+            } else {
+                initParams.put("enableSameSiteCookie", "false");
+            }
+            configuration.getWebapps().getCsrf().getCookieName().ifPresent(it -> initParams.put("cookieName", it));
+
+            return initParams;
+        }
+
+        protected Map<String, String> getHeaderSecurityInitParams() {
+            Map<String, String> initParams = new HashMap<>();
+
+            if(configuration.getWebapps().getHeaderSecurity().isXssProtectionDisabled()){
+                initParams.put("xssProtectionDisabled", "true");
+            } else {
+                configuration.getWebapps().getHeaderSecurity().getXssProtectionOption().ifPresent(it -> initParams.put("xssProtectionOption", it));
+                configuration.getWebapps().getHeaderSecurity().getXssProtectionValue().ifPresent(it -> initParams.put("xssProtectionValue", it));
+            }
+
+            if(configuration.getWebapps().getHeaderSecurity().isContentSecurityPolicyDisabled()) {
+                initParams.put("contentSecurityPolicyDisabled", "true");
+            } else {
+                configuration.getWebapps().getHeaderSecurity().getContentSecurityPolicyValue().ifPresent(it -> initParams.put("contentSecurityPolicyValue", it));
+            }
+
+            if(configuration.getWebapps().getHeaderSecurity().isContentTypeOptionsDisabled()) {
+                initParams.put("contentTypeOptionsDisabled", "true");
+            } else {
+                configuration.getWebapps().getHeaderSecurity().getContentTypeOptionsValue().ifPresent(it -> initParams.put("contentTypeOptionsValue", it));
+            }
+
+            if(!configuration.getWebapps().getHeaderSecurity().isHstsDisabled()) {
+                initParams.put("hstsDisabled", "false");
+                configuration.getWebapps().getHeaderSecurity().getHstsMaxAge().ifPresent(it -> initParams.put("hstsMaxAge", it.toString()));
+                if(!configuration.getWebapps().getHeaderSecurity().isHstsIncludeSubdomainsDisabled()) {
+                    initParams.put("hstsIncludeSubdomainsDisabled", "false");
+                }
+                configuration.getWebapps().getHeaderSecurity().getHstsValue().ifPresent(it -> initParams.put("hstsValue", it));
+            }
+
+            return initParams;
+        }
+
         protected void registerFilter(String filterName, Class<? extends Filter> filterClass, String... urlPatterns) {
+            registerFilter(filterName, filterClass, null, urlPatterns);
+        }
+
+        protected void registerFilter(String filterName, Class<? extends Filter> filterClass, Map<String, String> initParams, String... urlPatterns) {
             FilterRegistration filterRegistration = servletContext.getFilterRegistration(filterName);
             if (filterRegistration == null) {
                 filterRegistration = servletContext.addFilter(filterName, filterClass);
                 filterRegistration.addMappingForUrlPatterns(DISPATCHER_TYPES, true, urlPatterns);
+                if (initParams != null) {
+                    filterRegistration.setInitParameters(initParams);
+                }
                 log.debug("Filter {} for URL {} registered", filterName, urlPatterns);
             }
         }
