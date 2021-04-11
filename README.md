@@ -20,6 +20,8 @@ Do you want to try it out? Please jump to the [Getting Started](#getting-started
 
 Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md) and [contact us](#contact).
 
+If you also want to run your External Task Client on Micronaut, have a look at the open source project [micronaut-camunda-external-client](https://github.com/NovatecConsulting/micronaut-camunda-external-client).
+
 Micronaut + Camunda = :heart:
 
 [![Release](https://img.shields.io/github/v/release/NovatecConsulting/micronaut-camunda-bpm.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
@@ -733,7 +735,7 @@ Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-examp
 
 # 📚Releases
 
-The list of [releases](/releases) contains a detailed changelog.
+The list of [releases](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases) contains a detailed changelog.
 
 We use [Semantic Versioning](https://semver.org/) which does allow incompatible changes before release 1.0.0 but we try to minimize them. Until now only [v0.18.0](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases/tag/v0.18.0) made use of this exception.
 
