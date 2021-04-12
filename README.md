@@ -384,8 +384,8 @@ implementation("info.novatec:micronaut-camunda-bpm-feature:0.22.0") {
   exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
 
-implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.14.0-ee")
-implementation("org.camunda.bpm:camunda-engine:7.14.0-ee")
+implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.15.0-ee")
+implementation("org.camunda.bpm:camunda-engine:7.15.0-ee")
 ```
 </details>
 <details>
@@ -411,12 +411,12 @@ In `pom.xml`:
 <dependency>
   <groupId>org.camunda.bpm.webapp</groupId>
   <artifactId>camunda-webapp-webjar-ee</artifactId>
-  <version>7.14.0-ee</version>
+  <version>7.15.0-ee</version>
 </dependency>
 <dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-engine</artifactId>
-  <version>7.14.0-ee</version>
+  <version>7.15.0-ee</version>
 </dependency>
 ```
 </details>
@@ -443,7 +443,7 @@ You can either
 Example with the LDAP plugin:
 
 ```groovy
-implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.14.0")
+implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.15.0")
 ```
 
 ```java
@@ -596,7 +596,7 @@ Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-
 <summary>Click to show Gradle dependencies</summary>
 
 ```groovy
-testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:8.0.0")
+testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:10.0.0")
 testImplementation("org.assertj:assertj-core")
 ```
 </details>
@@ -608,7 +608,7 @@ testImplementation("org.assertj:assertj-core")
 <dependency>
   <groupId>org.camunda.bpm.assert</groupId>
   <artifactId>camunda-bpm-assert</artifactId>
-  <version>8.0.0</version>
+  <version>10.0.0</version>
   <scope>test</scope>
 </dependency>
 <dependency>
