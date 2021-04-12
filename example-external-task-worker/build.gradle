@@ -17,7 +17,7 @@ micronaut {
 dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("org.camunda.bpm:camunda-external-task-client:1.4.1")
-    implementation("com.sun.xml.bind:jaxb-impl:2.3.3")
+    implementation("com.sun.xml.bind:jaxb-impl:3.0.0")
 
     runtimeOnly("ch.qos.logback:logback-classic")
 }
