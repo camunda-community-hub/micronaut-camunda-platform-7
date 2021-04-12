@@ -12,7 +12,7 @@ _We're not aware of all installations of our Open Source project. However, we lo
 * _discussing possible use cases with you,_
 * _aligning the roadmap to your needs!_
 
-📨 _Please [contact](#contact) us!_
+📨 _Please activate [telemetry](#telemetry) and [contact](#contact) us!_
 
 ---
 
@@ -254,8 +254,23 @@ Example:
 camunda:
   generic-properties:
     properties:
-      initialize-telemetry: true
+      history: audit
 ```
+
+### Telemetry
+
+Please consider activating Camunda's telemetry feature so that the Micronaut Camunda Integration appears in Camunda's statistics.
+
+When starting on a fresh database use:
+
+```yaml
+camunda:
+  generic-properties:
+    properties:
+      history: full
+```
+
+If you missed the activation on an already active database or want to check/change the setting, go to the admin application and navigate to `System -> Telemetry Feature`. Locally, jump directly to the [Telemetry Feature](http://localhost:8080/camunda/app/admin/default/#/system?section=analytics-settings-general).
 
 # 🏆Advanced Topics
 
