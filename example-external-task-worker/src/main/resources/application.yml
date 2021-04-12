@@ -1,5 +1,0 @@
-micronaut:
-  application:
-    name: example-external-task-worker
-  server:
-    port: 8081
