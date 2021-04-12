@@ -50,6 +50,7 @@ Micronaut + Camunda = :heart:
   * [Transaction Management](#transaction-management)
   * [Process Tests](#process-tests)
   * [Docker](#docker)
+  * [Updating Camunda](#updating-camunda)
   * [Pitfalls](#pitfalls)
 * 📚 [Releases](#releases)
 * 📆 [Publications](#publications)
@@ -701,6 +702,47 @@ Build the Docker image:
 Run the Docker image:
 
 `docker run -p 8080:8080 <IMAGE>`
+
+## Updating Camunda
+
+Generally, follow Camunda's instructions regarding [Update to the next Minor Version](https://docs.camunda.org/manual/latest/update/minor/).
+
+If you want to automate the database schema migration you can use [Liquibase](https://micronaut-projects.github.io/micronaut-liquibase/latest/guide/) or [Flyway](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/) together with the [migration sql scripts](https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts) provided by Camunda.
+
+The following examples are based on Liquibase.
+
+When starting on an empty database, e.g. when using H2 for tests:
+```xml
+<changeSet author="Tobias" id="1a" >
+  <comment>Create common baseline Camunda 7.14 for H2 based on https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
+  <sqlFile path="camunda/h2_engine_7.14.0.sql" relativeToChangelogFile="true" dbms="h2" />
+  <sqlFile path="camunda/h2_identity_7.14.0.sql" relativeToChangelogFile="true" dbms="h2" />
+</changeSet>
+```
+
+If you already have a persistent database with the database schema of 7.10 which is not yet managed by Liquibase, e.g. PostgreSQL:
+```xml
+<changeSet author="Tobias" id="1b" >
+  <comment>Create common baseline Camunda 7.14 for PostgreSQL (even if schema already exists) based on https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
+  <preConditions onFail="MARK_RAN">
+    <not>
+      <tableExists tableName="ACT_RU_JOB" />
+    </not>
+  </preConditions>
+  <sqlFile path="camunda/postgres_engine_7.14.0.sql" relativeToChangelogFile="true" dbms="postgresql" />
+  <sqlFile path="camunda/postgres_identity_7.14.0.sql" relativeToChangelogFile="true" dbms="postgresql" />
+</changeSet>
+```
+
+When updating to a new Camunda version first apply all patch updates (if available) and then update to the next minor version:
+```xml
+<changeSet author="Tobias" id="2" >
+  <comment>Update to Camunda 7.15 based on https://app.camunda.com/nexus/repository/public/org/camunda/bpm/distro/camunda-sql-scripts/7.15.0/camunda-sql-scripts-7.15.0.zip in directory upgrade</comment>
+  <!-- no patch files available for 7.14.x ... -->
+  <sqlFile path="camunda/h2_engine_7.14_to_7.15.sql" relativeToChangelogFile="true" dbms="h2" />
+  <sqlFile path="camunda/postgres_engine_7.14_to_7.15.sql" relativeToChangelogFile="true" dbms="postgresql" />
+</changeSet>
+```
 
 ## Pitfalls
 
