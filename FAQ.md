@@ -29,3 +29,10 @@ We're not depending on the Lombok to simplify the setup of the development envir
       1. Dependencies for Gradle and Maven
       2. Compatibility Matrix
    3. That's all :-) There is no need to update the version in the project. It will stay at 0.0.1-SNAPSHOT.
+5. Update Example Applications
+   1. https://github.com/tobiasschaefer/micronaut-camunda-example-onboarding
+   2. https://github.com/tobiasschaefer/micronaut-camunda-example-java-maven
+   3. https://github.com/tobiasschaefer/micronaut-camunda-example-kotlin-gradle
+6. Update Micronaut Launch in [starter-core project](https://github.com/micronaut-projects/micronaut-starter/blob/2.4.x/starter-core/src/main/resources/pom.xml) (check branch!)
+   1. Update version number of micronaut-camunda-bpm-feature
+   2. Update version number of camunda-bpm-assert (if changed)
