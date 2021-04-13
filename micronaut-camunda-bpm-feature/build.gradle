@@ -99,7 +99,7 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'The micronaut-camunda-bpm Team at Novatec Consulting GmbH'
+                        name = 'The micronaut-camunda Team at Novatec Consulting GmbH'
                         email = 'micronaut-camunda@novatec-gmbh.de'
                         organization = 'Novatec Consulting GmbH'
                         organizationUrl = 'https://www.novatec-gmbh.de'
