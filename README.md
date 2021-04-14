@@ -102,7 +102,7 @@ You have the following options to integrate the Camunda integration:
 
   Add the dependency to the build.gradle file:
   ```groovy
-  implementation("info.novatec:micronaut-camunda-bpm-feature:0.22.0")
+  implementation("info.novatec:micronaut-camunda-bpm-feature:0.23.0")
   runtimeOnly("com.h2database:h2")
   ```
   </details>
@@ -115,7 +115,7 @@ You have the following options to integrate the Camunda integration:
   <dependency>
     <groupId>info.novatec</groupId>
     <artifactId>micronaut-camunda-bpm-feature</artifactId>
-    <version>0.22.0</version>
+    <version>0.23.0</version>
   </dependency>
   <dependency>
     <groupId>com.h2database</groupId>
@@ -397,7 +397,7 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:0.22.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:0.23.0") {
   exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
   exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
@@ -414,7 +414,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>0.22.0</version>
+  <version>0.23.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -720,7 +720,7 @@ When starting on an empty database, e.g. when using H2 for tests:
 </changeSet>
 ```
 
-If you already have a persistent database with the database schema of 7.10 which is not yet managed by Liquibase, e.g. PostgreSQL:
+If you already have a persistent database with the database schema of 7.14 which is not yet managed by Liquibase, e.g. PostgreSQL:
 ```xml
 <changeSet author="Tobias" id="1b" >
   <comment>Create common baseline Camunda 7.14 for PostgreSQL (even if schema already exists) based on https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
@@ -801,13 +801,14 @@ Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda |
 |--------|-------|--------|
-| 0.22.0 | 2.4.1 | 7.14.0 |
+| 0.23.0 | 2.4.3 | 7.15.0 |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release |Micronaut | Camunda |
 |--------|-------|--------|
+| 0.22.0 | 2.4.1 | 7.14.0 |
 | 0.21.0 | 2.4.1 | 7.14.0 |
 | 0.20.0 | 2.4.0 | 7.14.0 |
 | 0.19.0 | 2.3.4 | 7.14.0 |
