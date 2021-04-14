@@ -268,7 +268,7 @@ When starting on a fresh database use:
 camunda:
   generic-properties:
     properties:
-      history: full
+      initialize-telemetry: true
 ```
 
 If you missed the activation on an already active database or want to check/change the setting, go to the admin application and navigate to `System -> Telemetry Feature`. Locally, jump directly to the [Telemetry Feature](http://localhost:8080/camunda/app/admin/default/#/system?section=analytics-settings-general).
