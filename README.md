@@ -288,8 +288,8 @@ micronaut-gradle-plugin configuration in build.gradle:
 
 ```groovy
 micronaut {
-  runtime("jetty")
-  [...]
+    runtime("jetty")
+    [...]
 }
 ```
 </details>
@@ -398,8 +398,8 @@ on how to do that. Keep in mind using the correct version of the libraries.
 In `build.gradle`:
 ```groovy
 implementation("info.novatec:micronaut-camunda-bpm-feature:0.23.0") {
-  exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
-  exclude group: 'org.camunda.bpm', module: 'camunda-engine'
+    exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
+    exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
 
 implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.15.0-ee")
@@ -473,18 +473,18 @@ import javax.inject.Singleton;
 @Factory
 public class PluginConfiguration {
 
-  @Singleton
-  public ProcessEnginePlugin ldap() {
-    // Using a public online LDAP:
-    // https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/
-    // Log in e.g. with 'einstein' / 'password'
-    LdapIdentityProviderPlugin ldap = new LdapIdentityProviderPlugin();
-    ldap.setServerUrl("ldap://ldap.forumsys.com:389");
-    ldap.setManagerDn("cn=read-only-admin,dc=example,dc=com");
-    ldap.setManagerPassword("password");
-    ldap.setBaseDn("dc=example,dc=com");
-    return ldap;
-  }
+    @Singleton
+    public ProcessEnginePlugin ldap() {
+        // Using a public online LDAP:
+        // https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/
+        // Log in e.g. with 'einstein' / 'password'
+        LdapIdentityProviderPlugin ldap = new LdapIdentityProviderPlugin();
+        ldap.setServerUrl("ldap://ldap.forumsys.com:389");
+        ldap.setManagerDn("cn=read-only-admin,dc=example,dc=com");
+        ldap.setManagerPassword("password");
+        ldap.setBaseDn("dc=example,dc=com");
+        return ldap;
+    }
 }
 ```
 
