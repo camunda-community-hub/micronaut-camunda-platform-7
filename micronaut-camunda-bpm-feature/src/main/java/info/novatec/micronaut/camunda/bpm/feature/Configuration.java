@@ -340,6 +340,14 @@ public interface Configuration {
             boolean getEnableSameSiteCookie();
 
             /**
+             * If false, the CSRF filter is disabled and no CSRF checks are performed.
+             *
+             * @return if the CSRF filter should be disabled
+             */
+            @Bindable(defaultValue = "true")
+            boolean getEnabled();
+
+            /**
              * Can be configured either to STRICT or LAX.
              *
              * Note:

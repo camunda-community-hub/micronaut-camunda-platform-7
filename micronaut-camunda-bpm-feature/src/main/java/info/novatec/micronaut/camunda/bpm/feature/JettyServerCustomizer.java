@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import javax.servlet.*;
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -161,7 +162,14 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             registerFilter("ProcessEnginesFilter", ProcessEnginesFilter.class, "/api/*", "/app/*");
             registerFilter("AuthenticationFilter", AuthenticationFilter.class, "/api/*", "/app/*");
             registerFilter("SecurityFilter", WebappSecurityFilter.class, singletonMap("configFile", "/securityFilterRules.json"), "/api/*", "/app/*");
-            registerFilter("CsrfPreventionFilter", CsrfPreventionFilter.class, getCsrfInitParams(), "/api/*", "/app/*");
+            if (configuration.getWebapps().getCsrf().getEnabled()) {
+                log.info("Csrf Filter enabled");
+                registerFilter("CsrfPreventionFilter", CsrfPreventionFilter.class, getCsrfInitParams(), "/api/*", "/app/*");
+            }
+            else {
+                log.info("Csrf Filter disabled");
+                registerFilter("CsrfPreventionFilter", AllowAllFilter.class, "/api/*", "/app/*");
+            }
             registerFilter("HttpHeaderSecurityFilter", HttpHeaderSecurityFilter.class, getHeaderSecurityInitParams(), "/api/*", "/app/*");
             registerFilter("EmptyBodyFilter", EmptyBodyFilter.class, "/api/*", "/app/*");
             registerFilter("CacheControlFilter", CacheControlFilter.class, "/api/*", "/app/*");
@@ -238,6 +246,17 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
                     filterRegistration.setInitParameters(initParams);
                 }
                 log.debug("Filter {} for URL {} registered", filterName, urlPatterns);
+            }
+        }
+
+        /**
+         * This filter is used when the CSRF filter is disabled.
+         */
+        public static class AllowAllFilter implements Filter {
+
+            @Override
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+                chain.doFilter(request, response);
             }
         }
     }
