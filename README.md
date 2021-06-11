@@ -88,7 +88,7 @@ Here are some example applications:
 We officially support the following JDKs:
 * JDK 8 (LTS)
 * JDK 11 (LTS)
-* JDK 15 (the latest version supported by Micronaut)
+* JDK 16 (the latest version supported by Micronaut)
 
 ## Dependency Management
 
