@@ -14,15 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '15'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
+        java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
         runtime: ['netty']
+        gradle_args: ['-Dorg.gradle.jvmargs=--illegal-access=permit']
         include: # Test more server runtimes on Java 8 only (to reduce number of combinations)
           - java: '8'
+            runtime: 'netty'
+            gradle_args: ''
+          - java: '8'
             runtime: 'jetty'
+            gradle_args: ''
           - java: '8'
             runtime: 'tomcat'
+            gradle_args: ''
           - java: '8'
             runtime: 'undertow'
+            gradle_args: ''
 
     steps:
       - name: Git Checkout
@@ -40,4 +47,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
+        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} ${{ matrix.gradle_args }}
