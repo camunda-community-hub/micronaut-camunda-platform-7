@@ -67,6 +67,8 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.toVersion('1.8')
     targetCompatibility = JavaVersion.toVersion('1.8')
+    withJavadocJar()
+    withSourcesJar()
 }
 
 test {
@@ -79,11 +81,6 @@ tasks {
             jvmTarget = "1.8"
         }
     }
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }
 
 // based on https://docs.gradle.org/current/userguide/publishing_maven.html#sec:modifying_the_generated_pom and https://central.sonatype.org/pages/requirements.html#sufficient-metadata
