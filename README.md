@@ -142,7 +142,7 @@ When starting the application you'll see the log output: `Deploying model: class
 
 Inject the process engine or any of the Camunda services using constructor injection:
 ```java
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.RuntimeService;
 
@@ -170,7 +170,7 @@ You can then for example use the `runtimeService` to start new processes instanc
 To invoke a Java delegate create a bean and reference it in your process model using an expression, e.g. `${loggerDelegate}`:
 
 ```java
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
@@ -187,7 +187,7 @@ public class LoggerDelegate implements JavaDelegate {
 ```
 
 Internally, the bean will be resolved using `io.micronaut.inject.qualifiers.Qualifiers.byName(...)`.
-Therefore, you can use the annotation `javax.inject.Named` to define an explicit bean name and use that name in your expression.
+Therefore, you can use the annotation `jakarta.inject.Named` to define an explicit bean name and use that name in your expression.
 
 ## Configuration
 
@@ -488,7 +488,7 @@ Every bean that implements the interface `org.camunda.bpm.engine.impl.cfg.Proces
 
 You can either
 * implement a bean factory with `@io.micronaut.context.annotation.Factory` and add one or more methods returning `ProcessEnginePlugin` instances and annotate each with a bean scope annotation
-* annotate your class with `@javax.inject.Singleton` and implement the `ProcessEnginePlugin` interface
+* annotate your class with `@jakarta.inject.Singleton` and implement the `ProcessEnginePlugin` interface
 
 Example with the LDAP plugin:
 
@@ -500,7 +500,7 @@ implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.15.0")
 import io.micronaut.context.annotation.Factory;
 import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
 import org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Factory
 public class PluginConfiguration {
@@ -527,7 +527,7 @@ With the following bean it's possible to customize the process engine configurat
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration;
 import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineConfigurationCustomizer;
 import io.micronaut.context.annotation.Replaces;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 @Replaces(ProcessEngineConfigurationCustomizer.class)
@@ -546,7 +546,7 @@ With the following bean it's possible to customize the job executor:
 import info.novatec.micronaut.camunda.bpm.feature.JobExecutorCustomizer;
 import info.novatec.micronaut.camunda.bpm.feature.MnJobExecutor;
 import io.micronaut.context.annotation.Replaces;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 @Replaces(JobExecutorCustomizer.class)
@@ -743,7 +743,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 

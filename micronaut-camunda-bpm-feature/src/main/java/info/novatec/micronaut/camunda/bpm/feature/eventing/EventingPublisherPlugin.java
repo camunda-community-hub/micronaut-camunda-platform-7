@@ -18,6 +18,7 @@ package info.novatec.micronaut.camunda.bpm.feature.eventing;
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration;
 import io.micronaut.context.annotation.Requires;
+import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -26,7 +27,6 @@ import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 
 /**

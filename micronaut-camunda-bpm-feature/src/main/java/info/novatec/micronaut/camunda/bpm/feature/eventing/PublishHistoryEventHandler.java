@@ -17,10 +17,10 @@
 package info.novatec.micronaut.camunda.bpm.feature.eventing;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
+import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
 
-import javax.inject.Singleton;
 import java.util.List;
 
 /**
