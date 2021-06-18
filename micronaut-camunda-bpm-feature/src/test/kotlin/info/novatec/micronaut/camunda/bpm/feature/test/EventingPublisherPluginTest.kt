@@ -21,6 +21,8 @@ import info.novatec.micronaut.camunda.bpm.feature.eventing.ExecutionEvent
 import io.micronaut.context.event.ApplicationEventListener
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.assertj.core.api.Assertions.assertThat
 import org.camunda.bpm.engine.RepositoryService
 import org.camunda.bpm.engine.RuntimeService
@@ -28,8 +30,6 @@ import org.camunda.bpm.model.bpmn.Bpmn
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class EventingPublisherPluginTest {
 
