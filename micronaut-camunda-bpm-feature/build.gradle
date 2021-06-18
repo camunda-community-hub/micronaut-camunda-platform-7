@@ -69,6 +69,10 @@ java {
     targetCompatibility = JavaVersion.toVersion('1.8')
 }
 
+test {
+    jvmArgs '-Xmx1g'
+}
+
 tasks {
     compileTestKotlin {
         kotlinOptions {
