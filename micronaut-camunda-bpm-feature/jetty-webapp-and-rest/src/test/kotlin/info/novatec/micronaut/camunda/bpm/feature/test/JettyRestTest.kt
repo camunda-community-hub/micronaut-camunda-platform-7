@@ -18,12 +18,12 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.RxHttpClient
+import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.eclipse.jetty.server.Server
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 /**
@@ -40,7 +40,7 @@ class JettyRestTest {
 
     @Inject
     @field:Client("/")
-    lateinit var client: RxHttpClient
+    lateinit var client: HttpClient
 
     @Test
     fun engine() {
