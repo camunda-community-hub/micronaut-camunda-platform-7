@@ -133,3 +133,8 @@ signing {
 configurations {
     testArtifacts
 }
+
+// Prevent error on "./gradlew publish", see also https://docs.gradle.org/7.0/userguide/publishing_setup.html#sec:suppressing_validation_errors
+tasks.withType(GenerateModuleMetadata).configureEach {
+    suppressedValidationErrors.add('enforced-platform')
+}
