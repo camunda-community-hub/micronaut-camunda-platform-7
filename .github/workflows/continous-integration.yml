@@ -13,6 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
         runtime: ['netty']
