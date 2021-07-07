@@ -20,14 +20,14 @@ Do you want to try it out? Please jump to the [Getting Started](#getting-started
 
 Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md) and [contact us](#contact).
 
-If you also want to run your External Task Client on Micronaut, have a look at the open source project [micronaut-camunda-external-client](https://github.com/NovatecConsulting/micronaut-camunda-external-client).
+If you also want to run your External Task Client on Micronaut, have a look at the open source project [micronaut-camunda-external-client](https://github.com/camunda-community-hub/micronaut-camunda-external-client).
 
 Micronaut + Camunda = :heart:
 
-[![Release](https://img.shields.io/github/v/release/NovatecConsulting/micronaut-camunda-bpm.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
+[![Release](https://img.shields.io/github/v/release/camunda-community-hub/micronaut-camunda-bpm.svg)](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases)
 [![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Continuous Integration](https://github.com/NovatecConsulting/micronaut-camunda-bpm/workflows/Continuous%20Integration/badge.svg)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/actions)
-[![GitHub Discussions](https://img.shields.io/badge/Forum-GitHub_Discussions-blue)](https://github.com/NovatecConsulting/micronaut-camunda-bpm/discussions)
+[![Continuous Integration](https://github.com/camunda-community-hub/micronaut-camunda-bpm/workflows/Continuous%20Integration/badge.svg)](https://github.com/camunda-community-hub/micronaut-camunda-bpm/actions)
+[![GitHub Discussions](https://img.shields.io/badge/Forum-GitHub_Discussions-blue)](https://github.com/camunda-community-hub/micronaut-camunda-bpm/discussions)
 
 [![](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)](https://github.com/camunda-community-hub/community)
 [![](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#stable-)
@@ -826,9 +826,9 @@ Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-examp
 
 # 📚Releases
 
-The list of [releases](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases) contains a detailed changelog.
+The list of [releases](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases) contains a detailed changelog.
 
-We use [Semantic Versioning](https://semver.org/) which does allow incompatible changes before release 1.0.0 but we try to minimize them. Until now only [v0.18.0](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases/tag/v0.18.0) made use of this exception.
+We use [Semantic Versioning](https://semver.org/) which does allow incompatible changes before release 1.0.0 but we try to minimize them. Until now only [v0.18.0](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases/tag/v0.18.0) made use of this exception.
 
 The following compatibility matrix shows the officially supported Micronaut and Camunda versions for each release.
 Other combinations might also work but have not been tested.
@@ -878,7 +878,7 @@ Other combinations might also work but have not been tested.
 
 
 Download of Releases:
-* [GitHub Artifacts](https://github.com/NovatecConsulting/micronaut-camunda-bpm/releases)
+* [GitHub Artifacts](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases)
 * [Maven Central Artifacts](https://search.maven.org/artifact/info.novatec/micronaut-camunda-bpm-feature)
 
 # 📆Publications
@@ -892,10 +892,10 @@ Download of Releases:
 
 This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues) or contact us via GitHub Discussions or mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/camunda-community-hub/micronaut-camunda-bpm/issues) or contact us via GitHub Discussions or mail.
 
 We love listening to your feedback, and of course also discussing the project roadmap and possible use cases with you!
 
 You can reach us:
-* [GitHub Discussions](https://github.com/NovatecConsulting/micronaut-camunda-bpm/discussions)
+* [GitHub Discussions](https://github.com/camunda-community-hub/micronaut-camunda-bpm/discussions)
 * [mailto:micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de)
