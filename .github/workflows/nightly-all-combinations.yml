@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    if: github.repository_owner == 'NovatecConsulting' # Don't trigger nightly builds on forks
+    if: github.repository_owner == 'camunda-community-hub' # Don't trigger nightly builds on forks
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -17,7 +17,7 @@ jobs:
         java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
         include:
-          - java: '15' #include this combination because tomcat/java16 is currently failing, see https://github.com/NovatecConsulting/micronaut-camunda-bpm/issues/296
+          - java: '15' #include this combination because tomcat/java16 is currently failing, see https://github.com/camunda-community-hub/micronaut-camunda-bpm/issues/296
             runtime: 'tomcat'
 
     steps:

@@ -47,10 +47,10 @@ public class JettyRuntimeMissing implements ApplicationEventListener<ServerStart
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
         if (configuration.getWebapps().isEnabled()) {
-            log.warn("Webapps are enabled via 'camunda.webapps.enabled' but they are not supported on the current server runtime. Please switch to Jetty, see https://github.com/NovatecConsulting/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
+            log.warn("Webapps are enabled via 'camunda.webapps.enabled' but they are not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
         }
         if (configuration.getRest().isEnabled()) {
-            log.warn("REST are enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/NovatecConsulting/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
+            log.warn("REST are enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
         }
     }
 }
