@@ -48,6 +48,7 @@ Micronaut + Camunda = :heart:
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
   * [Custom Job Executor Configuration](#custom-job-executor-configuration)
   * [Transaction Management](#transaction-management)
+  * [Eventing Bridge](#eventing-bridge)
   * [Process Tests](#process-tests)
   * [Docker](#docker)
   * [Updating Camunda](#updating-camunda)
@@ -64,6 +65,7 @@ Micronaut + Camunda = :heart:
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#camunda-integration).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#java-delegates) within the process models.
 * The process engine [integrates with Micronaut's transaction manager](#transaction-management). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
+* Eventing Bridge that maps Camunda Events to Micronaut ApplicationEvents.
 * The process engine can be configured with [generic properties](#generic-properties).
 * The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
 * The [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee) is supported. 
@@ -635,6 +637,69 @@ And also add the annotation processor to every (!) `annotationProcessorPaths` el
 </details>
 
 and then configure JPA as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#hibernate).
+
+
+## Eventing Bridge
+
+The Eventing Bridge maps Camunda Events to Micronaut [ApplicationEvents](https://docs.micronaut.io/latest/api/io/micronaut/context/event/ApplicationEvent.html). It's possible to configure three different
+event streams:
+* Task: All events depending on UserTasks (UserTasks are Created, Assigned, Completed)
+* Execution: All execution events (Activities are Started, Ended and Transitions are being taken)
+* History: All history events
+
+### Configuration
+```yaml
+camunda:
+  eventing:
+    task: true
+    execution: true
+    history: true
+```
+
+### Event Listener Implementation
+To consume Micronaut ApplicationEvents you can implement the interface ApplicationEventListener or use the
+@EventListener annotation.
+
+<details>
+<summary>Click to show example with ApplicationEventListener interface</summary>
+
+```java
+public class SampleEventListener implements ApplicationEventListener<TaskEvent> {
+  private static final Logger log = LoggerFactory.getLogger(SampleEventListener.class);
+
+  @Override
+  public void onApplicationEvent(TaskEvent event) {
+    log.info("new TaskEvent: EventName={}, Assignee={}", event.getEventName(), event.getAssignee());
+  }
+}
+```
+</details>
+
+<details>
+<summary>Click to show example with @EventListener</summary>
+
+```java
+@Singleton
+public class SampleEventListener { 
+  private static final Logger log = LoggerFactory.getLogger(SampleEventListener.class);
+
+  @EventListener
+  public void onExecutionEvent(ExecutionEvent event) {
+    log.info("new ExecutionEvent: {}", event.getEventName());
+  }
+
+  @EventListener
+  public void onTaskEvent(TaskEvent event) {
+    log.info("new TaskEvent: {}", event.getEventName());
+  }
+
+  @EventListener
+  public void onTaskEvent(HistoryEvent event) {
+    log.info("new HistoryEvent: {}", event.getEventType());
+  }
+}
+```
+</details>
 
 ## Process Tests
 

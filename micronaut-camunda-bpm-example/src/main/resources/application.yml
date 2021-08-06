@@ -16,3 +16,7 @@ camunda:
     enabled: true
   filter:
     create: "All tasks"
+  eventing:
+    task: false
+    execution: false
+    history: false

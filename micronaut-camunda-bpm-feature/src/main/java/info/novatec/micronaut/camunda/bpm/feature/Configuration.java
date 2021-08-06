@@ -61,6 +61,9 @@ public interface Configuration {
     @NotNull
     GenericProperties getGenericProperties();
 
+    @NotNull
+    Eventing getEventing();
+
     /**
      * Provide a URL to a license file; if no URL is present it will check your classpath for a file called "camunda-license.txt".
      *
@@ -401,4 +404,31 @@ public interface Configuration {
         boolean isBasicAuthEnabled();
     }
 
+    @ConfigurationProperties("eventing")
+    interface Eventing {
+
+        /**
+         * Publish Events of execution listener.
+         *
+         * @return is enabled?
+         */
+        @Bindable(defaultValue = "false")
+        boolean isExecution();
+
+        /**
+         * Publish Events of task listener.
+         *
+         * @return is enabled?
+         */
+        @Bindable(defaultValue = "false")
+        boolean isTask();
+
+        /**
+         * Publish Event of history handler.
+         *
+         * @return is enabled?
+         */
+        @Bindable(defaultValue = "false")
+        boolean isHistory();
+    }
 }
