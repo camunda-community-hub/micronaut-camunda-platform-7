@@ -102,7 +102,7 @@ You have the following options to integrate the Camunda integration:
 
   Add the dependency to the build.gradle file:
   ```groovy
-  implementation("info.novatec:micronaut-camunda-bpm-feature:1.0.0")
+  implementation("info.novatec:micronaut-camunda-bpm-feature:1.0.1")
   runtimeOnly("com.h2database:h2")
   ```
   </details>
@@ -115,7 +115,7 @@ You have the following options to integrate the Camunda integration:
   <dependency>
     <groupId>info.novatec</groupId>
     <artifactId>micronaut-camunda-bpm-feature</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
   </dependency>
   <dependency>
     <groupId>com.h2database</groupId>
@@ -427,7 +427,7 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:1.0.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:1.0.1") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
@@ -444,7 +444,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -828,20 +828,21 @@ Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-examp
 
 The list of [releases](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases) contains a detailed changelog.
 
-We use [Semantic Versioning](https://semver.org/) which does allow incompatible changes before release 1.0.0 but we try to minimize them. Until now only [v0.18.0](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases/tag/v0.18.0) made use of this exception.
+We use [Semantic Versioning](https://semver.org/).
 
 The following compatibility matrix shows the officially supported Micronaut and Camunda versions for each release.
 Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda |
-|--------|-------|--------|
-|  1.0.0 | 2.5.9 | 7.15.0 |
+|--------|--------|--------|
+|  1.0.1 | 2.5.12 | 7.15.0 |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release |Micronaut | Camunda |
 |--------|-------|--------|
+|  1.0.0 | 2.5.9 | 7.15.0 |
 | 0.24.0 | 2.5.1 | 7.15.0 |
 | 0.23.0 | 2.4.3 | 7.15.0 |
 | 0.22.0 | 2.4.1 | 7.14.0 |
