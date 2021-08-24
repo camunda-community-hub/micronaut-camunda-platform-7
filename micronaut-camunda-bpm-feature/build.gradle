@@ -72,7 +72,7 @@ java {
 }
 
 test {
-    jvmArgs '-Xmx1g'
+    jvmArgs '-Xmx1536m'
 }
 
 tasks {
