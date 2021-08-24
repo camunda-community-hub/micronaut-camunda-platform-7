@@ -29,8 +29,6 @@ import org.camunda.bpm.engine.impl.pvm.process.TransitionImpl;
 import org.camunda.bpm.engine.impl.task.TaskDefinition;
 import org.camunda.bpm.engine.impl.util.xml.Element;
 import org.camunda.bpm.engine.impl.variable.VariableDeclaration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.util.Arrays;

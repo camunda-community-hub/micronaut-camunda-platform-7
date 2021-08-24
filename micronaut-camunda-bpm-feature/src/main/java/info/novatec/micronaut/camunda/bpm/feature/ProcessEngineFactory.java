@@ -41,7 +41,7 @@ public class ProcessEngineFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ProcessEngineFactory.class);
 
-    protected PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
+    protected final PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
 
     /**
      * The {@link ProcessEngine} is started with the application start so that the task scheduler is started immediately.

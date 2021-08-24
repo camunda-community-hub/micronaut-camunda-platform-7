@@ -31,7 +31,6 @@ import org.junit.jupiter.api.TestInstance
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@MicronautTest
 class EventingPublisherPluginTest {
 
     @MicronautTest
@@ -118,7 +117,7 @@ class EventingPublisherPluginTest {
     @Singleton
     open class EventListener : ApplicationEventListener<ExecutionEvent> {
 
-        var count = 0;
+        var count = 0
 
         override fun onApplicationEvent(event: ExecutionEvent?) {
             count++

@@ -26,25 +26,25 @@ import java.util.Date;
 // Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/event/TaskEvent.java
 public class TaskEvent {
 
-    protected String assignee;
-    protected String caseDefinitionId;
-    protected String caseExecutionId;
-    protected String caseInstanceId;
-    protected Date createTime;
-    protected String deleteReason;
-    protected String description;
-    protected Date dueDate;
-    protected String eventName;
-    protected String executionId;
-    protected Date followUpDate;
-    protected String id;
-    protected String name;
-    protected String owner;
-    protected int priority;
-    protected String processDefinitionId;
-    protected String processInstanceId;
-    protected String taskDefinitionKey;
-    protected String tenantId;
+    protected final String assignee;
+    protected final String caseDefinitionId;
+    protected final String caseExecutionId;
+    protected final String caseInstanceId;
+    protected final Date createTime;
+    protected final String deleteReason;
+    protected final String description;
+    protected final Date dueDate;
+    protected final String eventName;
+    protected final String executionId;
+    protected final Date followUpDate;
+    protected final String id;
+    protected final String name;
+    protected final String owner;
+    protected final int priority;
+    protected final String processDefinitionId;
+    protected final String processInstanceId;
+    protected final String taskDefinitionKey;
+    protected final String tenantId;
 
     public TaskEvent(DelegateTask delegateTask) {
         this.assignee = delegateTask.getAssignee();
