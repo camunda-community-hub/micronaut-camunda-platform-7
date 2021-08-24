@@ -104,7 +104,7 @@ You have the following options to integrate the Camunda integration:
 
   Add the dependency to the build.gradle file:
   ```groovy
-  implementation("info.novatec:micronaut-camunda-bpm-feature:1.1.0")
+  implementation("info.novatec:micronaut-camunda-bpm-feature:2.0.0")
   runtimeOnly("com.h2database:h2")
   ```
   </details>
@@ -117,7 +117,7 @@ You have the following options to integrate the Camunda integration:
   <dependency>
     <groupId>info.novatec</groupId>
     <artifactId>micronaut-camunda-bpm-feature</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
   </dependency>
   <dependency>
     <groupId>com.h2database</groupId>
@@ -429,7 +429,7 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:1.1.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.0.0") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
@@ -446,7 +446,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>1.1.0</version>
+  <version>2.0.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -900,13 +900,14 @@ Other combinations might also work but have not been tested.
 
 | Release |Micronaut | Camunda |
 |--------|--------|--------|
-|  1.1.0 | 2.5.12 | 7.15.0 |
+|  2.0.0 | 3.0.0  | 7.15.0 |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release |Micronaut | Camunda |
-|--------|-------|--------|
+|--------|--------|--------|
+|  1.1.0 | 2.5.12 | 7.15.0 |
 |  1.0.1 | 2.5.12 | 7.15.0 |
 |  1.0.0 | 2.5.9 | 7.15.0 |
 | 0.24.0 | 2.5.1 | 7.15.0 |
