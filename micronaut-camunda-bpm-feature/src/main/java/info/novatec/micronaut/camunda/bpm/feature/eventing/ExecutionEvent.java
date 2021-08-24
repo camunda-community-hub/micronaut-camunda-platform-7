@@ -25,19 +25,19 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 // Implementation based on https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/event/ExecutionEvent.java
 public class ExecutionEvent {
 
-    protected String activityInstanceId;
-    protected String businessKey;
-    protected String currentActivityId;
-    protected String currentActivityName;
-    protected String currentTransitionId;
-    protected String eventName;
-    protected String id;
-    protected String parentActivityInstanceId;
-    protected String parentId;
-    protected String processBusinessKey;
-    protected String processDefinitionId;
-    protected String processInstanceId;
-    protected String tenantId;
+    protected final String activityInstanceId;
+    protected final String businessKey;
+    protected final String currentActivityId;
+    protected final String currentActivityName;
+    protected final String currentTransitionId;
+    protected final String eventName;
+    protected final String id;
+    protected final String parentActivityInstanceId;
+    protected final String parentId;
+    protected final String processBusinessKey;
+    protected final String processDefinitionId;
+    protected final String processInstanceId;
+    protected final String tenantId;
 
     public ExecutionEvent(DelegateExecution delegateExecution) {
         this.activityInstanceId = delegateExecution.getActivityInstanceId();

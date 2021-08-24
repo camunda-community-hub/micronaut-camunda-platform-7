@@ -647,7 +647,7 @@ event streams:
 * Execution: All execution events (Activities are Started, Ended and Transitions are being taken)
 * History: All history events
 
-### Configuration
+### Configuration of Eventing Bridge
 ```yaml
 camunda:
   eventing:
