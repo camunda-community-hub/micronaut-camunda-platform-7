@@ -16,22 +16,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut.
+        java: ['8', '11', '17'] #Support LTS releases 8, 11 and 17 and the latest release supported by Micronaut.
         runtime: ['netty']
-        gradle_args: ['-Dorg.gradle.jvmargs=--illegal-access=permit']
         include: # Test more server runtimes on Java 8 only (to reduce number of combinations)
           - java: '8'
-            runtime: 'netty'
-            gradle_args: ''
-          - java: '8'
             runtime: 'jetty'
-            gradle_args: ''
           - java: '8'
             runtime: 'tomcat'
-            gradle_args: ''
           - java: '8'
             runtime: 'undertow'
-            gradle_args: ''
 
     steps:
       - name: Git Checkout
@@ -42,5 +35,8 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
+      - name: Set JVM options for JDK 11
+        if: ${{ matrix.java == '11' }}
+        run: GRADLE_ARGS='-Dorg.gradle.jvmargs=--illegal-access=permit'
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} ${{ matrix.gradle_args }}
+        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} $GRADLE_ARGS
