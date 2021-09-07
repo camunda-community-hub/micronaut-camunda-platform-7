@@ -15,17 +15,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
+        java: ['8', '11', '17'] #Support LTS releases 8, 11 and 17 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
-        jdk_java_options: ['']
-        include:
-          - java: '16' # special configuration for Tomcat on JDK 16, see #296
-            runtime: 'tomcat'
-            jdk_java_options: '--add-opens=java.base/java.io=ALL-UNNAMED'
-        exclude:
-          - java: '16'
-            runtime: 'tomcat'
-            jdk_java_options: ''
+
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
@@ -35,7 +27,8 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
+      - name: Set JVM options for JDK 11
+        if: ${{ matrix.java == '11' }}
+        run: GRADLE_ARGS='-Dorg.gradle.jvmargs=--illegal-access=permit'
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} -Dorg.gradle.jvmargs=--illegal-access=permit
-        env:
-          JDK_JAVA_OPTIONS: ${{ matrix.jdk_java_options }}
+        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} $GRADLE_ARGS
