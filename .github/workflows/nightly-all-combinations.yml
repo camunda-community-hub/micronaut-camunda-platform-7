@@ -6,6 +6,7 @@ name: Nightly All Combinations
 on:
   schedule:
     - cron:  '0 2 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,12 +17,15 @@ jobs:
       matrix:
         java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
-        jdk_java_options: ''
+        jdk_java_options: ['']
         include:
           - java: '16' # special configuration for Tomcat on JDK 16, see #296
             runtime: 'tomcat'
             jdk_java_options: '--add-opens=java.base/java.io=ALL-UNNAMED'
-
+        exclude:
+          - java: '16'
+            runtime: 'tomcat'
+            jdk_java_options: ''
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
