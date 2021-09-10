@@ -16,9 +16,11 @@ jobs:
       matrix:
         java: ['11', '16'] #Support LTS releases 8 and 11 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
+        jdk_java_options: ''
         include:
-          - java: '15' #include this combination because tomcat/java16 is currently failing, see https://github.com/camunda-community-hub/micronaut-camunda-bpm/issues/296
+          - java: '16' # special configuration for Tomcat on JDK 16, see #296
             runtime: 'tomcat'
+            jdk_java_options: '--add-opens=java.base/java.io=ALL-UNNAMED'
 
     steps:
       - name: Git Checkout
@@ -31,3 +33,5 @@ jobs:
           cache: 'gradle'
       - name: Build with Gradle Wrapper
         run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} -Dorg.gradle.jvmargs=--illegal-access=permit
+        env:
+          JDK_JAVA_OPTIONS: ${{ matrix.jdk_java_options }}
