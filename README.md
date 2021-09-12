@@ -97,7 +97,7 @@ We officially support the following JDKs:
 The Camunda integration works with both Gradle and Maven, but we recommend using Gradle because it has better Micronaut Support.
 
 You have the following options to integrate the Camunda integration:
-* Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch) and select the "camunda" feature. If you don't select any database then an in-memory H2 will be included by default.
+* Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch?name=micronaut-camunda&features=camunda) and check that the "camunda" feature is selected. If you don't select any database then an in-memory H2 will be included by default.
 * Manually add the dependency to an existing Micronaut project:
   <details>
   <summary>Click to show Gradle configuration</summary>
