@@ -35,8 +35,5 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
-      - name: Set JVM options for JDK 11
-        if: ${{ matrix.java == '11' }}
-        run: GRADLE_ARGS='-Dorg.gradle.jvmargs=--illegal-access=permit'
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }} $GRADLE_ARGS
+        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
