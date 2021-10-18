@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['8', '11', '17'] #Support LTS releases 8, 11 and 17 and the latest release supported by Micronaut. Note: JDK 8 is not covered here because it would require org.gradle.jvmargs not to be set making the configuration more complex - however JDK 8 is already fully covered in the continuous-integration.yml
+        java: ['8', '11', '17'] #Support LTS releases 8, 11, and 17 and the latest release supported by Micronaut.
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
 
     steps:
@@ -27,5 +27,8 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
           cache: 'gradle'
+      - name: Set JDK_JAVA_OPTIONS for combination JDK 17/Tomcat #see issue #296
+        if: ${{ matrix.java == '17' && matrix.runtime == 'tomcat' }}
+        run: echo "JDK_JAVA_OPTIONS='--add-opens=java.base/java.io=ALL-UNNAMED'" >> $GITHUB_ENV
       - name: Build with Gradle Wrapper
         run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
