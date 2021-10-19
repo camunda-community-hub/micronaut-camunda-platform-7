@@ -727,7 +727,7 @@ testImplementation("org.assertj:assertj-core")
 <dependency>
 <groupId>org.assertj</groupId>
   <artifactId>assertj-core</artifactId>
-  <version>3.16.1</version>
+  <version>3.20.2</version>
   <scope>test</scope>
 </dependency>
 ```
