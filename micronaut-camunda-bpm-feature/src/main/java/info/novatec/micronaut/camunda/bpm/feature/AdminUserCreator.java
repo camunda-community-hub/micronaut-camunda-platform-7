@@ -39,24 +39,24 @@ import static org.camunda.bpm.engine.authorization.Groups.CAMUNDA_ADMIN;
 import static org.camunda.bpm.engine.authorization.Groups.GROUP_TYPE_SYSTEM;
 import static org.camunda.bpm.engine.authorization.Permissions.ALL;
 
-/**
- * Bean creating Camunda Admin User, Group and Authorizations if {@code camunda.admin-user.id} Property is present.
- *
- * @author Titus Meyer
- * @author Tobias Schäfer
+/*
+ -> Bean creating Camunda Admin User, Group and Authorizations if {@code camunda.admin-user.id} Property is present.
+ 
+  -> @author Titus Meyer
+  -> @author Tobias Schäfer
  */
 // Implementation based on: https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/configuration/impl/custom/CreateAdminUserConfiguration.java
 @Singleton
 @Requires(property = "camunda.admin-user.id")
-public class AdminUserCreator implements ApplicationEventListener<ServerStartupEvent> {
+public class AdminUserCreator implements ApplicationEventListener < ServerStartupEvent > {
     private static final Logger log = LoggerFactory.getLogger(AdminUserCreator.class);
 
     protected final IdentityService identityService;
     protected final AuthorizationService authorizationService;
     protected final Configuration.AdminUser adminUser;
-    protected final SynchronousTransactionManager<Connection> transactionManager;
+    protected final SynchronousTransactionManager < Connection > transactionManager;
 
-    public AdminUserCreator(IdentityService identityService, AuthorizationService authorizationService, Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
+    public AdminUserCreator(IdentityService identityService, AuthorizationService authorizationService, Configuration configuration, SynchronousTransactionManager < Connection > transactionManager) {
         this.identityService = identityService;
         this.authorizationService = authorizationService;
         adminUser = configuration.getAdminUser();
@@ -66,7 +66,7 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
         transactionManager.executeWrite(
-            transactionStatus -> {
+            transactionStatus - > {
                 if (!userAlreadyExists(adminUser.getId())) {
                     createUser();
 
@@ -111,7 +111,7 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
     }
 
     protected void createAdminGroupAuthorizations() {
-        for (Resource resource : Resources.values()) {
+        for (Resource resource: Resources.values()) {
             if (authorizationService.createAuthorizationQuery().groupIdIn(CAMUNDA_ADMIN).resourceType(resource).resourceId(ANY).count() == 0) {
                 AuthorizationEntity groupAuth = new AuthorizationEntity(AUTH_TYPE_GRANT);
                 groupAuth.setGroupId(CAMUNDA_ADMIN);
