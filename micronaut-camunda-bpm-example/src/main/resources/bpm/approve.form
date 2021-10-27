@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "Approve Customer Order",
+      "type": "checkbox",
+      "id": "Field_05gvdrl",
+      "key": "approved",
+      "description": "Check this to approve the customer order, otherwise it will be rejected."
+    }
+  ],
+  "type": "default",
+  "id": "Form_Approve"
+}

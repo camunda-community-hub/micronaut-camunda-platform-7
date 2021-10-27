@@ -84,7 +84,7 @@ public class ProcessEngineFactory {
                 .enableDuplicateFiltering(true);
 
         boolean deploy = false;
-        for (String extension : Arrays.asList("dmn", "bpmn")) {
+        for (String extension : Arrays.asList("dmn", "bpmn", "form")) {
             for (String location : locations) {
                 String pattern = replacePrefix(location) + "/*." + extension;
                 Resource[] models = resourceLoader.getResources(pattern);

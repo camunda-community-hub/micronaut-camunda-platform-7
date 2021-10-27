@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0a7fv6y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0a7fv6y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0">
   <bpmn:process id="Onboarding" name="Onboarding" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_1sebvul" sourceRef="StartEvent_1" targetRef="Activity_0tusr5p" />
     <bpmn:sequenceFlow id="Flow_0s6llqa" sourceRef="Activity_0tusr5p" targetRef="Activity_0xo7g3f" />
@@ -26,7 +26,7 @@
       <bpmn:incoming>Flow_1sebvul</bpmn:incoming>
       <bpmn:outgoing>Flow_0s6llqa</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_0xo7g3f" name="Approve customer order">
+    <bpmn:userTask id="Activity_0xo7g3f" name="Approve customer order" camunda:formKey="camunda-forms:deployment:approve.form">
       <bpmn:incoming>Flow_0s6llqa</bpmn:incoming>
       <bpmn:outgoing>Flow_0xg1tal</bpmn:outgoing>
     </bpmn:userTask>
@@ -85,13 +85,16 @@
         <di:waypoint x="215" y="177" />
         <di:waypoint x="250" y="177" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1wumo2z_di" bpmnElement="Activity_0tusr5p">
-        <dc:Bounds x="250" y="137" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1axlz8h_di" bpmnElement="Gateway_1axlz8h" isMarkerVisible="true">
         <dc:Bounds x="525" y="152" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="509" y="122" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09s3maf_di" bpmnElement="Event_09s3maf">
+        <dc:Bounds x="772" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="762" y="202" width="77" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_15w1yhc_di" bpmnElement="Event_15w1yhc">
@@ -99,6 +102,9 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="612" y="315" width="77" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wumo2z_di" bpmnElement="Activity_0tusr5p">
+        <dc:Bounds x="250" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_042oq6f_di" bpmnElement="Activity_0xo7g3f">
         <dc:Bounds x="400" y="137" width="100" height="80" />
@@ -110,12 +116,6 @@
         <dc:Bounds x="492" y="292" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="472" y="335" width="77" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_09s3maf_di" bpmnElement="Event_09s3maf">
-        <dc:Bounds x="772" y="159" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="762" y="202" width="77" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ycg8gx_di" bpmnElement="StartEvent_1">
