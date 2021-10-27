@@ -60,7 +60,7 @@ Micronaut + Camunda = :heart:
 # ✨Features
 * Camunda can be integrated as an embedded process engine into a Micronaut project by simply [adding a dependency](#dependency-management) in build.gradle (Gradle) or pom.xml (Maven).
 * Using H2 as an in-memory database is as simple as [adding a dependency](#dependency-management). Other [data sources can be configured](#data-source) via properties.
-* BPMN process models and DMN decision tables are [automatically deployed](#deploying-models) for all configured locations.
+* BPMN process models, DMN decision tables, and Camunda Forms are [automatically deployed](#deploying-models) for all configured locations.
 * The Camunda process engine with its job executor is started automatically - but the job executor is disabled for tests by default.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#camunda-integration).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#java-delegates) within the process models.
@@ -130,11 +130,13 @@ You have the following options to integrate the Camunda integration:
 Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
 
 ##  Deploying Models
-BPMN process models (`*.bpmn`) and DMN decision tables (`*.dmn`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved in the resources.
+BPMN process models (`*.bpmn`), DMN decision tables (`*.dmn`), and Camunda Forms (`*.form`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved in the resources.
 
 By default only the root of the resources will be scanned, but with the [property](#properties) `camunda.locations` you can configure the locations.
 
 When starting the application you'll see the log output: `Deploying model: classpath:xxxxxxx.bpmn`
+
+If you deploy Camunda [Forms](https://docs.camunda.org/manual/latest/reference/forms/camunda-forms/) then you can reference these from your user tasks by using the form key, e.g. `camunda-forms:deployment:example.form`.
 
 ## Camunda Integration
 

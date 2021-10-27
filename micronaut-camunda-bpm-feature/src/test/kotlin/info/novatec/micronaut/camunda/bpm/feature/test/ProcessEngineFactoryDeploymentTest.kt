@@ -45,4 +45,10 @@ class ProcessEngineFactoryDeploymentTest {
             .extracting<String>(ProcessDefinition::getKey)
             .contains("ProcessEmpty", "ProcessEmptySubdir")
     }
+
+    @Test
+    fun `camunda forms get deployed`() {
+        assertThat(repositoryService.getDeploymentResourceNames("1"))
+            .contains("sample.form")
+    }
 }
