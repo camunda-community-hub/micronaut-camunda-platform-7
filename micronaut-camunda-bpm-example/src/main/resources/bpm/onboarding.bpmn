@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0a7fv6y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0a7fv6y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:process id="Onboarding" name="Onboarding" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_1sebvul" sourceRef="StartEvent_1" targetRef="Activity_0tusr5p" />
     <bpmn:sequenceFlow id="Flow_0s6llqa" sourceRef="Activity_0tusr5p" targetRef="Activity_0xo7g3f" />
@@ -26,7 +26,7 @@
       <bpmn:incoming>Flow_1sebvul</bpmn:incoming>
       <bpmn:outgoing>Flow_0s6llqa</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_0xo7g3f" name="Approve customer order" camunda:formKey="camunda-forms:deployment:approve.form">
+    <bpmn:userTask id="Activity_0xo7g3f" name="Approve customer order" camunda:formRef="Form_Approve" camunda:formRefBinding="latest">
       <bpmn:incoming>Flow_0s6llqa</bpmn:incoming>
       <bpmn:outgoing>Flow_0xg1tal</bpmn:outgoing>
     </bpmn:userTask>
