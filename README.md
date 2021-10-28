@@ -136,7 +136,9 @@ By default only the root of the resources will be scanned, but with the [propert
 
 When starting the application you'll see the log output: `Deploying model: classpath:xxxxxxx.bpmn`
 
-If you deploy Camunda [Forms](https://docs.camunda.org/manual/latest/reference/forms/camunda-forms/) then you can reference these from your user tasks by using the form key, e.g. `camunda-forms:deployment:example.form`.
+If you deploy Camunda [Forms](https://docs.camunda.org/manual/latest/reference/forms/camunda-forms/) then you can reference these from your user tasks by either
+* defining the form as type "Camunda Form" and setting the "Form Ref", e.g. `ExampleForm` (Preferred solution supported by Camunda Modeller 4.11 and newer).
+* defining the form as type "Embedded or External Task Forms" and setting the "Form Key", e.g. `camunda-forms:deployment:example.form` (Supported by Camunda Modeller 4.10 and newer).
 
 ## Camunda Integration
 
