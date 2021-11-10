@@ -21,7 +21,7 @@ dependencies {
     // Test
     testImplementation("io.micronaut:micronaut-http-client")
 
-    testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:$camundaPlatformAssert")
+    testImplementation("org.camunda.bpm:camunda-bpm-assert:$camundaVersion")
     testImplementation("org.assertj:assertj-core")
 }
 

@@ -17,7 +17,7 @@ package info.novatec.micronaut.camunda.bpm.feature;
 
 import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.impl.telemetry.TelemetryRegistry;
-import org.camunda.bpm.engine.impl.telemetry.dto.ApplicationServer;
+import org.camunda.bpm.engine.impl.telemetry.dto.ApplicationServerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +35,11 @@ public class MnTelemetryRegistry extends TelemetryRegistry {
 
     protected static final String INTEGRATION_NAME = "micronaut-camunda";
 
-    public MnTelemetryRegistry(Optional<ApplicationServer> applicationServer) {
+    public MnTelemetryRegistry(Optional<ApplicationServerImpl> applicationServer) {
         setCamundaIntegration(INTEGRATION_NAME);
         if (applicationServer.isPresent()) {
             log.info("Server runtime version: vendor={}, version={}", applicationServer.get().getVendor(), applicationServer.get().getVersion());
-            setApplicationServer(applicationServer.get());
+            setApplicationServer(applicationServer.get().getVersion());
         } else {
             log.warn("Unable to identify the application server for the telemetry data!");
         }
