@@ -48,6 +48,7 @@ Micronaut + Camunda = :heart:
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
   * [Custom Job Executor Configuration](#custom-job-executor-configuration)
   * [Transaction Management](#transaction-management)
+  * [Keycloak](#keycloak)
   * [Eventing Bridge](#eventing-bridge)
   * [Process Tests](#process-tests)
   * [Docker](#docker)
@@ -642,6 +643,33 @@ And also add the annotation processor to every (!) `annotationProcessorPaths` el
 
 and then configure JPA as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#hibernate).
 
+## Keycloak
+
+You can enable the [Keycloak](https://www.keycloak.org/) integration to
+* log into the Webapps (Tasklist, Cockpit, and Admin)
+* get responses from the REST API with basic-auth enabled
+
+1. Start Keycloak, e.g. `docker run -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR="h2" quay.io/keycloak/keycloak:12.0.4`
+2. Configure Keycloak and add a test user.
+3. Add the dependency `implementation("org.camunda.bpm.extension:camunda-bpm-identity-keycloak:2.2.3")` to your Micronaut project
+4. Add the plugin:
+```java
+@Singleton
+@ConfigurationProperties("plugin.identity.keycloak")
+public class KeyCloakPlugin extends KeycloakIdentityProviderPlugin {
+}
+```
+4. Configure the application.yml
+```yaml
+plugin.identity.keycloak:
+  keycloakIssuerUrl: http://localhost:8080/auth/realms/master
+  keycloakAdminUrl: http://localhost:8080/auth/admin/realms/master
+  clientId: camunda-identity-service
+  clientSecret: 42aa42bb-1234-4242-a24a-42a2b420cde1 # you get this from keycloak
+  useEmailAsCamundaUserId: true
+  administratorGroupName: camunda-admin
+```
+5. Start the application and log in with your created test user. Keep in mind that your user needs an e-mail address.
 
 ## Eventing Bridge
 
