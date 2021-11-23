@@ -986,6 +986,8 @@ Download of Releases:
 
 # 📆Publications
 
+* 2021-10: [Camunda Question Corner](https://www.youtube.com/watch?v=o2-sgtXGIls&t=320s)  
+  Recording of the Community Contribution Special with Niall Deehan and Tobias Schäfer (10 minutes)
 * 2021-07: [Automate any Process on Micronaut](https://camunda.com/blog/2021/07/automate-any-process-on-micronaut/)  
   Blogpost by Tobias Schäfer
 * 2021-02: [Automating Processes with Microservices on Micronaut and Camunda](https://micronaut.io/2021/02/25/webinar-micronaut-and-camunda/)  
