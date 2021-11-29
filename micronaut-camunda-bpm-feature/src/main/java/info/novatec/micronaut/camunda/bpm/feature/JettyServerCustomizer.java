@@ -22,9 +22,10 @@ import io.micronaut.context.event.BeanCreatedEventListener;
 import jakarta.inject.Singleton;
 import org.camunda.bpm.admin.impl.web.bootstrap.AdminContainerBootstrap;
 import org.camunda.bpm.cockpit.impl.web.bootstrap.CockpitContainerBootstrap;
-import org.camunda.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
 import org.camunda.bpm.engine.rest.filter.CacheControlFilter;
 import org.camunda.bpm.engine.rest.filter.EmptyBodyFilter;
+import org.camunda.bpm.engine.rest.impl.FetchAndLockContextListener;
+import org.camunda.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
 import org.camunda.bpm.tasklist.impl.web.bootstrap.TasklistContainerBootstrap;
 import org.camunda.bpm.webapp.impl.engine.ProcessEnginesFilter;
 import org.camunda.bpm.webapp.impl.security.auth.AuthenticationFilter;
@@ -50,11 +51,11 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Collections.*;
-import static javax.servlet.DispatcherType.*;
+import static java.util.Collections.singletonMap;
+import static javax.servlet.DispatcherType.REQUEST;
 
 /**
- * Using Micronaut Servlet with Jetty to run the REST API as a servlet.
+ * Using Micronaut Servlet with Jetty to run the REST API/Webapps as a servlet.
  *
  * see https://micronaut-projects.github.io/micronaut-servlet/latest/guide/#jetty
  *
@@ -84,6 +85,13 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             ServletContextHandler restServletContextHandler = new ServletContextHandler();
             restServletContextHandler.setContextPath(configuration.getRest().getContextPath());
             restServletContextHandler.addServlet(new ServletHolder(new ServletContainer(new RestApp())), "/*");
+            restServletContextHandler.addEventListener(new ServletContextListener() {
+                @Override
+                public void contextInitialized(ServletContextEvent sce) {
+                    // Required for long polling
+                    new FetchAndLockContextListener().contextInitialized(sce);
+                }
+            });
 
             if (configuration.getRest().isBasicAuthEnabled()) {
                 // see https://docs.camunda.org/manual/latest/reference/rest/overview/authentication/
@@ -166,9 +174,6 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             registerFilter("EmptyBodyFilter", EmptyBodyFilter.class, "/api/*", "/app/*");
             registerFilter("CacheControlFilter", CacheControlFilter.class, "/api/*", "/app/*");
         }
-
-        @Override
-        public void contextDestroyed(ServletContextEvent sce) {}
 
         protected Map<String, String> getCsrfInitParams(){
             Map<String, String> initParams = new HashMap<>();
