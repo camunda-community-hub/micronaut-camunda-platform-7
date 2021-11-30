@@ -91,6 +91,10 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
                     // Required for long polling
                     new FetchAndLockContextListener().contextInitialized(sce);
                 }
+
+                @Override
+                public void contextDestroyed(ServletContextEvent sce) {
+                }
             });
 
             if (configuration.getRest().isBasicAuthEnabled()) {
@@ -173,6 +177,10 @@ public class JettyServerCustomizer implements BeanCreatedEventListener<Server> {
             registerFilter("HttpHeaderSecurityFilter", HttpHeaderSecurityFilter.class, getHeaderSecurityInitParams(), "/api/*", "/app/*");
             registerFilter("EmptyBodyFilter", EmptyBodyFilter.class, "/api/*", "/app/*");
             registerFilter("CacheControlFilter", CacheControlFilter.class, "/api/*", "/app/*");
+        }
+
+        @Override
+        public void contextDestroyed(ServletContextEvent sce) {
         }
 
         protected Map<String, String> getCsrfInitParams(){
