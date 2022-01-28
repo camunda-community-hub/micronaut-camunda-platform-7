@@ -1,6 +1,10 @@
 micronaut:
   application:
     name: micronaut-camunda-example
+netty:
+  default:
+    allocator:
+      max-order: 3
 camunda:
   locations:
     - classpath:bpm
