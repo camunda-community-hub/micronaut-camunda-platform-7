@@ -2,7 +2,7 @@
 
 This open source project allows you to easily integrate [Camunda](https://camunda.com/products/bpmn-engine/) into [Micronaut](https://micronaut.io) projects.
 
-Micronaut is known for its efficient use of resources. With this integration you embed the BPMN 2.0 compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
+The Micronaut Framework is known for its efficient use of resources. With this integration you embed the BPMN 2.0 compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
 
 The integration is preconfigured with sensible defaults, so that you can get started with minimal configuration: simply add a dependency in your Micronaut project!
 
@@ -20,9 +20,9 @@ Do you want to try it out? Please jump to the [Getting Started](#getting-started
 
 Do you want to contribute to our open source project? Please read the [Contribution Guidelines](CONTRIBUTING.md) and [contact us](#contact).
 
-If you also want to run your External Task Client on Micronaut, have a look at the open source project [micronaut-camunda-external-client](https://github.com/camunda-community-hub/micronaut-camunda-external-client).
+If you also want to run your External Task Client on a Micronaut application, have a look at the open source project [micronaut-camunda-external-client](https://github.com/camunda-community-hub/micronaut-camunda-external-client).
 
-Micronaut + Camunda = :heart:
+Micronaut Framework + Camunda = :heart:
 
 [![Release](https://img.shields.io/github/v/release/camunda-community-hub/micronaut-camunda-bpm.svg)](https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases)
 [![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
@@ -65,7 +65,7 @@ Micronaut + Camunda = :heart:
 * The Camunda process engine with its job executor is started automatically - but the job executor is disabled for tests by default.
 * The process engine and related services, e.g. RuntimeService, RepositoryService, ..., are provided as lazy initialized beans and [can be injected](#camunda-integration).
 * Micronaut beans are resolved from the application context if they are [referenced by expressions or Java class names](#java-delegates) within the process models.
-* The process engine [integrates with Micronaut's transaction manager](#transaction-management). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
+* The process engine [integrates with Micronaut transaction manager](#transaction-management). Optionally, micronaut-data-jdbc or micronaut-data-jpa are supported.
 * Eventing Bridge that maps Camunda Events to Micronaut ApplicationEvents.
 * The process engine can be configured with [generic properties](#generic-properties).
 * The [Camunda REST API and the Webapps](#camunda-rest-api-and-webapps) are supported (currently only for Jetty).
