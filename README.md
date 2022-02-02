@@ -214,7 +214,7 @@ datasources:
 after adding the appropriate driver as a dependency:
 
 ```groovy
-runtimeOnly("org.postgresql:postgresql:42.2.22")
+runtimeOnly("org.postgresql:postgresql:42.3.1")
 ```
 
 ### Connection Pool with HikariCP
