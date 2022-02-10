@@ -1,10 +1,12 @@
 # micronaut-camunda-bpm
 
-This open source project allows you to easily integrate [Camunda](https://camunda.com/products/bpmn-engine/) into [Micronaut](https://micronaut.io) projects.
+This open source project allows you to easily integrate [Camunda Platform](https://camunda.com/products/camunda-platform/) into [Micronaut](https://micronaut.io) projects.
 
-The Micronaut Framework is known for its efficient use of resources. With this integration you embed the BPMN 2.0 compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
+The Micronaut Framework is known for its efficient use of resources. With this integration you embed the [BPMN 2.0](https://www.bpmn.org/) compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
 
 The integration is preconfigured with sensible defaults, so that you can get started with minimal configuration: simply add a dependency in your Micronaut project!
+
+If you are interested in using Camunda's cloud native solution Zeebe on a Micronaut application instead, have a look at our open source project [micronaut-zeebe-client](https://github.com/camunda-community-hub/micronaut-zeebe-client).
 
 ---
 _We're not aware of all installations of our Open Source project. However, we love_
