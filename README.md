@@ -38,11 +38,12 @@ Micronaut Framework + Camunda = :heart:
 
 * ✨ [Features](#features)
 * 🚀 [Getting Started](#getting-started)
-  * [Supported JDKs](#supported-jdks)
   * [Dependency Management](#dependency-management)
   * [Deploying Models](#deploying-models)
   * [Camunda Integration](#camunda-integration)
   * [Configuration](#configuration)
+  * [Examples](#examples)
+  * [Supported JDKs](#supported-jdks)
 * 🏆 [Advanced Topics](#advanced-topics)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
   * [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee)
@@ -81,19 +82,6 @@ Micronaut Framework + Camunda = :heart:
 # 🚀Getting Started
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
-
-Here are some example applications:
-* [Onboarding Process](https://github.com/tobiasschaefer/micronaut-camunda-example-onboarding) with service tasks, user tasks, and message correlation.
-* Simple [application with Java/Maven](https://github.com/tobiasschaefer/micronaut-camunda-example-java-maven)
-* Simple [application with Kotlin/Gradle](https://github.com/tobiasschaefer/micronaut-camunda-example-kotlin-gradle)
-* [Internal example application](/micronaut-camunda-bpm-example) used during development
-
-## Supported JDKs
-
-We officially support the following JDKs:
-* JDK 8 (LTS)
-* JDK 11 (LTS)
-* JDK 17 (LTS)
 
 ## Dependency Management
 
@@ -281,6 +269,21 @@ camunda:
 ```
 
 If you missed the activation on an already active database or want to check/change the setting, go to the admin application and navigate to `System -> Telemetry Feature`. Locally, jump directly to the [Telemetry Feature](http://localhost:8080/camunda/app/admin/default/#/system?section=analytics-settings-general).
+
+## Examples
+
+Here are some example applications:
+* [Onboarding Process](https://github.com/tobiasschaefer/micronaut-camunda-example-onboarding) with service tasks, user tasks, and message correlation.
+* Simple [application with Java/Maven](https://github.com/tobiasschaefer/micronaut-camunda-example-java-maven)
+* Simple [application with Kotlin/Gradle](https://github.com/tobiasschaefer/micronaut-camunda-example-kotlin-gradle)
+* [Internal example application](/micronaut-camunda-bpm-example) used during development
+
+## Supported JDKs
+
+We officially support the following JDKs:
+* JDK 8 (LTS)
+* JDK 11 (LTS)
+* JDK 17 (LTS)
 
 # 🏆Advanced Topics
 
