@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2021-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,5 +50,11 @@ class ProcessEngineFactoryDeploymentTest {
     fun `camunda forms get deployed`() {
         assertThat(repositoryService.getDeploymentResourceNames("1"))
             .contains("sample.form")
+    }
+
+    @Test
+    fun `DMN tables get deployed`() {
+        assertThat(repositoryService.getDeploymentResourceNames("1"))
+            .contains("simple-table.dmn")
     }
 }
