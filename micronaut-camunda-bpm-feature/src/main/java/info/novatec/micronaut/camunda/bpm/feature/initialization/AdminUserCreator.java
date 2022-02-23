@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package info.novatec.micronaut.camunda.bpm.feature;
+package info.novatec.micronaut.camunda.bpm.feature.initialization;
 
+import info.novatec.micronaut.camunda.bpm.feature.Configuration;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.authorization.Resource;
 import org.camunda.bpm.engine.authorization.Resources;
 import org.camunda.bpm.engine.identity.Group;
@@ -48,33 +48,31 @@ import static org.camunda.bpm.engine.authorization.Permissions.ALL;
 // Implementation based on: https://github.com/camunda/camunda-bpm-platform/blob/master/spring-boot-starter/starter/src/main/java/org/camunda/bpm/spring/boot/starter/configuration/impl/custom/CreateAdminUserConfiguration.java
 @Singleton
 @Requires(property = "camunda.admin-user.id")
-public class AdminUserCreator implements ApplicationEventListener<ServerStartupEvent> {
+public class AdminUserCreator implements ParallelInitializationWithProcessEngine {
     private static final Logger log = LoggerFactory.getLogger(AdminUserCreator.class);
 
-    protected final IdentityService identityService;
-    protected final AuthorizationService authorizationService;
     protected final Configuration.AdminUser adminUser;
     protected final SynchronousTransactionManager<Connection> transactionManager;
 
-    public AdminUserCreator(IdentityService identityService, AuthorizationService authorizationService, Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
-        this.identityService = identityService;
-        this.authorizationService = authorizationService;
+    public AdminUserCreator(Configuration configuration, SynchronousTransactionManager<Connection> transactionManager) {
         adminUser = configuration.getAdminUser();
         this.transactionManager = transactionManager;
     }
 
     @Override
-    public void onApplicationEvent(ServerStartupEvent event) {
+    public void execute(ProcessEngine processEngine) {
+        IdentityService identityService = processEngine.getIdentityService();
+        AuthorizationService authorizationService = processEngine.getAuthorizationService();
         transactionManager.executeWrite(
             transactionStatus -> {
-                if (!userAlreadyExists(adminUser.getId())) {
-                    createUser();
+                if (!userAlreadyExists(identityService, adminUser.getId())) {
+                    createUser(identityService);
 
-                    if (!adminGroupAlreadyExists()) {
-                        createAdminGroup();
+                    if (!adminGroupAlreadyExists(identityService)) {
+                        createAdminGroup(identityService);
                     }
 
-                    createAdminGroupAuthorizations();
+                    createAdminGroupAuthorizations(authorizationService);
 
                     identityService.createMembership(adminUser.getId(), CAMUNDA_ADMIN);
 
@@ -85,15 +83,15 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
         );
     }
 
-    protected boolean userAlreadyExists(String userId) {
+    protected boolean userAlreadyExists(IdentityService identityService, String userId) {
         return identityService.createUserQuery().userId(userId).singleResult() != null;
     }
 
-    protected boolean adminGroupAlreadyExists() {
+    protected boolean adminGroupAlreadyExists(IdentityService identityService) {
         return identityService.createGroupQuery().groupId(CAMUNDA_ADMIN).count() > 0;
     }
 
-    protected void createUser() {
+    protected void createUser(IdentityService identityService) {
         User newUser = identityService.newUser(adminUser.getId());
         newUser.setPassword(adminUser.getPassword());
         newUser.setFirstName(adminUser.getFirstname().orElse(StringUtils.capitalize(adminUser.getId())));
@@ -103,14 +101,14 @@ public class AdminUserCreator implements ApplicationEventListener<ServerStartupE
         identityService.saveUser(newUser);
     }
 
-    protected void createAdminGroup() {
+    protected void createAdminGroup(IdentityService identityService) {
         Group camundaAdminGroup = identityService.newGroup(CAMUNDA_ADMIN);
         camundaAdminGroup.setName("Camunda Administrators");
         camundaAdminGroup.setType(GROUP_TYPE_SYSTEM);
         identityService.saveGroup(camundaAdminGroup);
     }
 
-    protected void createAdminGroupAuthorizations() {
+    protected void createAdminGroupAuthorizations(AuthorizationService authorizationService) {
         for (Resource resource : Resources.values()) {
             if (authorizationService.createAuthorizationQuery().groupIdIn(CAMUNDA_ADMIN).resourceType(resource).resourceId(ANY).count() == 0) {
                 AuthorizationEntity groupAuth = new AuthorizationEntity(AUTH_TYPE_GRANT);

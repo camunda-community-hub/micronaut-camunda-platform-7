@@ -37,9 +37,23 @@ public class MnJobExecutor extends JobExecutor {
 
     protected final ExecutorService ioExecutor;
 
-    public MnJobExecutor(@Named(TaskExecutors.IO) ExecutorService ioExecutor, JobExecutorCustomizer jobExecutorCustomizer) {
+    // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
+    protected final boolean twoStageProcessEngine;
+
+    public MnJobExecutor(@Named(TaskExecutors.SCHEDULED) ExecutorService ioExecutor, JobExecutorCustomizer jobExecutorCustomizer, Configuration configuration) {
         this.ioExecutor = ioExecutor;
+        twoStageProcessEngine = configuration.isTwoStageProcessEngine();
         jobExecutorCustomizer.customize(this);
+    }
+
+    @Override
+    public synchronized void registerProcessEngine(ProcessEngineImpl processEngine) {
+        if (twoStageProcessEngine) {
+            processEngines.add(processEngine);
+            // JobExecutor is started in ParallelInitializationService
+        } else {
+            super.registerProcessEngine(processEngine);
+        }
     }
 
     @Override

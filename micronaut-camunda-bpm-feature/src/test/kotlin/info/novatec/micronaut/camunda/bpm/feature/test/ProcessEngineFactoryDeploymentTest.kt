@@ -15,7 +15,7 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineFactory
+import info.novatec.micronaut.camunda.bpm.feature.initialization.DeployModelsExecutor
 import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -36,7 +36,7 @@ class ProcessEngineFactoryDeploymentTest {
     fun `deployment name is set`() {
         assertThat(repositoryService.createDeploymentQuery().list())
             .extracting<String>(Deployment::getName)
-            .contains(ProcessEngineFactory.MICRONAUT_AUTO_DEPLOYMENT_NAME)
+            .contains(DeployModelsExecutor.MICRONAUT_AUTO_DEPLOYMENT_NAME)
     }
 
     @Test

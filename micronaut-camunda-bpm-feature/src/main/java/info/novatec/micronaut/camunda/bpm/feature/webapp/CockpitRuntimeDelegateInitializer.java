@@ -16,9 +16,8 @@
 package info.novatec.micronaut.camunda.bpm.feature.webapp;
 
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration;
+import info.novatec.micronaut.camunda.bpm.feature.initialization.ParallelInitializationWithProcessEngine;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.ApplicationEventListener;
-import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import jakarta.inject.Singleton;
 import org.apache.ibatis.transaction.jdbc.JdbcTransaction;
@@ -26,6 +25,7 @@ import org.camunda.bpm.cockpit.Cockpit;
 import org.camunda.bpm.cockpit.CockpitRuntimeDelegate;
 import org.camunda.bpm.cockpit.db.CommandExecutor;
 import org.camunda.bpm.cockpit.impl.DefaultCockpitRuntimeDelegate;
+import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.interceptor.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,7 @@ import java.sql.Connection;
  */
 @Singleton
 @Requires(property = "camunda.webapps.enabled", value="true")
-public class CockpitRuntimeDelegateInitializer implements ApplicationEventListener<ServerStartupEvent> {
+public class CockpitRuntimeDelegateInitializer implements ParallelInitializationWithProcessEngine {
 
     private static final Logger log = LoggerFactory.getLogger(CockpitRuntimeDelegateInitializer.class);
 
@@ -61,7 +61,7 @@ public class CockpitRuntimeDelegateInitializer implements ApplicationEventListen
     }
 
     @Override
-    public void onApplicationEvent(ServerStartupEvent event) {
+    public void execute(ProcessEngine processEngine) {
         CockpitRuntimeDelegate cockpitRuntimeDelegate = Cockpit.getRuntimeDelegate();
         Cockpit.setCockpitRuntimeDelegate(new DefaultCockpitRuntimeDelegate() {
             @Override

@@ -16,7 +16,7 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
-import info.novatec.micronaut.camunda.bpm.feature.FilterAllTaskCreator
+import info.novatec.micronaut.camunda.bpm.feature.initialization.FilterAllTaskCreator
 import io.micronaut.context.annotation.Property
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject

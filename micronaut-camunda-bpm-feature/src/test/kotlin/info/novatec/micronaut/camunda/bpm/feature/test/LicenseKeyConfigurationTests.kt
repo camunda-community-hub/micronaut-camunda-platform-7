@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2021-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,139 +15,109 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import info.novatec.micronaut.camunda.bpm.feature.LicenseKeyConfiguration
-import io.micronaut.context.annotation.Property
+import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration
+import info.novatec.micronaut.camunda.bpm.feature.initialization.LicenseKeyConfiguration
+import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.runtime.server.event.ServerStartupEvent
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
-import jakarta.inject.Inject
 import org.camunda.bpm.engine.ManagementService
-import org.junit.jupiter.api.*
+import org.camunda.bpm.engine.ProcessEngine
 import org.junit.jupiter.api.Assertions.*
-import org.mockito.Mockito
-import java.util.*
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 /**
  * @author Martin Sawilla
+ * @author Tobias Schäfer
  */
 class LicenseKeyConfigurationTests {
 
-    @MicronautTest
     @Nested
     inner class NoLicense {
 
-        @Inject
-        lateinit var managementService: ManagementService
-
-        @Inject
-        lateinit var licenseKeyConfiguration: Optional<LicenseKeyConfiguration>
-
-        @BeforeEach
-        fun `delete license` () {
-            managementService.deleteLicenseKey()
-        }
-
         @Test
         fun `no license provided`() {
-            assertFalse(licenseKeyConfiguration.isPresent)
-            assertNull(managementService.licenseKey)
+            ApplicationContext.run(EmbeddedServer::class.java).use { embeddedServer ->
+                val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+                assertEquals("removalTimeBased", processEngineConfiguration.historyCleanupStrategy)
+                assertEquals(0, processEngineConfiguration.batchJobPriority)
+                assertEquals(3, processEngineConfiguration.defaultNumberOfRetries)
+                assertEquals(true, processEngineConfiguration.isDmnEnabled)
+
+                assertFalse(embeddedServer.applicationContext.containsBean(LicenseKeyConfiguration::class.java))
+                assertNull(embeddedServer.applicationContext.getBean(ManagementService::class.java).licenseKey)
+            }
         }
     }
 
-    @MicronautTest
     @Nested
-    @Property(name = "camunda.license-file", value = "")
     inner class LicenseFromResource {
-
-        @Inject
-        lateinit var managementService: ManagementService
-
-        @Inject
-        lateinit var licenseKeyConfiguration: Optional<LicenseKeyConfiguration>
-
-        @BeforeEach
-        fun `delete license` () {
-            managementService.deleteLicenseKey()
-        }
 
         @Test
         fun `load license from resource folder`() {
-            assertTrue(licenseKeyConfiguration.isPresent)
-            licenseKeyConfiguration.get().onApplicationEvent(ServerStartupEvent(Mockito.mock(EmbeddedServer::class.java)))
-
-            val licenseKey = managementService.licenseKey
-            assertNotNull(licenseKey)
-            assertEquals("micronaut-camunda-bpm", getNameOfKey(licenseKey))
+            val properties: Map<String, Any> = mapOf(
+                "camunda.license-file" to "",
+            )
+            ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+                val managementService = embeddedServer.applicationContext.getBean(ManagementService::class.java)
+                val licenseKey = managementService.licenseKey
+                assertEquals("micronaut-camunda-bpm", getNameOfKey(licenseKey))
+                managementService.deleteLicenseKey()
+            }
         }
 
         @Test
         fun `existing license is not overwritten`() {
-            managementService.licenseKey = "test;limited"
-
-            assertTrue(licenseKeyConfiguration.isPresent)
-            licenseKeyConfiguration.get().onApplicationEvent(ServerStartupEvent(Mockito.mock(EmbeddedServer::class.java)))
-
-            val licenseKey = managementService.licenseKey
-            assertNotNull(licenseKey)
-            assertEquals("limited", getNameOfKey(licenseKey))
+            val properties: Map<String, Any> = mapOf(
+                "camunda.license-file" to "",
+            )
+            ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+                val managementService = embeddedServer.applicationContext.getBean(ManagementService::class.java)
+                managementService.licenseKey = "test;limited"
+                val licenseKeyConfiguration = embeddedServer.applicationContext.getBean(LicenseKeyConfiguration::class.java)
+                licenseKeyConfiguration.execute(embeddedServer.applicationContext.getBean(ProcessEngine::class.java))
+                assertEquals("limited", getNameOfKey(managementService.licenseKey))
+                managementService.deleteLicenseKey()
+            }
         }
 
         @Test
-        @Property(name = "camunda.license-file", value = " ")
         fun `license not loaded because url is blank`() {
-            assertTrue(licenseKeyConfiguration.isPresent)
-            licenseKeyConfiguration.get().onApplicationEvent(ServerStartupEvent(Mockito.mock(EmbeddedServer::class.java)))
-
-            val licenseKey = managementService.licenseKey
-            assertEquals(null, licenseKey)
+            val properties: Map<String, Any> = mapOf(
+                "camunda.license-file" to " ",
+            )
+            ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+                assertEquals(null, embeddedServer.applicationContext.getBean(ManagementService::class.java).licenseKey)
+            }
         }
 
         @Test
-        @Property(name = "camunda.license-file", value = "file:///does-not-exist.txt")
         fun `license not loaded because url points to a file that does not exist`() {
-            assertTrue(licenseKeyConfiguration.isPresent)
-            licenseKeyConfiguration.get().onApplicationEvent(ServerStartupEvent(Mockito.mock(EmbeddedServer::class.java)))
-
-            val licenseKey = managementService.licenseKey
-            assertEquals(null, licenseKey)
+            val properties: Map<String, Any> = mapOf(
+                "camunda.license-file" to "file:///does-not-exist.txt",
+            )
+            ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+                assertEquals(null, embeddedServer.applicationContext.getBean(ManagementService::class.java).licenseKey)
+            }
         }
     }
 
-    @MicronautTest
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class LicenseFromUrl: TestPropertyProvider {
+    inner class LicenseFromUrl {
 
-        @Inject
-        lateinit var managementService: ManagementService
-
-        @Inject
-        lateinit var licenseKeyConfiguration: Optional<LicenseKeyConfiguration>
-
-        override fun getProperties(): MutableMap<String, String> {
-
-            return mutableMapOf(
+        @Test
+        fun `load license from an url` () {
+            val properties: Map<String, Any> = mapOf(
                 "camunda.license-file" to LicenseFromUrl()::class.java.classLoader
                     .getResource("license/camunda-license-url.txt")!!
                     .toString()
                     .replace("file:/", "file:///"), // URI vs. URL ..
             )
-        }
-
-        @BeforeEach
-        fun `delete license` () {
-            managementService.deleteLicenseKey()
-        }
-
-        @Test
-        fun `load license from an url` () {
-            assertTrue(licenseKeyConfiguration.isPresent)
-            licenseKeyConfiguration.get().onApplicationEvent(ServerStartupEvent(Mockito.mock(EmbeddedServer::class.java)))
-
-            val licenseKey = managementService.licenseKey
-            assertNotNull(licenseKey)
-            assertEquals("micronaut-camunda-bpm-url", getNameOfKey(licenseKey))
+            ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+                val managementService = embeddedServer.applicationContext.getBean(ManagementService::class.java)
+                val licenseKey = managementService.licenseKey
+                assertEquals("micronaut-camunda-bpm-url", getNameOfKey(licenseKey))
+                managementService.deleteLicenseKey()
+            }
         }
     }
 

@@ -15,12 +15,10 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
+import info.novatec.micronaut.camunda.bpm.feature.initialization.AdminUserCreator
 import io.micronaut.context.annotation.Property
 import io.micronaut.core.value.PropertyNotFoundException
-import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.runtime.server.event.ServerStartupEvent
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.camunda.bpm.engine.ProcessEngine
@@ -32,11 +30,10 @@ import org.camunda.bpm.engine.identity.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
 import java.util.*
 
 /**
- * Tests for [info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator]
+ * Tests for [AdminUserCreator]
  *
  * @author Titus Meyer
  */
@@ -108,7 +105,7 @@ class AdminUserCreatorTest {
             assertAdminGroupAuthorizationsExist(processEngine)
 
             // Trigger event again and check that it is idempotent
-            adminUserCreator.get().onApplicationEvent(ServerStartupEvent(mock(EmbeddedServer::class.java)))
+            adminUserCreator.get().execute(processEngine)
 
             assertEquals(1, processEngine.identityService.createUserQuery().count())
             assertAdminUserExists(processEngine, configuration.adminUser.id)
