@@ -22,10 +22,8 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanProperty;
-import io.micronaut.jdbc.BasicJdbcConfiguration;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import jakarta.inject.Singleton;
-import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.history.*;
 import org.camunda.bpm.engine.impl.*;
@@ -48,8 +46,6 @@ import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.Connection;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -86,8 +82,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final CamundaVersion camundaVersion;
 
-    protected final BasicJdbcConfiguration basicJdbcConfiguration;
-
     protected final List<ProcessEnginePlugin> plugins;
 
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
@@ -97,7 +91,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         Environment environment,
                                         CamundaVersion camundaVersion,
                                         ApplicationContext applicationContext,
-                                        BasicJdbcConfiguration basicJdbcConfiguration,
                                         DataSource dataSource,
                                         MnArtifactFactory artifactFactory,
                                         MnBeansResolverFactory beansResolverFactory,
@@ -109,7 +102,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.beansResolverFactory = beansResolverFactory;
         this.environment = environment;
         this.camundaVersion = camundaVersion;
-        this.basicJdbcConfiguration = basicJdbcConfiguration;
         this.plugins = plugins;
         checkForDeprecatedConfiguration();
         mockUnsupportedCmmnMethods();
@@ -127,19 +119,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         registerProcessEnginePlugins();
 
         processEngineConfigurationCustomizer.customize(this);
-    }
-
-    @Override
-    public ProcessEngine buildProcessEngine() {
-        return transactionManager.executeWrite(
-                transactionStatus -> {
-                    log.info("Building process engine connected to {}", basicJdbcConfiguration.getUrl());
-                    Instant start = Instant.now();
-                    ProcessEngine processEngine = super.buildProcessEngine();
-                    log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
-                    return processEngine;
-                }
-        );
     }
 
     @Override

@@ -18,6 +18,8 @@ package info.novatec.micronaut.camunda.bpm.feature;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.jdbc.BasicJdbcConfiguration;
+import io.micronaut.transaction.SynchronousTransactionManager;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.repository.DeploymentBuilder;
@@ -28,6 +30,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,12 +53,14 @@ public class ProcessEngineFactory {
      * @param processEngineConfiguration the {@link ProcessEngineConfiguration} to build the {@link ProcessEngine}.
      * @param camundaVersion the @{@link CamundaVersion} to log on application start.
      * @param configuration the @{@link Configuration}
+     * @param transactionManager the {@link SynchronousTransactionManager}
+     * @param basicJdbcConfiguration the {@link BasicJdbcConfiguration}
      * @return the initialized {@link ProcessEngine} in the application context.
      * @throws IOException if a resource, i.e. a model, cannot be loaded.
      */
     @Context
     @Bean(preDestroy = "close")
-    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion, Configuration configuration) throws IOException {
+    public ProcessEngine processEngine(ProcessEngineConfiguration processEngineConfiguration, CamundaVersion camundaVersion, Configuration configuration, SynchronousTransactionManager<Connection> transactionManager, BasicJdbcConfiguration basicJdbcConfiguration) throws IOException {
 
         if (camundaVersion.getVersion().isPresent()) {
             log.info("Camunda version: {}", camundaVersion.getVersion().get());
@@ -61,7 +68,15 @@ public class ProcessEngineFactory {
             log.warn("The Camunda version cannot be determined. If you created a Fat/Uber/Shadow JAR then please consider using the Micronaut Application Plugin's 'dockerBuild' task to create a Docker image.");
         }
 
-        ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
+        ProcessEngine processEngine = transactionManager.executeWrite(
+                transactionStatus -> {
+                    log.info("Building process engine connected to {}", basicJdbcConfiguration.getUrl());
+                    Instant start = Instant.now();
+                    ProcessEngine pe = processEngineConfiguration.buildProcessEngine();
+                    log.info("Started process engine in {}ms", ChronoUnit.MILLIS.between(start, Instant.now()));
+                    return pe;
+                }
+        );
 
         deployProcessModels(processEngine, configuration);
 
