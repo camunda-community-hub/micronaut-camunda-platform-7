@@ -519,7 +519,6 @@ public class PluginConfiguration {
     public ProcessEnginePlugin ldap() {
         // Using a public online LDAP:
         // https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/
-        // Log in e.g. with 'einstein' / 'password'
         LdapIdentityProviderPlugin ldap = new LdapIdentityProviderPlugin();
         ldap.setServerUrl("ldap://ldap.forumsys.com:389");
         ldap.setManagerDn("cn=read-only-admin,dc=example,dc=com");
@@ -529,6 +528,8 @@ public class PluginConfiguration {
     }
 }
 ```
+
+You can now log in with "einstein" / "password". Note: the automatic creation of the admin user with the property `camunda.admin-user` conflicts with a read-only LDAP and must not be set!
 
 ## Custom Process Engine Configuration
 With the following bean it's possible to customize the process engine configuration:
