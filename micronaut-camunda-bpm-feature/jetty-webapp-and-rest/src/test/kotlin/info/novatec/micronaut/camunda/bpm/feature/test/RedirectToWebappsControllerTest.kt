@@ -15,27 +15,20 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
+import io.micronaut.context.annotation.Property
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 
 @MicronautTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RedirectToWebappsControllerTest : TestPropertyProvider {
-
-    override fun getProperties(): MutableMap<String, String> {
-        return mutableMapOf(
-            "camunda.webapps.enabled" to "false",
-            "camunda.webapps.index-redirect-enabled" to "true",
-        )
-    }
+@Property(name = "camunda.webapps.enabled", value = "false")
+@Property(name = "camunda.webapps.index-redirect-enabled", value = "true")
+class RedirectToWebappsControllerTest {
 
     @Inject
     @field:Client("/")

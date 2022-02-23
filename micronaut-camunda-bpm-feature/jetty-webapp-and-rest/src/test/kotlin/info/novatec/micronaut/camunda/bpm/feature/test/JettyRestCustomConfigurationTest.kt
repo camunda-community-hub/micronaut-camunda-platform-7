@@ -16,6 +16,7 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpRequest
@@ -23,13 +24,11 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import org.eclipse.jetty.server.Server
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 
 /**
  * Test the customized REST API on Jetty.
@@ -38,17 +37,11 @@ import org.junit.jupiter.api.TestInstance
  */
 @MicronautTest
 @Requires(beans = [Server::class])
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JettyRestCustomConfigurationTest : TestPropertyProvider {
-
-    override fun getProperties(): MutableMap<String, String> {
-        return mutableMapOf(
-            "camunda.rest.context-path" to "/custom-rest-path",
-            "camunda.rest.basic-auth-enabled" to "true",
-            "camunda.admin-user.id" to "admin",
-            "camunda.admin-user.password" to "admin",
-        )
-    }
+@Property(name ="camunda.rest.context-path", value="/custom-rest-path")
+@Property(name ="camunda.rest.basic-auth-enabled", value="true")
+@Property(name ="camunda.admin-user.id", value="admin")
+@Property(name ="camunda.admin-user.password", value="admin")
+class JettyRestCustomConfigurationTest {
 
     @Inject
     lateinit var configuration: Configuration
