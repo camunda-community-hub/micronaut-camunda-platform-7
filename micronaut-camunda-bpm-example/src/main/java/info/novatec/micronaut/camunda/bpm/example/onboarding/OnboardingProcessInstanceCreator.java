@@ -15,15 +15,13 @@
  */
 package info.novatec.micronaut.camunda.bpm.example.onboarding;
 
-import io.micronaut.context.event.ApplicationEventListener;
-import io.micronaut.runtime.server.event.ServerStartupEvent;
-import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.micronaut.discovery.event.ServiceReadyEvent;
+import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.RuntimeService;
 
 @Singleton
-public class OnboardingProcessInstanceCreator implements ApplicationEventListener<ServerStartupEvent> {
+public class OnboardingProcessInstanceCreator {
 
     private final RuntimeService runtimeService;
 
@@ -31,9 +29,8 @@ public class OnboardingProcessInstanceCreator implements ApplicationEventListene
         this.runtimeService = runtimeService;
     }
 
-    @Override
-    @ExecuteOn(TaskExecutors.IO)
-    public void onApplicationEvent(ServerStartupEvent event) {
+    @EventListener
+    public void onEvent(ServiceReadyEvent event) {
         runtimeService.startProcessInstanceByKey("Onboarding", "OnStartup");
     }
 }

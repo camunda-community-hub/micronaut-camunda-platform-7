@@ -16,9 +16,8 @@
 package info.novatec.micronaut.camunda.bpm.feature.webapp;
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration;
+import info.novatec.micronaut.camunda.bpm.feature.initialization.ParallelInitializationWithoutProcessEngine;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.ApplicationEventListener;
-import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.servlet.jetty.JettyServer;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -33,23 +32,26 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 @Requires(missing = JettyServer.class)
-public class JettyRuntimeMissing implements ApplicationEventListener<ServerStartupEvent> {
+public class JettyRuntimeMissing implements ParallelInitializationWithoutProcessEngine {
 
     private static final Logger log = LoggerFactory.getLogger(JettyRuntimeMissing.class);
 
-    protected final Configuration configuration;
+    // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
+    protected final boolean webappsEnabled;
+    protected final boolean restEnabled;
 
     public JettyRuntimeMissing(Configuration configuration) {
-        this.configuration = configuration;
+        webappsEnabled = configuration.getWebapps().isEnabled();
+        restEnabled = configuration.getRest().isEnabled();
     }
 
     @Override
-    public void onApplicationEvent(ServerStartupEvent event) {
-        if (configuration.getWebapps().isEnabled()) {
+    public void execute() {
+        if (webappsEnabled) {
             log.warn("Webapps are enabled via 'camunda.webapps.enabled' but they are not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
         }
-        if (configuration.getRest().isEnabled()) {
-            log.warn("REST are enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
+        if (restEnabled) {
+            log.warn("REST is enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
         }
     }
 }

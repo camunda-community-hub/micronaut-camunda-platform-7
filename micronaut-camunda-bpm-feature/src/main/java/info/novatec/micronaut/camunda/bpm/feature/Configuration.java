@@ -71,6 +71,14 @@ public interface Configuration {
      */
     Optional<URL> getLicenseFile();
 
+    /**
+     * Support for a two-stage process engine to minimize start-up time.
+     *
+     * @return true if the two-stage process engine is enabled.
+     */
+    @Bindable(defaultValue = "true")
+    boolean isTwoStageProcessEngine();
+
     @ConfigurationProperties("filter")
     interface Filter {
 

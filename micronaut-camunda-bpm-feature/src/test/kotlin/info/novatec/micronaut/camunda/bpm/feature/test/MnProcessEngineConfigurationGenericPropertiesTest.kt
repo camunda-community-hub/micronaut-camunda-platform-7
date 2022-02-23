@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 original authors
+ * Copyright 2020-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,12 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import io.micronaut.context.ApplicationContext
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration
-import org.junit.jupiter.api.Assertions.*
+import io.micronaut.context.ApplicationContext
+import io.micronaut.runtime.server.EmbeddedServer
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import java.lang.RuntimeException
 import java.util.*
 
 /**
@@ -30,8 +31,8 @@ import java.util.*
 class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun correctDefaultValue() {
-        ApplicationContext.run().use { applicationContext ->
-            val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+        ApplicationContext.run(EmbeddedServer::class.java).use { embeddedServer ->
+            val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals("removalTimeBased", processEngineConfiguration.historyCleanupStrategy)
             assertEquals(0, processEngineConfiguration.batchJobPriority)
             assertEquals(3, processEngineConfiguration.defaultNumberOfRetries)
@@ -51,8 +52,8 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             "camunda.generic-properties.properties.dmn-enabled" to "false", //primitive data type: boolean
             "camunda.generic-properties.properties.initialize-telemetry" to "false" //non primitive data type: Boolean
         )
-        ApplicationContext.run(properties).use { applicationContext ->
-            val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+        ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+            val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals("endTimeBased", processEngineConfiguration.historyCleanupStrategy)
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
@@ -72,8 +73,8 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
             "camunda.generic-properties.properties.dmn-enabled" to false, //primitive data type: boolean
             "camunda.generic-properties.properties.initialize-telemetry" to false //non primitive data type: Boolean
         )
-        ApplicationContext.run(properties).use { applicationContext ->
-            val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+        ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+            val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals(30, processEngineConfiguration.batchJobPriority)
             assertEquals(1, processEngineConfiguration.defaultNumberOfRetries)
             assertEquals(false, processEngineConfiguration.isDmnEnabled)
@@ -86,8 +87,8 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
         val properties: Map<String, Any> = mapOf(
             "camunda.generic-properties.properties.database-schema-update" to true,
         )
-        ApplicationContext.run(properties).use { applicationContext ->
-            val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+        ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+            val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals("true", processEngineConfiguration.databaseSchemaUpdate)
         }
     }
@@ -100,8 +101,8 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
         val properties: Map<String, Any> = mapOf(
             "camunda.generic-properties.properties.historyCleanupStrategy" to "endTimeBased"
         )
-        ApplicationContext.run(properties).use { applicationContext ->
-            val processEngineConfiguration = applicationContext.getBean(MnProcessEngineConfiguration::class.java)
+        ApplicationContext.run(EmbeddedServer::class.java, properties).use { embeddedServer ->
+            val processEngineConfiguration = embeddedServer.applicationContext.getBean(MnProcessEngineConfiguration::class.java)
             assertEquals("endTimeBased", processEngineConfiguration.historyCleanupStrategy)
         }
     }
@@ -109,6 +110,6 @@ class MnProcessEngineConfigurationGenericPropertiesTest {
     @Test
     fun invalidGenericProperty() {
         val properties = Collections.singletonMap<String, Any>("camunda.generic-properties.properties.xyz", "1")
-        assertThrows(RuntimeException::class.java) { ApplicationContext.run(properties) }
+        assertThrows(RuntimeException::class.java) { ApplicationContext.run(EmbeddedServer::class.java, properties) }
     }
 }

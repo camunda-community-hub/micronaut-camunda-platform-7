@@ -16,14 +16,13 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import ch.qos.logback.classic.Logger
+import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.read.ListAppender
 import info.novatec.micronaut.camunda.bpm.feature.ProcessEngineFactory
 import io.micronaut.context.ApplicationContext
-
-import org.junit.jupiter.api.Test
-import ch.qos.logback.core.read.ListAppender
+import io.micronaut.runtime.server.EmbeddedServer
 import org.junit.jupiter.api.Assertions.assertTrue
-
-import ch.qos.logback.classic.spi.ILoggingEvent
+import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
 /**
@@ -41,7 +40,7 @@ class ProcessEngineFactoryLoggerTest {
 
         logger.addAppender(listAppender)
 
-        ApplicationContext.run()
+        ApplicationContext.run(EmbeddedServer::class.java)
 
         assertTrue(listAppender.list.stream()
             .anyMatch { e -> e.formattedMessage.contains(Regex("""Camunda version: \d+\.\d+\.\d+""")) })

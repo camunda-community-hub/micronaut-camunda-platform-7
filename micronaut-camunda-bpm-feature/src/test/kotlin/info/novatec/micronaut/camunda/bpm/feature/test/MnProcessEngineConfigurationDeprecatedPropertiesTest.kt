@@ -16,9 +16,9 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.runtime.server.EmbeddedServer
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.lang.RuntimeException
 import java.util.*
 
 /**
@@ -32,12 +32,12 @@ class MnProcessEngineConfigurationDeprecatedPropertiesTest {
     @Test
     fun `valid property starts the application`() {
         val properties = Collections.singletonMap<String, Any>("camunda.generic-properties.properties.dmn-enabled", true)
-        ApplicationContext.run(properties)
+        ApplicationContext.run(EmbeddedServer::class.java, properties)
     }
 
     @Test
     fun `deprecated camunda-bpm property prevents application start`() {
         val properties = Collections.singletonMap<String, Any>("camunda.bpm.generic-properties.properties.dmn-enabled", true)
-        Assertions.assertThrows(RuntimeException::class.java) { ApplicationContext.run(properties) }
+        Assertions.assertThrows(RuntimeException::class.java) { ApplicationContext.run(EmbeddedServer::class.java, properties) }
     }
 }

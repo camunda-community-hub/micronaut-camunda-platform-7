@@ -24,6 +24,7 @@ import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.transaction.SynchronousTransactionManager;
 import jakarta.inject.Singleton;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.history.*;
 import org.camunda.bpm.engine.impl.*;
@@ -46,10 +47,7 @@ import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRED;
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRES_NEW;
@@ -84,6 +82,9 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final List<ProcessEnginePlugin> plugins;
 
+    // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
+    protected final boolean twoStageProcessEngine;
+
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
                                         MnJobExecutor jobExecutor,
                                         Configuration configuration,
@@ -103,6 +104,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         this.environment = environment;
         this.camundaVersion = camundaVersion;
         this.plugins = plugins;
+        twoStageProcessEngine = configuration.isTwoStageProcessEngine();
         checkForDeprecatedConfiguration();
         mockUnsupportedCmmnMethods();
         setDataSource(dataSource);
@@ -119,6 +121,28 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         registerProcessEnginePlugins();
 
         processEngineConfigurationCustomizer.customize(this);
+    }
+
+    public org.apache.ibatis.session.Configuration createConfigurationStage2() {
+        // This code is based on {@link ProcessEngineConfigurationImpl::initSqlSessionFactory}
+        Reader reader = new InputStreamReader(getMyBatisXmlConfigurationSteamStage2());
+        Properties properties = new Properties();
+        if (isUseSharedSqlSessionFactory) {
+            properties.put("prefix", "${@org.camunda.bpm.engine.impl.context.Context@getProcessEngineConfiguration().databaseTablePrefix}");
+        } else {
+            properties.put("prefix", databaseTablePrefix);
+        }
+        initSqlSessionFactoryProperties(properties, databaseTablePrefix, databaseType);
+
+        XMLConfigBuilder parser = new XMLConfigBuilder(reader, "", properties);
+        org.apache.ibatis.session.Configuration parserConfiguration = parser.getConfiguration();
+
+        // Add existing sql fragments from stage 1 in case they are referenced in stage 2
+        parserConfiguration.getSqlFragments().putAll(getSqlSessionFactory().getConfiguration().getSqlFragments());
+
+        parser.parse();
+
+        return parserConfiguration;
     }
 
     @Override
@@ -143,22 +167,133 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     @Override
     protected InputStream getMyBatisXmlConfigurationSteam() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(super.getMyBatisXmlConfigurationSteam()));
-        try {
-            StringBuilder sb = new StringBuilder();
-            while (reader.ready()) {
-                String line = reader.readLine();
-                if (!line.contains("<mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Case")) {
-                    sb.append(line);
-                    sb.append("\n");
-                } else {
-                    log.debug("Filtered out CMMN mapping {}", line);
+        if (twoStageProcessEngine) {
+            return getMyBatisXmlConfigurationSteamStage1();
+        } else {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(super.getMyBatisXmlConfigurationSteam()));
+            try {
+                StringBuilder sb = new StringBuilder();
+                while (reader.ready()) {
+                    String line = reader.readLine();
+                    if (!line.contains("<mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Case")) {
+                        sb.append(line);
+                        sb.append("\n");
+                    } else {
+                        log.debug("Filtered out CMMN mapping {}", line);
+                    }
                 }
+                return new ByteArrayInputStream(sb.toString().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read MyBatis mappings.xml", e);
             }
-            return new ByteArrayInputStream(sb.toString().getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+    }
+
+    protected InputStream getMyBatisXmlConfigurationSteamStage1() {
+        String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n" +
+                "\n" +
+                "<configuration>\n" +
+                "\t<settings>\n" +
+                "\t\t<setting name=\"lazyLoadingEnabled\" value=\"false\" />\n" +
+                "\t</settings>\n" +
+                "\t<mappers>\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Commons.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Authorization.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Tenant.xml\" />\n" +
+
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Deployment.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Job.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/JobDefinition.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/ProcessDefinition.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Property.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Resource.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Task.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Filter.xml\" />\n" + // FilterAllTasksCreator
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/User.xml\" />\n" + //AdminUserCreator
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Group.xml\" />\n" + //AdminUserCreator
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Membership.xml\" />\n" + //AdminUserCreator
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CamundaFormDefinition.xml\" />\n" + //Deployment BPMN
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionDefinition.xml\" />\n" + //Deployment DMN
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionRequirementsDefinition.xml\" />" + // Deployment DMN
+                "\n" +
+                "\t</mappers>\n" +
+                "</configuration>\n";
+        return new ByteArrayInputStream(s.getBytes());
+    }
+
+    protected InputStream getMyBatisXmlConfigurationSteamStage2() {
+        String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n" +
+                "<configuration>\n" +
+                "\t<settings>\n" +
+                "\t\t<setting name=\"lazyLoadingEnabled\" value=\"false\" />\n" +
+                "\t</settings>\n" +
+                "\t<mappers>\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Report.xml\" />\n" +
+
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Attachment.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Comment.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Deployment.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Execution.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Group.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricActivityInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricCaseActivityInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricDetail.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricIncident.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricIdentityLinkLog.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricProcessInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricCaseInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricStatistics.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricVariableInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricTaskInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricTaskInstanceReport.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricJobLog.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricExternalTaskLog.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/UserOperationLogEntry.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/IdentityInfo.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/IdentityLink.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Job.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/JobDefinition.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Incident.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Membership.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/ProcessDefinition.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Property.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/SchemaLogEntry.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Resource.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/TableData.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/TaskMetrics.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Task.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/User.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/VariableInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/EventSubscription.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Statistics.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Authorization.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Filter.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Metrics.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/ExternalTask.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Batch.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricBatch.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Tenant.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/TenantMembership.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CamundaFormDefinition.xml\" />\n" +
+
+                // Never include CMMN - not supported
+                //"    <!-- CMMN -->\n" +
+                //"\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CaseDefinition.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CaseExecution.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CaseSentryPart.xml\" />\n" +
+
+                "    <!-- DMN -->\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionDefinition.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricDecisionInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricDecisionInputInstance.xml\" />\n" +
+                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricDecisionOutputInstance.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionRequirementsDefinition.xml\" />" +
+                "\t</mappers>\n" +
+                "</configuration>\n";
+        return new ByteArrayInputStream(s.getBytes());
     }
 
     @Override

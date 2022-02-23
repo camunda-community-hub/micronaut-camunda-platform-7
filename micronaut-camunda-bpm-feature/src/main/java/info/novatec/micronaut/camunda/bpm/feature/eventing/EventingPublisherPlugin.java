@@ -41,27 +41,33 @@ public class EventingPublisherPlugin implements ProcessEnginePlugin {
 
     private static final Logger log = LoggerFactory.getLogger(EventingPublisherPlugin.class);
 
-    protected final Configuration configuration;
     protected final BpmnParseListener publishDelegateParseListener;
     protected final HistoryEventHandler publishHistoryEventHandler;
 
-    public EventingPublisherPlugin(Configuration configuration, BpmnParseListener publishDelegateParseListener, HistoryEventHandler publishHistoryEventHandler) {
-        this.configuration = configuration;
+    // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
+    protected final boolean eventingTask;
+    protected final boolean eventingExecution;
+    protected final boolean eventingHistory;
+
+    public EventingPublisherPlugin(BpmnParseListener publishDelegateParseListener, HistoryEventHandler publishHistoryEventHandler, Configuration configuration) {
         this.publishDelegateParseListener = publishDelegateParseListener;
         this.publishHistoryEventHandler = publishHistoryEventHandler;
+        eventingTask = configuration.getEventing().isTask();
+        eventingExecution = configuration.getEventing().isExecution();
+        eventingHistory = configuration.getEventing().isHistory();
     }
 
     @Override
     public void preInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
-        if (configuration.getEventing().isTask() || configuration.getEventing().isExecution()) {
+        if (eventingTask || eventingExecution) {
             log.info("Initialized Micronaut Event Engine Plugin.");
-            if (configuration.getEventing().isTask()) {
+            if (eventingTask) {
                 log.info("Task events will be published as Micronaut Events.");
             } else {
                 log.info("Task eventing is disabled via property.");
             }
 
-            if (configuration.getEventing().isExecution()) {
+            if (eventingExecution) {
                 log.info("Execution events will be published as Micronaut Events.");
             } else {
                 log.info("Execution eventing is disabled via property.");
@@ -72,7 +78,7 @@ public class EventingPublisherPlugin implements ProcessEnginePlugin {
             processEngineConfiguration.getCustomPostBPMNParseListeners()
                     .add(publishDelegateParseListener);
         }
-        if (configuration.getEventing().isHistory()) {
+        if (eventingHistory) {
             log.info("History events will be published as Micronaut events.");
             processEngineConfiguration.getCustomHistoryEventHandlers()
                     .add(publishHistoryEventHandler);

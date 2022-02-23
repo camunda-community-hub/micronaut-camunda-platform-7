@@ -32,14 +32,16 @@ import java.net.URI;
 @Requires(property = "camunda.webapps.index-redirect-enabled", notEquals = "false", defaultValue = "true")
 @Controller
 public class RedirectToWebappsController {
-    protected final Configuration configuration;
+
+    // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
+    protected final String contextPath;
 
     public RedirectToWebappsController(Configuration configuration) {
-        this.configuration = configuration;
+        contextPath = configuration.getWebapps().getContextPath();
     }
 
     @Get
     public HttpResponse<?> redirect () {
-        return HttpResponse.temporaryRedirect(URI.create(configuration.getWebapps().getContextPath()));
+        return HttpResponse.temporaryRedirect(URI.create(contextPath));
     }
 }

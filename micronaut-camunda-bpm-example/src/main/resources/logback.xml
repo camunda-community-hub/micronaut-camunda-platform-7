@@ -11,6 +11,7 @@
     </appender>
 
     <logger name="org.camunda.bpm.engine.telemetry" level="DEBUG" />
+    <logger name="info.novatec.micronaut.camunda.bpm.feature" level="DEBUG" />
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
