@@ -16,6 +16,7 @@
 package info.novatec.micronaut.camunda.bpm.feature.test
 
 import info.novatec.micronaut.camunda.bpm.feature.Configuration
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
@@ -23,13 +24,11 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import org.eclipse.jetty.server.Server
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 
 /**
  * Test the customized Webapps on Jetty.
@@ -37,17 +36,11 @@ import org.junit.jupiter.api.TestInstance
  * @author Martin Sawilla
  */
 @MicronautTest
+@Property(name = "camunda.webapps.context-path", value = "/custom-webapp-path")
+@Property(name = "camunda.webapps.index-redirect-enabled", value = "false")
+@Property(name = "camunda.rest.context-path", value = "/custom-rest-path")
 @Requires(beans = [Server::class])
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JettyWebappCustomConfigurationTest : TestPropertyProvider {
-
-    override fun getProperties(): MutableMap<String, String> {
-        return mutableMapOf(
-            "camunda.webapps.context-path" to "/custom-webapp-path",
-            "camunda.webapps.index-redirect-enabled" to "false",
-            "camunda.rest.context-path" to "/custom-rest-path",
-        )
-    }
+class JettyWebappCustomConfigurationTest {
 
     @Inject
     lateinit var configuration: Configuration

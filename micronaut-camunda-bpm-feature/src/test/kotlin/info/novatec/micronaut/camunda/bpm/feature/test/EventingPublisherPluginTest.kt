@@ -18,9 +18,9 @@ package info.novatec.micronaut.camunda.bpm.feature.test
 import info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration
 import info.novatec.micronaut.camunda.bpm.feature.eventing.EventingPublisherPlugin
 import info.novatec.micronaut.camunda.bpm.feature.eventing.ExecutionEvent
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.event.ApplicationEventListener
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.assertj.core.api.Assertions.assertThat
@@ -29,18 +29,12 @@ import org.camunda.bpm.engine.RuntimeService
 import org.camunda.bpm.model.bpmn.Bpmn
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 
 class EventingPublisherPluginTest {
 
     @MicronautTest
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class EventingTestPluginNotLoaded : TestPropertyProvider {
-
-        override fun getProperties(): MutableMap<String, String> {
-            return mutableMapOf()
-        }
+    inner class EventingTestPluginNotLoaded {
 
         @Inject
         lateinit var processEngineConfiguration: MnProcessEngineConfiguration
@@ -61,17 +55,11 @@ class EventingPublisherPluginTest {
     }
 
     @MicronautTest
+    @Property(name = "camunda.eventing.execution", value = "true")
+    @Property(name = "camunda.eventing.task", value = "true")
+    @Property(name = "camunda.eventing.history", value = "true")
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class EventingTestPluginLoaded : TestPropertyProvider {
-
-        override fun getProperties(): MutableMap<String, String> {
-            return mutableMapOf(
-                    "camunda.eventing.execution" to "true",
-                    "camunda.eventing.task" to "true",
-                    "camunda.eventing.history" to "true",
-            )
-        }
+    inner class EventingTestPluginLoaded {
 
         @Inject
         lateinit var processEngineConfiguration: MnProcessEngineConfiguration

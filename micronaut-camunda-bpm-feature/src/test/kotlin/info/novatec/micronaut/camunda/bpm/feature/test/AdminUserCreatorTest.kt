@@ -15,13 +15,13 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
-import info.novatec.micronaut.camunda.bpm.feature.Configuration
 import info.novatec.micronaut.camunda.bpm.feature.AdminUserCreator
+import info.novatec.micronaut.camunda.bpm.feature.Configuration
+import io.micronaut.context.annotation.Property
 import io.micronaut.core.value.PropertyNotFoundException
 import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.runtime.server.event.ServerStartupEvent
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.authorization.Authorization.ANY
@@ -32,7 +32,6 @@ import org.camunda.bpm.engine.identity.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito.mock
 import java.util.*
 
@@ -63,19 +62,13 @@ class AdminUserCreatorTest {
     }
 
     @MicronautTest
+    @Property(name = "camunda.admin-user.id", value = "admin")
+    @Property(name = "camunda.admin-user.password", value = "admin")
+    @Property(name = "camunda.admin-user.firstname", value = "Donald")
+    @Property(name = "camunda.admin-user.lastname", value = "Duck")
+    @Property(name = "camunda.admin-user.email", value = "Donald.Duck@example.org")
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class AdminUserCreatorTestWithAllProperties : TestPropertyProvider {
-
-        override fun getProperties(): MutableMap<String, String> {
-            return mutableMapOf(
-                "camunda.admin-user.id" to "admin",
-                "camunda.admin-user.password" to "admin",
-                "camunda.admin-user.firstname" to "Donald",
-                "camunda.admin-user.lastname" to "Duck",
-                "camunda.admin-user.email" to "Donald.Duck@example.org",
-            )
-        }
+    inner class AdminUserCreatorTestWithAllProperties {
 
         @Inject
         lateinit var processEngine: ProcessEngine
@@ -125,16 +118,10 @@ class AdminUserCreatorTest {
     }
 
     @MicronautTest
+    @Property(name = "camunda.admin-user.id", value = "admin2")
+    @Property(name = "camunda.admin-user.password", value = "admin2")
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    inner class AdminUserCreatorTestWithOnlyRequiredProperties : TestPropertyProvider {
-
-        override fun getProperties(): MutableMap<String, String> {
-            return mutableMapOf(
-                "camunda.admin-user.id" to "admin2",
-                "camunda.admin-user.password" to "admin2",
-            )
-        }
+    inner class AdminUserCreatorTestWithOnlyRequiredProperties {
 
         @Inject
         lateinit var processEngine: ProcessEngine
