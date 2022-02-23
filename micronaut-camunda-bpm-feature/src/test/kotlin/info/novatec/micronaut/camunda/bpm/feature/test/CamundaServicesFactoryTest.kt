@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2021 original authors
+ * Copyright 2020-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,20 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature.test
 
+import io.micronaut.context.ApplicationContext
+import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.camunda.bpm.engine.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 
 @MicronautTest
 class CamundaServicesFactoryTest {
+    @Inject
+    lateinit var applicationContext: ApplicationContext
+
     @Inject
     lateinit var runtimeService: RuntimeService
 
@@ -34,9 +40,6 @@ class CamundaServicesFactoryTest {
 
     @Inject
     lateinit var authorizationService: AuthorizationService
-
-    @Inject
-    lateinit var caseService: CaseService
 
     @Inject
     lateinit var decisionService: DecisionService
@@ -65,7 +68,6 @@ class CamundaServicesFactoryTest {
         assertNotNull(repositoryService)
         assertNotNull(managementService)
         assertNotNull(authorizationService)
-        assertNotNull(caseService)
         assertNotNull(decisionService)
         assertNotNull(externalTaskService)
         assertNotNull(filterService)
@@ -73,5 +75,12 @@ class CamundaServicesFactoryTest {
         assertNotNull(taskService)
         assertNotNull(historyService)
         assertNotNull(identityService)
+    }
+
+    @Test
+    fun `CaseService is not supported`() {
+        Assertions.assertThrows(NoSuchBeanException::class.java) {
+            applicationContext.getBean(CaseService::class.java)
+        }
     }
 }
