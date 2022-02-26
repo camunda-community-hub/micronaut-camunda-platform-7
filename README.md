@@ -95,7 +95,7 @@ You have the following options to integrate the Camunda integration:
 
   Add the dependency to the build.gradle file:
   ```groovy
-  implementation("info.novatec:micronaut-camunda-bpm-feature:2.4.0")
+  implementation("info.novatec:micronaut-camunda-bpm-feature:2.4.1")
   runtimeOnly("com.h2database:h2")
   ```
   </details>
@@ -108,7 +108,7 @@ You have the following options to integrate the Camunda integration:
   <dependency>
     <groupId>info.novatec</groupId>
     <artifactId>micronaut-camunda-bpm-feature</artifactId>
-    <version>2.4.0</version>
+    <version>2.4.1</version>
   </dependency>
   <dependency>
     <groupId>com.h2database</groupId>
@@ -439,7 +439,7 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.4.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.4.1") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
@@ -456,7 +456,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.4.0</version>
+  <version>2.4.1</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -935,56 +935,57 @@ We use [Semantic Versioning](https://semver.org/).
 The following compatibility matrix shows the officially supported Micronaut and Camunda versions for each release.
 Other combinations might also work but have not been tested.
 
-| Release |Micronaut | Camunda |
-|---------|--------|--------|
-|  2.4.0  | 3.2.0  | 7.16.0 |
+| Release | Micronaut | Camunda |
+|---------|-----------|--------|
+| 2.4.1   | 3.3.3     | 7.16.0 |
 
 <details>
 <summary>Click to see older releases</summary>
 
-| Release |Micronaut | Camunda |
-|--------|--------|--------|
-|  2.3.2 | 3.2.0  | 7.16.0 |
-|  2.3.1 | 3.2.0  | 7.16.0 |
-|  2.3.0 | 3.2.0  | 7.16.0 |
-|  2.2.0 | 3.1.1  | 7.16.0 |
-|  2.1.0 | 3.1.0  | 7.16.0 |
-|  2.0.0 | 3.0.0  | 7.15.0 |
-|  1.1.0 | 2.5.12 | 7.15.0 |
-|  1.0.1 | 2.5.12 | 7.15.0 |
-|  1.0.0 | 2.5.9 | 7.15.0 |
-| 0.24.0 | 2.5.1 | 7.15.0 |
-| 0.23.0 | 2.4.3 | 7.15.0 |
-| 0.22.0 | 2.4.1 | 7.14.0 |
-| 0.21.0 | 2.4.1 | 7.14.0 |
-| 0.20.0 | 2.4.0 | 7.14.0 |
-| 0.19.0 | 2.3.4 | 7.14.0 |
-| 0.18.1 | 2.3.3 | 7.14.0 |
-| 0.18.0 | 2.3.2 | 7.14.0 |
-| 0.17.0 | 2.3.2 | 7.14.0 |
-| 0.16.1 | 2.3.1 | 7.14.0 |
-| 0.16.0 | 2.3.0 | 7.14.0 |
-| 0.15.0 | 2.3.0 | 7.14.0 |
-| 0.14.0 | 2.2.3 | 7.14.0 |
-| 0.13.0 | 2.2.2 | 7.14.0 |
-| 0.12.0 | 2.2.1 | 7.14.0 |
-| 0.11.0 | 2.2.1 | 7.14.0 |
-| 0.10.1 | 2.2.0 | 7.14.0 |
-| 0.10.0 | 2.2.0 | 7.14.0 |
-| 0.9.0 | 2.1.3 | 7.14.0 |
-| 0.8.0 | 2.1.2 | 7.13.0 |
-| 0.7.0 | 2.1.1 | 7.13.0 |
-| 0.6.0 | 2.1.0 | 7.13.0 |
-| 0.5.3 | 2.0.1 | 7.13.0 |
-| 0.5.2 | 2.0.0 | 7.13.0 |
-| 0.5.1 | 2.0.0 | 7.13.0 |
-| 0.5.0 | 2.0.0 | 7.13.0 |
-| 0.4.2 | 1.3.6 | 7.13.0 |
-| 0.3.1 | 1.3.5 | 7.12.0 |
-| 0.2.2 | 1.3.3 | 7.12.0 |
-| 0.2.1 | 1.3.3 | 7.12.0 |
-| 0.2.0 | 1.3.3 | 7.12.0 |
-| 0.1.0 | 1.3.3 | 7.12.0 |
+| Release | Micronaut | Camunda |
+|--------|-----------|--------|
+|  2.4.0 | 3.3.0     | 7.16.0 |
+|  2.3.2 | 3.2.0     | 7.16.0 |
+|  2.3.1 | 3.2.0     | 7.16.0 |
+|  2.3.0 | 3.2.0     | 7.16.0 |
+|  2.2.0 | 3.1.1     | 7.16.0 |
+|  2.1.0 | 3.1.0     | 7.16.0 |
+|  2.0.0 | 3.0.0     | 7.15.0 |
+|  1.1.0 | 2.5.12    | 7.15.0 |
+|  1.0.1 | 2.5.12    | 7.15.0 |
+|  1.0.0 | 2.5.9     | 7.15.0 |
+| 0.24.0 | 2.5.1     | 7.15.0 |
+| 0.23.0 | 2.4.3     | 7.15.0 |
+| 0.22.0 | 2.4.1     | 7.14.0 |
+| 0.21.0 | 2.4.1     | 7.14.0 |
+| 0.20.0 | 2.4.0     | 7.14.0 |
+| 0.19.0 | 2.3.4     | 7.14.0 |
+| 0.18.1 | 2.3.3     | 7.14.0 |
+| 0.18.0 | 2.3.2     | 7.14.0 |
+| 0.17.0 | 2.3.2     | 7.14.0 |
+| 0.16.1 | 2.3.1     | 7.14.0 |
+| 0.16.0 | 2.3.0     | 7.14.0 |
+| 0.15.0 | 2.3.0     | 7.14.0 |
+| 0.14.0 | 2.2.3     | 7.14.0 |
+| 0.13.0 | 2.2.2     | 7.14.0 |
+| 0.12.0 | 2.2.1     | 7.14.0 |
+| 0.11.0 | 2.2.1     | 7.14.0 |
+| 0.10.1 | 2.2.0     | 7.14.0 |
+| 0.10.0 | 2.2.0     | 7.14.0 |
+| 0.9.0 | 2.1.3     | 7.14.0 |
+| 0.8.0 | 2.1.2     | 7.13.0 |
+| 0.7.0 | 2.1.1     | 7.13.0 |
+| 0.6.0 | 2.1.0     | 7.13.0 |
+| 0.5.3 | 2.0.1     | 7.13.0 |
+| 0.5.2 | 2.0.0     | 7.13.0 |
+| 0.5.1 | 2.0.0     | 7.13.0 |
+| 0.5.0 | 2.0.0     | 7.13.0 |
+| 0.4.2 | 1.3.6     | 7.13.0 |
+| 0.3.1 | 1.3.5     | 7.12.0 |
+| 0.2.2 | 1.3.3     | 7.12.0 |
+| 0.2.1 | 1.3.3     | 7.12.0 |
+| 0.2.0 | 1.3.3     | 7.12.0 |
+| 0.1.0 | 1.3.3     | 7.12.0 |
 </details>
 
 
