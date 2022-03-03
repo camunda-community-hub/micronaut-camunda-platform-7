@@ -998,6 +998,8 @@ Download of Releases:
 
 # 📆Publications
 
+* 2021-11: [Automating Processes with Camunda and Micronaut](https://www.youtube.com/watch?app=desktop&v=PwgrAb2z0YU&t=17m45s))  
+  Recording of the Novatec Summit by Tobias Schäfer (45 Minutes)
 * 2021-10: [Camunda Question Corner](https://www.youtube.com/watch?v=o2-sgtXGIls&t=320s)  
   Recording of the Community Contribution Special with Niall Deehan and Tobias Schäfer (10 minutes)
 * 2021-07: [Automate any Process on Micronaut](https://camunda.com/blog/2021/07/automate-any-process-on-micronaut/)  
