@@ -51,6 +51,8 @@ Micronaut Framework + Camunda = :heart:
   * [Custom Process Engine Configuration](#custom-process-engine-configuration)
   * [Custom Job Executor Configuration](#custom-job-executor-configuration)
   * [Transaction Management](#transaction-management)
+  * [Performance](#performance)
+  * [Architectural Design](#architectural-design)
   * [Keycloak](#keycloak)
   * [Eventing Bridge](#eventing-bridge)
   * [Process Tests](#process-tests)
@@ -648,6 +650,45 @@ And also add the annotation processor to every (!) `annotationProcessorPaths` el
 </details>
 
 and then configure JPA as described in [micronaut-sql documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/#hibernate).
+
+## Performance
+
+The Time to First Response (TTFR) is mainly influenced by the (slow) bootstrapping of the process engine - the bottleneck is the sequential parsing of over 50 MyBatis mappings. But the REST api and WebApps also take time.
+
+This Micronaut Camunda Integration includes some optimizations that come into play especially in multi-core environments.
+
+Some hints:
+* Newer JDKs (JDK 17) are about 20% faster than older ones (JDK 8)
+* More CPU cores are better to take advantage of parallelization during startup (so don't limit Docker to one or two CPUs).
+* The selected vendor for the JDK has a small influence (Java SE Development Kit from Oracle is one of the faster ones) 
+
+Most discussions regarding startup time discuss the relevance during deployment or scaling up applications.
+
+However, there is more: for a developer startup times are also relevant when test suites are executed - either locally or in a CI environment. If the application context is created often (e.g. @MockBean dirties the context in Spring Boot...) then integration tests run quite long.
+
+If unit and integration tests are more of a conceptional difference (and not so much regarding performance) then the developer has more freedom of choice to decide if a unit or integration test is more appropriate for his scenario.
+
+The documentation of [Micronaut Test](https://micronaut-projects.github.io/micronaut-test/latest/guide/) actually says: "One of the design goals of Micronaut was to eliminate the artificial separation imposed by traditional frameworks between function and unit tests due to slow startup times and memory consumption."
+
+## Architectural Design
+
+### Separating Process Engine from Webapps/REST
+
+If you want to activate the Webapps and/or REST it might be an option to do this in a separate application. Both are connected via a common database.
+
+Possible aspects:
+* Your main process engine can run on Netty while the Webapps and/or REST run on Jetty (with a disabled Job Executor).
+* You can scale these applications independently.
+
+### Embedding External Workers
+
+If you're intending to use the [External Task Pattern](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/#the-external-task-pattern) it might be an option embedding them (at first) in your main application - and having them to communicate via REST on localhost.
+
+Possible aspects:
+* Having a lot of separate applications for each external worker from the beginning increases the complexity. You can put all external workers in one application - or even in the main application which provides the process engine.
+* If you decide later to extract single modules to a separate microservice then this is straight forward
+
+Here is an example application: https://github.com/tobiasschaefer/micronaut-embedded-worker
 
 ## Keycloak
 
