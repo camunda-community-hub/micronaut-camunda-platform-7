@@ -396,7 +396,7 @@ In `build.gradle`:
 ```groovy
 repositories {
     maven {
-        url "https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee"
+        url "https://artifacts.camunda.com/artifactory/camunda-bpm-ee/"
         credentials(PasswordCredentials) {
             username "YOUR_USERNAME"
             password "YOUR_PASSWORD"
@@ -415,7 +415,7 @@ In `pom.xml`:
     <id>camunda-bpm-nexus-ee</id>
     <name>camunda-bpm-nexus</name>
     <url>
-      https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee
+      https://artifacts.camunda.com/artifactory/camunda-bpm-ee/
     </url>
   </repository>
 </repositories>
@@ -885,14 +885,14 @@ Run the Docker image:
 
 Generally, follow Camunda's instructions regarding [Update to the next Minor Version](https://docs.camunda.org/manual/latest/update/minor/).
 
-If you want to automate the database schema migration you can use [Liquibase](https://micronaut-projects.github.io/micronaut-liquibase/latest/guide/) or [Flyway](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/) together with the [migration sql scripts](https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts) provided by Camunda.
+If you want to automate the database schema migration you can use [Liquibase](https://micronaut-projects.github.io/micronaut-liquibase/latest/guide/) or [Flyway](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/) together with the [migration sql scripts](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/distro/camunda-sql-scripts/) provided by Camunda.
 
 The following examples are based on Liquibase.
 
 When starting on an empty database, e.g. when using H2 for tests:
 ```xml
 <changeSet author="Tobias" id="1a" >
-  <comment>Create common baseline Camunda 7.14 for H2 based on https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
+  <comment>Create common baseline Camunda 7.14 for H2 based on https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
   <sqlFile path="camunda/h2_engine_7.14.0.sql" relativeToChangelogFile="true" dbms="h2" />
   <sqlFile path="camunda/h2_identity_7.14.0.sql" relativeToChangelogFile="true" dbms="h2" />
 </changeSet>
@@ -901,7 +901,7 @@ When starting on an empty database, e.g. when using H2 for tests:
 If you already have a persistent database with the database schema of 7.14 which is not yet managed by Liquibase, e.g. PostgreSQL:
 ```xml
 <changeSet author="Tobias" id="1b" >
-  <comment>Create common baseline Camunda 7.14 for PostgreSQL (even if schema already exists) based on https://app.camunda.com/nexus/service/rest/repository/browse/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
+  <comment>Create common baseline Camunda 7.14 for PostgreSQL (even if schema already exists) based on https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/distro/camunda-sql-scripts/7.14.0/camunda-sql-scripts-7.14.0.zip in directory create</comment>
   <preConditions onFail="MARK_RAN">
     <not>
       <tableExists tableName="ACT_RU_JOB" />
@@ -915,7 +915,7 @@ If you already have a persistent database with the database schema of 7.14 which
 When updating to a new Camunda version first apply all patch updates (if available) and then update to the next minor version:
 ```xml
 <changeSet author="Tobias" id="2" >
-  <comment>Update to Camunda 7.15 based on https://app.camunda.com/nexus/repository/public/org/camunda/bpm/distro/camunda-sql-scripts/7.15.0/camunda-sql-scripts-7.15.0.zip in directory upgrade</comment>
+  <comment>Update to Camunda 7.15 based on https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/distro/camunda-sql-scripts/7.15.0/camunda-sql-scripts-7.15.0.zip in directory upgrade</comment>
   <!-- no patch files available for 7.14.x ... -->
   <sqlFile path="camunda/h2_engine_7.14_to_7.15.sql" relativeToChangelogFile="true" dbms="h2" />
   <sqlFile path="camunda/postgres_engine_7.14_to_7.15.sql" relativeToChangelogFile="true" dbms="postgresql" />
