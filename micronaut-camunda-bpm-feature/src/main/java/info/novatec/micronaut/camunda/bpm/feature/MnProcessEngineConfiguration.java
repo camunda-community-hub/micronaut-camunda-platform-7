@@ -209,6 +209,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Property.xml\" />\n" +
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Resource.xml\" />\n" +
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Task.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/EventSubscription.xml\" />\n" + // e.g. Message Start Events are registered during deployment
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Filter.xml\" />\n" + // FilterAllTasksCreator
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/User.xml\" />\n" + //AdminUserCreator
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Group.xml\" />\n" + //AdminUserCreator
@@ -266,7 +267,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Task.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/User.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/VariableInstance.xml\" />\n" +
-                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/EventSubscription.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/EventSubscription.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Statistics.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Authorization.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Filter.xml\" />\n" +
