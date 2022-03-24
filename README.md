@@ -1,6 +1,6 @@
 # micronaut-camunda-bpm
 
-This open source project allows you to easily integrate [Camunda Platform](https://camunda.com/products/camunda-platform/) into [Micronaut](https://micronaut.io) projects.
+This open source project allows you to easily integrate [Camunda Platform 7](https://camunda.com/products/camunda-platform/) into [Micronaut](https://micronaut.io) projects.
 
 The Micronaut Framework is known for its efficient use of resources. With this integration you embed the [BPMN 2.0](https://www.bpmn.org/) compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
 
@@ -964,7 +964,7 @@ void setUp() {
 ```
 
 This makes the assertions aware of your process engine. Otherwise, it tries to reuse the engine of the test that got
-executed first and that may already be shut down, see [Camunda Platform Assert User Guide](https://github.com/camunda/camunda-bpm-assert/blob/master/docs/README.md#using-a-non-default-process-engine).
+executed first and that may already be shut down, see Camunda Platform 7's [Assert User Guide](https://github.com/camunda/camunda-bpm-assert/blob/master/docs/README.md#using-a-non-default-process-engine).
 
 Here is a complete example: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java).
 
