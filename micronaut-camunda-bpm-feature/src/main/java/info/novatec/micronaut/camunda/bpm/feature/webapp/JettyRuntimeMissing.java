@@ -48,10 +48,10 @@ public class JettyRuntimeMissing implements ParallelInitializationWithoutProcess
     @Override
     public void execute() {
         if (webappsEnabled) {
-            log.warn("Webapps are enabled via 'camunda.webapps.enabled' but they are not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
+            log.warn("Webapps are enabled via 'camunda.webapps.enabled' but they are not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-platform-7#camunda-rest-api-and-webapps");
         }
         if (restEnabled) {
-            log.warn("REST is enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-bpm#camunda-rest-api-and-webapps");
+            log.warn("REST is enabled via 'camunda.rest.enabled' but it is not supported on the current server runtime. Please switch to Jetty, see https://github.com/camunda-community-hub/micronaut-camunda-platform-7#camunda-rest-api-and-webapps");
         }
     }
 }

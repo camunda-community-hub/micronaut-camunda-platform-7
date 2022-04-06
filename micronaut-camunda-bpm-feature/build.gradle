@@ -92,7 +92,7 @@ publishing {
             pom {
                 name = 'micronaut-camunda-bpm-feature'
                 description = 'Integration between Micronaut and Camunda Process Engine'
-                url = 'https://github.com/camunda-community-hub/micronaut-camunda-bpm'
+                url = 'https://github.com/camunda-community-hub/micronaut-camunda-platform-7'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -108,9 +108,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:https://github.com/camunda-community-hub/micronaut-camunda-bpm.git'
-                    developerConnection = 'scm:git:https://github.com/camunda-community-hub/micronaut-camunda-bpm.git'
-                    url = 'https://github.com/camunda-community-hub/micronaut-camunda-bpm'
+                    connection = 'scm:git:https://github.com/camunda-community-hub/micronaut-camunda-platform-7.git'
+                    developerConnection = 'scm:git:https://github.com/camunda-community-hub/micronaut-camunda-platform-7.git'
+                    url = 'https://github.com/camunda-community-hub/micronaut-camunda-platform-7'
                 }
             }
         }

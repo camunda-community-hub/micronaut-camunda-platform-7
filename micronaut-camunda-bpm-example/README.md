@@ -3,7 +3,7 @@
 
 Create a local Git clone:
 
-`git clone https://github.com/camunda-community-hub/micronaut-camunda-bpm.git`
+`git clone https://github.com/camunda-community-hub/micronaut-camunda-platform-7.git`
 
 ## Open in IntelliJ IDEA
 
