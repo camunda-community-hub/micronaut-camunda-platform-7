@@ -10,12 +10,12 @@ We're not depending on the Lombok to simplify the setup of the development envir
 ### How do I create and publish a new release?
 
 1. Trigger the release
-   1. Open https://github.com/camunda-community-hub/micronaut-camunda-bpm/releases
+   1. Open https://github.com/camunda-community-hub/micronaut-camunda-platform-7/releases
    2. Click "Draft a new release"
    3. Enter a tag version of the master branch, e.g. v0.1.0 considering the last tag and https://semver.org/
    4. Click on "Publish release"
 2. Verify that release is built and uploaded to OSSRH successfully
-   1. Open https://github.com/camunda-community-hub/micronaut-camunda-bpm/actions?query=workflow%3A%22Publish+to+OSSRH+when+released%22
+   1. Open https://github.com/camunda-community-hub/micronaut-camunda-platform-7/actions?query=workflow%3A%22Publish+to+OSSRH+when+released%22
    2. Wait for build to succeed  
    The build sporadically fails due to timeouts during the upload of artifacts. In this case go to the failing workflow and then re-run the job.
 3. Publish to Maven Central (see also [Detailed instructions](https://central.sonatype.org/pages/releasing-the-deployment.html))

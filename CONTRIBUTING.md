@@ -78,6 +78,6 @@ Note that you can always force push (`git push -f`) reworked / rebased commits a
 
 ### Now looking for work?
 
-Have a look at the open issues at https://github.com/camunda-community-hub/micronaut-camunda-bpm/issues, especially those tagged with `good first issue`.
+Have a look at the open issues at https://github.com/camunda-community-hub/micronaut-camunda-platform-7/issues, especially those tagged with `good first issue`.
 
 We're looking forward to your contribution :-)
