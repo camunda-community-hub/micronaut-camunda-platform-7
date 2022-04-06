@@ -1,3 +1,5 @@
+[![](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)](https://github.com/camunda-community-hub/community) ![](https://img.shields.io/badge/Compatible%20with-Camunda%20Platform%207-26d07c) [![](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#stable-)
+
 # micronaut-camunda-platform-7
 
 This open source project allows you to easily integrate [Camunda Platform 7](https://camunda.com/products/camunda-platform/) into [Micronaut](https://micronaut.io) projects.
