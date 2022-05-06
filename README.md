@@ -1,5 +1,14 @@
 # micronaut-camunda-platform-7
 
+[![Release](https://img.shields.io/github/v/release/camunda-community-hub/micronaut-camunda-platform-7.svg)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/releases)
+[![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Continuous Integration](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/workflows/Continuous%20Integration/badge.svg)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/actions)
+[![GitHub Discussions](https://img.shields.io/badge/Forum-GitHub_Discussions-blue)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/discussions)
+
+[![](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)](https://github.com/camunda-community-hub/community)
+![Compatible with: Camunda Platform 7](https://img.shields.io/badge/Compatible%20with-Camunda%20Platform%207-26d07c)
+[![](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#stable-)
+
 This open source project allows you to easily integrate [Camunda Platform 7](https://camunda.com/products/camunda-platform/) into [Micronaut](https://micronaut.io) projects.
 
 The Micronaut Framework is known for its efficient use of resources. With this integration you embed the [BPMN 2.0](https://www.bpmn.org/) compliant and developer friendly Camunda process engine with minimal memory footprint into your application.
@@ -25,14 +34,6 @@ Do you want to contribute to our open source project? Please read the [Contribut
 If you also want to run your External Task Client on a Micronaut application, have a look at the open source project [micronaut-camunda-external-client](https://github.com/camunda-community-hub/micronaut-camunda-external-client).
 
 Micronaut Framework + Camunda = :heart:
-
-[![Release](https://img.shields.io/github/v/release/camunda-community-hub/micronaut-camunda-platform-7.svg)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/releases)
-[![License](https://img.shields.io/:license-apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-[![Continuous Integration](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/workflows/Continuous%20Integration/badge.svg)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/actions)
-[![GitHub Discussions](https://img.shields.io/badge/Forum-GitHub_Discussions-blue)](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/discussions)
-
-[![](https://img.shields.io/badge/Community%20Extension-An%20open%20source%20community%20maintained%20project-FF4700)](https://github.com/camunda-community-hub/community)
-[![](https://img.shields.io/badge/Lifecycle-Stable-brightgreen)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#stable-)
 
 # Table of Contents
 
