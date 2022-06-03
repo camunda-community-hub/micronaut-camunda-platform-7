@@ -15,6 +15,7 @@
  */
 package info.novatec.micronaut.camunda.bpm.feature;
 
+import io.micronaut.core.annotation.Nullable;
 import jakarta.inject.Singleton;
 import org.camunda.bpm.engine.ProcessEngine;
 
@@ -37,6 +38,10 @@ public class CamundaVersion {
     protected CamundaVersion(Package pkg) {
         version = Optional.ofNullable(pkg.getImplementationVersion())
                 .map(String::trim);
+    }
+
+    public CamundaVersion(@Nullable String version) {
+        this.version = Optional.ofNullable(version);
     }
 
     public Optional<String> getVersion() {

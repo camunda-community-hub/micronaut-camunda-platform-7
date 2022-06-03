@@ -22,10 +22,6 @@ import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
-import java.util.Optional.empty
-import java.util.Optional.of
 
 /**
  * Telemetry tests for [info.novatec.micronaut.camunda.bpm.feature.MnProcessEngineConfiguration].
@@ -47,8 +43,7 @@ class MnProcessEngineConfigurationTelemetryTest {
     @ParameterizedTest
     @ValueSource(strings = ["true", "false"])
     fun `telemetry reporter can only be enabled if version info is available`(versionInfoAvailable: Boolean) {
-        val camundaVersion = mock(CamundaVersion::class.java)
-        `when`(camundaVersion.version).thenReturn(if (versionInfoAvailable) of("7.14.0") else empty())
+        val camundaVersion = CamundaVersion(if (versionInfoAvailable) "7.14.0" else null)
 
         ApplicationContext.builder()
             .deduceEnvironment(false)
