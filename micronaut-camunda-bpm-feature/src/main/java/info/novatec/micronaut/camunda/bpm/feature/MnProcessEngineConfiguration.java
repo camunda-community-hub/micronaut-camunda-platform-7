@@ -28,6 +28,7 @@ import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.history.*;
 import org.camunda.bpm.engine.impl.*;
+import org.camunda.bpm.engine.impl.cfg.IdGenerator;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
 import org.camunda.bpm.engine.impl.cmmn.CaseServiceImpl;
@@ -93,6 +94,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         CamundaVersion camundaVersion,
                                         ApplicationContext applicationContext,
                                         DataSource dataSource,
+                                        IdGenerator idGenerator,
                                         MnArtifactFactory artifactFactory,
                                         MnBeansResolverFactory beansResolverFactory,
                                         List<ProcessEnginePlugin> plugins,
@@ -109,6 +111,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         mockUnsupportedCmmnMethods();
         setDataSource(dataSource);
         setTransactionsExternallyManaged(true);
+        setIdGenerator(idGenerator);
         setExpressionManager(new MnExpressionManager(new ApplicationContextElResolver(applicationContext)));
         setArtifactFactory(artifactFactory);
 
