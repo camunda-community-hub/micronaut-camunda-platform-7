@@ -78,6 +78,7 @@ public class MnBeansResolverFactory implements ResolverFactory, Resolver {
     protected synchronized Set<String> getKeySet() {
         if (keySet == null) {
             keySet = applicationContext.getAllBeanDefinitions().stream()
+                    .filter(beanDefinition -> !beanDefinition.getClass().getName().startsWith("io.micronaut."))
                     .map(this::getBeanName)
                     .collect(Collectors.toSet());
         }
