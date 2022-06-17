@@ -206,6 +206,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Tenant.xml\" />\n" +
 
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Deployment.xml\" />\n" +
+                "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Incident.xml\" />\n" + // e.g. New process definition is deployed which replaces a previous version that included a Timer Start Event
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Job.xml\" />\n" +
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/JobDefinition.xml\" />\n" +
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/ProcessDefinition.xml\" />\n" +
@@ -259,7 +260,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/IdentityLink.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Job.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/JobDefinition.xml\" />\n" +
-                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Incident.xml\" />\n" +
+                //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Incident.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Membership.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/ProcessDefinition.xml\" />\n" +
                 //"    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/Property.xml\" />\n" +
