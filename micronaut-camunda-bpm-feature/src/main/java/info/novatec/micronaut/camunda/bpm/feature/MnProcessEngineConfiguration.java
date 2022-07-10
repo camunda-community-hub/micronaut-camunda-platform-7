@@ -53,6 +53,7 @@ import java.util.*;
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRED;
 import static io.micronaut.transaction.TransactionDefinition.Propagation.REQUIRES_NEW;
 import static java.util.Collections.emptyList;
+import static org.camunda.bpm.engine.impl.history.HistoryLevel.HISTORY_LEVEL_FULL;
 
 /**
  * Micronaut implementation of {@link org.camunda.bpm.engine.ProcessEngineConfiguration} which is aware of transaction
@@ -221,6 +222,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 "        <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/CamundaFormDefinition.xml\" />\n" + //Deployment BPMN
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionDefinition.xml\" />\n" + //Deployment DMN
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/DecisionRequirementsDefinition.xml\" />" + // Deployment DMN
+                (getHistoryLevel() == HISTORY_LEVEL_FULL ? "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricJobLog.xml\" />\n" : "") + // full history
                 "\n" +
                 "\t</mappers>\n" +
                 "</configuration>\n";
@@ -253,7 +255,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricVariableInstance.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricTaskInstance.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricTaskInstanceReport.xml\" />\n" +
-                "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricJobLog.xml\" />\n" +
+                (getHistoryLevel() != HISTORY_LEVEL_FULL ? "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricJobLog.xml\" />\n" : "") +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/HistoricExternalTaskLog.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/UserOperationLogEntry.xml\" />\n" +
                 "    <mapper resource=\"org/camunda/bpm/engine/impl/mapping/entity/IdentityInfo.xml\" />\n" +
