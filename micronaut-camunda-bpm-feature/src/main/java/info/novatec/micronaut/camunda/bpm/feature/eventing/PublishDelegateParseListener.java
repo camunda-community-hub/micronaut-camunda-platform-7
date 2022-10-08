@@ -23,6 +23,7 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
+import org.camunda.bpm.engine.impl.core.variable.mapping.IoMapping;
 import org.camunda.bpm.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.camunda.bpm.engine.impl.pvm.process.ActivityImpl;
 import org.camunda.bpm.engine.impl.pvm.process.ScopeImpl;
@@ -254,6 +255,11 @@ public class PublishDelegateParseListener implements BpmnParseListener {
     @Override
     public void parseConditionalStartEventForEventSubprocess(Element element, ActivityImpl conditionalActivity, boolean interrupting) {
         // Do not implement. Start and end event listener are set by parseBoundaryEvent()
+    }
+
+    @Override
+    public void parseIoMapping(Element extensionElements, ActivityImpl activity, IoMapping inputOutput) {
+        // Do not implement
     }
 
     @Override
