@@ -410,6 +410,14 @@ public interface Configuration {
          */
         @Bindable(defaultValue = "false")
         boolean isBasicAuthEnabled();
+
+        /**
+         * Authentication Provider to use for the REST API.
+         *
+         * @return the authentication provideer
+         */
+        @Bindable(defaultValue = "org.camunda.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider")
+        String getAuthenticationProvider();
     }
 
     @ConfigurationProperties("eventing")
