@@ -56,11 +56,13 @@ public class JettyServerCustomizerRuntimeRest implements ParallelInitializationW
     // Configuration must be resolved during construction - otherwise code might be blocked if a parallel thread constructs a bean during execution, e.g. the ProcessEngine
     protected final String contextPath;
     protected final boolean basicAuthEnabled;
+    protected final String authenticationProvider;
 
     public JettyServerCustomizerRuntimeRest(Server server, Configuration configuration) {
         this.server = server;
         contextPath = configuration.getRest().getContextPath();
         basicAuthEnabled = configuration.getRest().isBasicAuthEnabled();
+        authenticationProvider = configuration.getRest().getAuthenticationProvider();
     }
 
     @Override
@@ -83,9 +85,9 @@ public class JettyServerCustomizerRuntimeRest implements ParallelInitializationW
         if (basicAuthEnabled) {
             // see https://docs.camunda.org/manual/latest/reference/rest/overview/authentication/
             FilterHolder filterHolder = new FilterHolder(ProcessEngineAuthenticationFilter.class);
-            filterHolder.setInitParameter("authentication-provider", "org.camunda.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider");
+            filterHolder.setInitParameter("authentication-provider", authenticationProvider);
             restServletContextHandler.addFilter(filterHolder, "/*", EnumSet.of(REQUEST));
-            log.debug("REST API - Basic authentication enabled");
+            log.debug("REST API - Basic authentication enabled with authentication-provider {}", authenticationProvider);
         }
 
         restServletContextHandler.setServer(server);
