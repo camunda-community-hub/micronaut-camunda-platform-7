@@ -1063,14 +1063,15 @@ Download of Releases:
 
 # 📨Contact
 
-If you have any questions or ideas feel free to create an [issue](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/issues) or contact us via GitHub Discussions or mail.
+If you have any questions or ideas feel free to create an [issue](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/issues) or contact us via [GitHub Discussions](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/discussions).
 
 We love listening to your feedback, and of course also discussing the project roadmap and possible use cases with you!
 
-You can reach us:
-* [GitHub Discussions](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/discussions)
-* [mailto:micronaut-camunda@novatec-gmbh.de](mailto:micronaut-camunda@novatec-gmbh.de)
+This open source project is being developed by [envite consulting GmbH](https://envite.de/) and [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
 
-This open source project is being developed by [Novatec Consulting GmbH](https://www.novatec-gmbh.de/en/) with the support of the open source community.
-
+---
+![envite consulting GmbH](envite-black.png#gh-light-mode-only)
+![envite consulting GmbH](envite-white.png#gh-dark-mode-only)
+---
 ![Novatec Consulting GmbH](novatec.jpeg)
+---
