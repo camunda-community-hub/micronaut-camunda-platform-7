@@ -45,7 +45,7 @@ public class MnTransactionContext implements TransactionContext {
         this.commandContext = commandContext;
         this.transactionManager = transactionManager;
 
-        TransactionSynchronizationManager.getSynchronousTransactionState(new TransactionSynchronizationAdapter() {
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
             @Override
             public void beforeCommit(boolean readOnly) {
                 lastTransactionState = COMMITTING;
@@ -123,7 +123,7 @@ public class MnTransactionContext implements TransactionContext {
             default:
                 throw new IllegalStateException("Unknown transaction state: " + transactionState);
         }
-        TransactionSynchronizationManager.getSynchronousTransactionState(transactionSynchronization);
+        TransactionSynchronizationManager.registerSynchronization(transactionSynchronization);
     }
 
     @Override
