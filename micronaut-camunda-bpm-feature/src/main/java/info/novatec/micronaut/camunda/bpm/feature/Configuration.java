@@ -387,6 +387,8 @@ public interface Configuration {
     @ConfigurationProperties("rest")
     interface Rest {
 
+        String DEFAULT_AUTHENTICATION_PROVIDER = "org.camunda.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider";
+
         /**
          * Enable the REST API.
          *
@@ -416,7 +418,7 @@ public interface Configuration {
          *
          * @return the authentication provideer
          */
-        @Bindable(defaultValue = "org.camunda.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider")
+        @Bindable(defaultValue = DEFAULT_AUTHENTICATION_PROVIDER)
         String getAuthenticationProvider();
     }
 
