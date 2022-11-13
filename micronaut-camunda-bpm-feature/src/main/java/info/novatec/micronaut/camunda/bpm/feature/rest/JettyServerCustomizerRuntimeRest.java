@@ -34,6 +34,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.EnumSet;
 
+import static info.novatec.micronaut.camunda.bpm.feature.Configuration.Rest.DEFAULT_AUTHENTICATION_PROVIDER;
 import static javax.servlet.DispatcherType.REQUEST;
 
 /**
@@ -82,12 +83,13 @@ public class JettyServerCustomizerRuntimeRest implements ParallelInitializationW
             }
         });
 
-        if (basicAuthEnabled) {
+        boolean customAuthenticationProvider = !DEFAULT_AUTHENTICATION_PROVIDER.equals(authenticationProvider);
+        if (basicAuthEnabled || customAuthenticationProvider) {
             // see https://docs.camunda.org/manual/latest/reference/rest/overview/authentication/
             FilterHolder filterHolder = new FilterHolder(ProcessEngineAuthenticationFilter.class);
             filterHolder.setInitParameter("authentication-provider", authenticationProvider);
             restServletContextHandler.addFilter(filterHolder, "/*", EnumSet.of(REQUEST));
-            log.debug("REST API - Basic authentication enabled with authentication-provider {}", authenticationProvider);
+            log.debug("REST API - Authentication enabled with authentication-provider {}", authenticationProvider);
         }
 
         restServletContextHandler.setServer(server);
