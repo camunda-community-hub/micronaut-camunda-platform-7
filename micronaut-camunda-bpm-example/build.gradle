@@ -34,4 +34,8 @@ java {
     targetCompatibility = JavaVersion.toVersion("1.8")
 }
 
+dockerfile {
+    args.set(['-Dmicronaut.server.host=0.0.0.0'])
+}
+
 graalvmNative.toolchainDetection = false
