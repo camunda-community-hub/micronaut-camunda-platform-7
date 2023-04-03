@@ -59,6 +59,7 @@ public class DefaultPropertySourceLoader implements PropertySourceLoader {
                             put("datasources.default.maximum-pool-size", MAXIMUM_POOL_SIZE);
                             put("datasources.default.minimum-idle", MINIMUM_POOL_SIZE);
                             put("camunda.generic-properties.properties.cmmn-enabled", false);
+                            put("micronaut.server.host", "0.0.0.0"); // Since Micronaut 3.8.2 (actually Micronaut Servlet 3.3.4) Jetty by default only listens on the "localhost" interface which is a problem in Docker
                         }}, POSITION));
     }
 
