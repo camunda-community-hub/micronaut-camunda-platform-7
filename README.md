@@ -863,14 +863,6 @@ See also a test in our example application: [HelloWorldProcessTest](/micronaut-c
 
 When using Gradle we recommend the [Micronaut Application Plugin](https://github.com/micronaut-projects/micronaut-gradle-plugin/blob/master/README.md#micronaut-application-plugin)'s `dockerBuild` task to create a layered Docker image.
 
-Since Micronaut 3.8.2 (actually Micronaut Servlet 3.3.4) Jetty by default only listens on the "localhost" interface. You needed to configure Jetty to listen on all interfaces by adding the following to your `build.gradle`:
-
-```groovy
-dockerfile {
-    args.set(['-Dmicronaut.server.host=0.0.0.0'])
-}
-```
-
 Build the Docker image:
 
 `./gradlew dockerBuild`
