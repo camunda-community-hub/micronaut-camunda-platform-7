@@ -31,4 +31,4 @@ jobs:
         if: ${{ matrix.java == '17' && matrix.runtime == 'tomcat' }}
         run: echo "JDK_JAVA_OPTIONS='--add-opens=java.base/java.io=ALL-UNNAMED'" >> $GITHUB_ENV
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
+        run: ./gradlew build --warning-mode=all -Pmicronaut.runtime=${{ matrix.runtime }} # value 'fail' would be better but the build even this breaks: "mn create-app mytest && cd mytest && ./gradlew clean build --warning-mode fail"

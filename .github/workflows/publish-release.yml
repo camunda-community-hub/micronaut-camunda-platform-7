@@ -32,7 +32,7 @@ jobs:
           echo "${GITHUB_REF}" | cut -d "/" -f3 | grep --regexp '^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$' > /dev/null #Validate format with regular expression
           RELEASE_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3 | sed 's/v//')
           echo "New release version: ${RELEASE_VERSION}"
-          ./gradlew -Pversion=${RELEASE_VERSION} build --warning-mode=fail
+          ./gradlew -Pversion=${RELEASE_VERSION} build --warning-mode=all # value 'fail' would be better but the build even this breaks: "mn create-app mytest && cd mytest && ./gradlew clean build --warning-mode fail"
           ./gradlew -Pversion=${RELEASE_VERSION} -Psigning.password=${SIGNING_PWD} publish --info -Dorg.gradle.internal.http.socketTimeout=180000 -Dorg.gradle.internal.http.connectionTimeout=180000
         env:
           OSSRH_PWD: ${{ secrets.OSSRH_PWD }}

@@ -36,4 +36,4 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: 'gradle'
       - name: Build with Gradle Wrapper
-        run: ./gradlew build --warning-mode=fail -Pmicronaut.runtime=${{ matrix.runtime }}
+        run: ./gradlew build --warning-mode=all -Pmicronaut.runtime=${{ matrix.runtime }} # value 'fail' would be better but the build even this breaks: "mn create-app mytest && cd mytest && ./gradlew clean build --warning-mode fail"
