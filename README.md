@@ -86,47 +86,22 @@ Micronaut Framework + Camunda = :heart:
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
 
-## Dependency Management
+Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch?name=micronaut-camunda&features=camunda-platform7) and check that the "camunda-platform7" feature is selected.
 
-The Camunda integration works with both Gradle and Maven, but we recommend using Gradle because it has better Micronaut Support.
+This will take care of the following:
+* If you don't explicitly select any database then an in-memory H2 will be included by default.
+* The configuration file `application.yml`
+  * enables the Webapps and the REST-API
+  * is configured to create an admin user with credentials `admin`/`admin` with which you can login to http://localhost:8080/camunda
+  * enables telemetry
+* Jetty will be pre-configured (instead of Netty) to support the Webapps and REST-API by default
 
-You have the following options to integrate the Camunda integration:
-* Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch?name=micronaut-camunda&features=camunda-platform7&features=jetty-server) and check that the "camunda-platform7" feature is selected. If you don't select any database then an in-memory H2 will be included by default.
-* Manually add the dependency to an existing Micronaut project:
-  <details>
-  <summary>Click to show Gradle configuration</summary>
-
-  Add the dependency to the build.gradle file:
-  ```groovy
-  implementation("info.novatec:micronaut-camunda-bpm-feature:2.12.0")
-  runtimeOnly("com.h2database:h2")
-  ```
-  </details>
-
-  <details>
-  <summary>Click to show Maven configuration</summary>
-
-  Add the dependency to the pom.xml file:
-  ```xml
-  <dependency>
-    <groupId>info.novatec</groupId>
-    <artifactId>micronaut-camunda-bpm-feature</artifactId>
-    <version>2.12.0</version>
-  </dependency>
-  <dependency>
-    <groupId>com.h2database</groupId>
-    <artifactId>h2</artifactId>
-    <scope>runtime</scope>
-  </dependency>
-  ```
-  </details>
-
-Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
+All you need to do is save a process model in the resources, see the following section.
 
 ##  Deploying Models
 BPMN process models (`*.bpmn`), DMN decision tables (`*.dmn`), and Camunda Forms (`*.form`) should be created with the [Camunda Modeler](https://camunda.com/products/camunda-bpm/modeler) and saved in the resources.
 
-By default only the root of the resources will be scanned, but with the [property](#properties) `camunda.locations` you can configure the locations.
+By default, only the root of the resources will be scanned, but with the [property](#properties) `camunda.locations` you can configure the locations.
 
 When starting the application you'll see the log output: `Deploying model: classpath:xxxxxxx.bpmn`
 
@@ -291,11 +266,49 @@ We officially support the following JDKs:
 
 # 🏆Advanced Topics
 
+## Dependency Management
+
+The Camunda integration works with both Gradle and Maven, but we recommend using Gradle because it has better Micronaut Support.
+
+If you create a new project then simply use the feature `features=camunda-platform7` as described in [Getting Started](#getting-started) section. However, you can also manage the dependencies yourself as described here:
+
+<details>
+<summary>Click to show Gradle configuration</summary>
+
+Add the dependency to the build.gradle file:
+```groovy
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.14.0")
+runtimeOnly("com.h2database:h2")
+```
+</details>
+
+<details>
+<summary>Click to show Maven configuration</summary>
+
+Add the dependency to the pom.xml file:
+```xml
+<dependency>
+  <groupId>info.novatec</groupId>
+  <artifactId>micronaut-camunda-bpm-feature</artifactId>
+  <version>2.14.0</version>
+</dependency>
+<dependency>
+  <groupId>com.h2database</groupId>
+  <artifactId>h2</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+</details>
+
+Note: The module `micronaut-camunda-bpm-feature` includes the dependency `org.camunda.bpm:camunda-engine` which will be resolved transitively.
+
 ## Camunda REST API and Webapps
 
 Currently, the Camunda REST API and Webapps (Cockpit, Task list, and Admin) are only supported on the server runtime Jetty.
 
-To use them in your project, you have to set the micronaut runtime of your project to `jetty`, e.g.
+If you create your project with Micronaut Launch the `jetty` feature will be preselected for you.
+
+However, if you have an existing project, you have to set the micronaut runtime of your project to `jetty`, e.g.
 
 <details>
 <summary>Click to show Gradle configuration</summary>
@@ -443,13 +456,13 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.12.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.14.0") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
 
-implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.18.0-ee")
-implementation("org.camunda.bpm:camunda-engine:7.18.0-ee")
+implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.19.0-ee")
+implementation("org.camunda.bpm:camunda-engine:7.19.0-ee")
 ```
 </details>
 <details>
@@ -460,7 +473,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.12.0</version>
+  <version>2.14.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -475,12 +488,12 @@ In `pom.xml`:
 <dependency>
   <groupId>org.camunda.bpm.webapp</groupId>
   <artifactId>camunda-webapp-webjar-ee</artifactId>
-  <version>7.18.0-ee</version>
+  <version>7.19.0-ee</version>
 </dependency>
 <dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-engine</artifactId>
-  <version>7.18.0-ee</version>
+  <version>7.19.0-ee</version>
 </dependency>
 ```
 </details>
@@ -507,7 +520,7 @@ You can either
 Example with the LDAP plugin:
 
 ```groovy
-implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.18.0")
+implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.19.0")
 ```
 
 ```java
@@ -790,7 +803,7 @@ Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-
 <summary>Click to show Gradle dependencies</summary>
 
 ```groovy
-testImplementation("org.camunda.bpm:camunda-bpm-assert:7.18.0")
+testImplementation("org.camunda.bpm:camunda-bpm-assert:7.19.0")
 testImplementation("org.assertj:assertj-core")
 ```
 </details>
@@ -802,7 +815,7 @@ testImplementation("org.assertj:assertj-core")
 <dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-bpm-assert</artifactId>
-  <version>7.18.0</version>
+  <version>7.19.0</version>
   <scope>test</scope>
 </dependency>
 <dependency>
@@ -969,13 +982,15 @@ Other combinations might also work but have not been tested.
 
 | Release | Micronaut | Camunda |
 |---------|-----------|---------|
-| 2.12.0  | 3.8.0     | 7.18.0  |
+| 2.14.0  | 3.9.0     | 7.19.0  |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release | Micronaut | Camunda |
 |--------|-----------|--------|
+| 2.13.0  | 3.8.9     | 7.19.0  |
+| 2.12.0  | 3.8.0     | 7.18.0  |
 | 2.11.1  | 3.7.3     | 7.18.0  |
 | 2.11.0  | 3.7.3     | 7.18.0  |
 | 2.10.0  | 3.7.1     | 7.18.0  |
