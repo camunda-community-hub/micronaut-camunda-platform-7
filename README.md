@@ -39,13 +39,14 @@ Micronaut Framework + Camunda = :heart:
 
 * ✨ [Features](#features)
 * 🚀 [Getting Started](#getting-started)
-  * [Dependency Management](#dependency-management)
+  * [Create Project with Micronaut Launch](#create-project-with-micronaut-launch)
   * [Deploying Models](#deploying-models)
   * [Camunda Integration](#camunda-integration)
   * [Configuration](#configuration)
   * [Examples](#examples)
   * [Supported JDKs](#supported-jdks)
 * 🏆 [Advanced Topics](#advanced-topics)
+  * [Dependency Management](#dependency-management)
   * [Camunda REST API and Webapps](#camunda-rest-api-and-webapps)
   * [Camunda Enterprise Edition (EE)](#camunda-enterprise-edition-ee)
   * [Process Engine Plugins](#process-engine-plugins)
@@ -85,6 +86,8 @@ Micronaut Framework + Camunda = :heart:
 # 🚀Getting Started
 
 This section describes what needs to be done to use `micronaut-camunda-bpm-feature` in a Micronaut project.
+
+## Create Project with Micronaut Launch
 
 Create a new Micronaut project using [Micronaut Launch](https://micronaut.io/launch?name=micronaut-camunda&features=camunda-platform7) and check that the "camunda-platform7" feature is selected.
 
