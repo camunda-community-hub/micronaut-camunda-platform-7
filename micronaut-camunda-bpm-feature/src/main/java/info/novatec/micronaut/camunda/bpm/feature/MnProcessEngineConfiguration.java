@@ -467,6 +467,7 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     protected void configureDefaultValues() {
         setJobExecutorActivate(!environment.getActiveNames().contains(Environment.TEST));
         setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+        setEnforceHistoryTimeToLive(false);
     }
 
     protected void applyGenericProperties(Configuration configuration) {

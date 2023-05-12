@@ -16,7 +16,7 @@
 package info.novatec.micronaut.camunda.bpm.feature;
 
 import org.camunda.bpm.engine.impl.el.*;
-import org.camunda.bpm.engine.impl.javax.el.*;
+import org.camunda.bpm.impl.juel.jakarta.el.*;
 
 /**
  * @author Tobias Schäfer

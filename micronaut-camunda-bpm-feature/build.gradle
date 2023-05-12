@@ -46,7 +46,10 @@ dependencies {
 
     // REST API + Webapps
     implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
-    implementation("org.camunda.bpm.webapp:camunda-webapp-webjar:$camundaVersion")
+    implementation("org.camunda.bpm.webapp:camunda-webapp-webjar:$camundaVersion") {
+        exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-jakarta'
+    }
+    implementation("org.camunda.bpm.webapp:camunda-webapp:$camundaVersion:classes")
     implementation("org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion")
     implementation("org.glassfish.jersey.containers:jersey-container-servlet-core:$jerseyVersion")
     implementation("org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion")
