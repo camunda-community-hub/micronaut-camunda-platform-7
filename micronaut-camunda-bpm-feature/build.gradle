@@ -19,7 +19,8 @@ micronaut {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-validation")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     implementation("com.fasterxml.uuid:java-uuid-generator:4.2.0")
     api("org.camunda.bpm:camunda-engine:$camundaVersion") {
@@ -36,7 +37,7 @@ dependencies {
     compileOnly("org.apache.tomcat.embed:tomcat-embed-core:$tomcatVersion")
     compileOnly("io.undertow:undertow-core:$undertowVersion")
 
-    kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
+    kaptTest(platform("io.micronaut.platform:micronaut-platform:$micronautVersion"))
     kaptTest("io.micronaut.data:micronaut-data-processor")
     kapt("io.micronaut:micronaut-inject-java:$micronautVersion")
 
@@ -63,11 +64,12 @@ dependencies {
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty")
     testRuntimeOnly("org.codehaus.groovy:groovy-all:3.0.18") // as script engine
+    testRuntimeOnly("org.yaml:snakeyaml")
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('1.8')
-    targetCompatibility = JavaVersion.toVersion('1.8')
+    sourceCompatibility = JavaVersion.toVersion(javaLanguageVersion)
+    targetCompatibility = JavaVersion.toVersion(javaLanguageVersion)
     withJavadocJar()
     withSourcesJar()
 }
@@ -79,7 +81,7 @@ test {
 tasks {
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = javaLanguageVersion
         }
     }
 }

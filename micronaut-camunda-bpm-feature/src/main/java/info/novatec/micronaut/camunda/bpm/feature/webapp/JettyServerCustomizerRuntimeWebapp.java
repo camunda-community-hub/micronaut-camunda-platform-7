@@ -48,7 +48,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
-import static javax.servlet.DispatcherType.REQUEST;
 
 /**
  * Using Micronaut Servlet with Jetty to run the REST API/Webapps as a servlet.
@@ -171,7 +170,7 @@ public class JettyServerCustomizerRuntimeWebapp implements ParallelInitializatio
     static class ServletContextInitializedListener implements ServletContextListener {
         private static final Logger log = LoggerFactory.getLogger(ServletContextInitializedListener.class);
 
-        protected static final EnumSet<DispatcherType> DISPATCHER_TYPES = EnumSet.of(REQUEST);
+        protected static final EnumSet<DispatcherType> DISPATCHER_TYPES = EnumSet.of(DispatcherType.REQUEST);
 
         protected static ServletContext servletContext;
 
