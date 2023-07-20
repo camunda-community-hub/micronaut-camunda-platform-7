@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['8', '11', '17'] #Support LTS releases 8, 11, and 17 and the latest release supported by Micronaut.
+        java: ['17'] #Support LTS releases 17 and the latest release supported by Micronaut.
         runtime: ['netty', 'jetty', 'tomcat', 'undertow']
 
     steps:

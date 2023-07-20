@@ -30,12 +30,12 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.util.EnumSet;
 
 import static info.novatec.micronaut.camunda.bpm.feature.Configuration.Rest.DEFAULT_AUTHENTICATION_PROVIDER;
-import static javax.servlet.DispatcherType.REQUEST;
 
 /**
  * Using Micronaut Servlet with Jetty to run the REST API/Webapps as a servlet.
@@ -88,7 +88,7 @@ public class JettyServerCustomizerRuntimeRest implements ParallelInitializationW
             // see https://docs.camunda.org/manual/latest/reference/rest/overview/authentication/
             FilterHolder filterHolder = new FilterHolder(ProcessEngineAuthenticationFilter.class);
             filterHolder.setInitParameter("authentication-provider", authenticationProvider);
-            restServletContextHandler.addFilter(filterHolder, "/*", EnumSet.of(REQUEST));
+            restServletContextHandler.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST));
             log.debug("REST API - Authentication enabled with authentication-provider {}", authenticationProvider);
         }
 

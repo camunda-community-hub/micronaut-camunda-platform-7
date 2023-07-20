@@ -18,7 +18,7 @@ dependencies {
     testImplementation(project(":micronaut-camunda-bpm-feature").sourceSets.test.output)
     testRuntimeOnly("com.h2database:h2")
 
-    kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    kaptTest(platform("io.micronaut.platform:micronaut-platform:$micronautVersion"))
     kaptTest("io.micronaut.data:micronaut-data-processor")
     kaptTest("io.micronaut:micronaut-inject-java:$micronautVersion")
 
@@ -28,13 +28,13 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("1.8")
+    sourceCompatibility = JavaVersion.toVersion(javaLanguageVersion)
 }
 
 tasks {
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = javaLanguageVersion
         }
     }
 }

@@ -16,14 +16,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['8', '11', '17'] #Support LTS releases 8, 11 and 17 and the latest release supported by Micronaut.
+        java: ['17'] #Support LTS releases 17 and the latest release supported by Micronaut.
         runtime: ['netty']
-        include: # Test more server runtimes on Java 8 only (to reduce number of combinations)
-          - java: '8'
+        include: # Test more server runtimes on Java 17 only (to reduce number of combinations)
+          - java: '17'
             runtime: 'jetty'
-          - java: '8'
+          - java: '17'
             runtime: 'tomcat'
-          - java: '8'
+          - java: '17'
             runtime: 'undertow'
 
     steps:
