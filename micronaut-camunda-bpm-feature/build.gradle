@@ -21,7 +21,7 @@ micronaut {
 dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
-    implementation("com.fasterxml.uuid:java-uuid-generator:4.2.0")
+    implementation("com.fasterxml.uuid:java-uuid-generator:4.3.0")
     api("org.camunda.bpm:camunda-engine:$camundaVersion") {
         exclude group: 'org.camunda.bpm.model', module: 'camunda-cmmn-model'
     }
