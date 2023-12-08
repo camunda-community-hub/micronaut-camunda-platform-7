@@ -458,6 +458,8 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         } else if ( Boolean.TRUE.equals(isInitializeTelemetry()) && isTelemetryReporterActivate() && !camundaVersion.getVersion().isPresent() ) {
             log.warn("Disabling TelemetryReporter because required information 'Camunda Version' is not available.");
             setTelemetryReporterActivate(false);
+        } else {
+            setInitializeTelemetry(true);
         }
     }
 
