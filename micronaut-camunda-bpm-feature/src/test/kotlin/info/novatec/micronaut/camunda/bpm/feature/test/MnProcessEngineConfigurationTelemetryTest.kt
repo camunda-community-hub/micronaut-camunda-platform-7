@@ -36,7 +36,7 @@ class MnProcessEngineConfigurationTelemetryTest {
         ApplicationContext.builder().deduceEnvironment(test).build().start().use { applicationContext ->
             val pec = applicationContext.getBean(ProcessEngine::class.java).processEngineConfiguration as ProcessEngineConfigurationImpl
             assertEquals(!test, pec.isTelemetryReporterActivate)
-            assertEquals(if (test) false else null, pec.isInitializeTelemetry)
+            assertEquals(!test, pec.isInitializeTelemetry)
         }
     }
 
