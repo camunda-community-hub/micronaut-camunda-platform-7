@@ -11,9 +11,6 @@ camunda:
   admin-user:
     id: admin
     password: admin
-  generic-properties:
-    properties:
-      initialize-telemetry: true
   webapps:
     enabled: true
   rest:

@@ -74,8 +74,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
 
     protected final MnJobExecutor jobExecutor;
 
-    protected final MnTelemetryRegistry telemetryRegistry;
-
     protected final MnBeansResolverFactory beansResolverFactory;
 
     protected final Environment environment;
@@ -90,7 +88,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     public MnProcessEngineConfiguration(SynchronousTransactionManager<Connection> transactionManager,
                                         MnJobExecutor jobExecutor,
                                         Configuration configuration,
-                                        MnTelemetryRegistry telemetryRegistry,
                                         Environment environment,
                                         CamundaVersion camundaVersion,
                                         ApplicationContext applicationContext,
@@ -102,7 +99,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
                                         ProcessEngineConfigurationCustomizer processEngineConfigurationCustomizer) {
         this.transactionManager = transactionManager;
         this.jobExecutor = jobExecutor;
-        this.telemetryRegistry = telemetryRegistry;
         this.beansResolverFactory = beansResolverFactory;
         this.environment = environment;
         this.camundaVersion = camundaVersion;
@@ -119,8 +115,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         configureDefaultValues();
 
         applyGenericProperties(configuration);
-
-        configureTelemetry();
 
         registerProcessEnginePlugins();
 
@@ -448,22 +442,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
     }
 
     /**
-     * Configure telemetry registry and always disable if the "test" profile is active, i.e. tests are being executed.
-     */
-    protected void configureTelemetry() {
-        setTelemetryRegistry(telemetryRegistry);
-        if (environment.getActiveNames().contains(Environment.TEST)) {
-            setInitializeTelemetry(false);
-            setTelemetryReporterActivate(false);
-        } else if ( Boolean.TRUE.equals(isInitializeTelemetry()) && isTelemetryReporterActivate() && !camundaVersion.getVersion().isPresent() ) {
-            log.warn("Disabling TelemetryReporter because required information 'Camunda Version' is not available.");
-            setTelemetryReporterActivate(false);
-        } else {
-            setInitializeTelemetry(true);
-        }
-    }
-
-    /**
      * Configure sensible defaults so that the user must not take care of it.
      */
     protected void configureDefaultValues() {
@@ -499,12 +477,6 @@ public class MnProcessEngineConfiguration extends ProcessEngineConfigurationImpl
         } else {
             return value;
         }
-    }
-
-    public ProcessEngineConfigurationImpl setInitializeTelemetry(Boolean telemetryInitialized) {
-        // This method makes the Boolean telemetryInitialized a writable property.
-        // Otherwise applyGenericProperties cannot set the property.
-        return super.setInitializeTelemetry(telemetryInitialized);
     }
 
     protected void registerProcessEnginePlugins() {

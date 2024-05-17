@@ -23,7 +23,7 @@ _We're not aware of all installations of our Open Source project. However, we lo
 * _discussing possible use cases with you,_
 * _aligning the roadmap to your needs!_
 
-📨 _Please activate [telemetry](#telemetry) and [contact](#contact) us!_
+📨 _Please [contact](#contact) us!_
 
 ---
 
@@ -81,7 +81,6 @@ Micronaut Framework + Camunda = :heart:
 * The job executor uses the Micronaut IO Executor's [thread pools](https://docs.micronaut.io/latest/guide/index.html#threadPools).
 * The [process engine configuration](#custom-process-engine-configuration) and the [job executor configuration](#custom-job-executor-configuration) can be customized programmatically.
 * A Camunda admin user is created if configured by [properties](#properties) and not present yet (including admin group and authorizations).
-* Camunda's telemetry feature is automatically deactivated during test execution.
 
 # 🚀Getting Started
 
@@ -96,7 +95,6 @@ This will take care of the following:
 * The configuration file `application.yml`
   * enables the Webapps and the REST-API
   * is configured to create an admin user with credentials `admin`/`admin` with which you can login to http://localhost:8080/camunda
-  * enables telemetry
 * Jetty will be pre-configured (instead of Netty) to support the Webapps and REST-API by default
 
 All you need to do is save a process model in the resources, see the following section.
@@ -225,8 +223,6 @@ The properties can be set in kebab case (lowercase and hyphen separated) or came
 Some of the most relevant properties are:
 * database-schema-update (databaseSchemaUpdate)
 * history
-* initialize-telemetry (initializeTelemetry)
-* telemetry-reporter-activate (telemetryReporterActivate)
 
 Example:
 
@@ -236,21 +232,6 @@ camunda:
     properties:
       history: audit
 ```
-
-### Telemetry
-
-Please consider activating Camunda's telemetry feature so that the Micronaut Camunda Integration appears in Camunda's statistics.
-
-When starting on a fresh database use:
-
-```yaml
-camunda:
-  generic-properties:
-    properties:
-      initialize-telemetry: true
-```
-
-If you missed the activation on an already active database or want to check/change the setting, go to the admin application and navigate to `System -> Telemetry Feature`. Locally, jump directly to the [Telemetry Feature](http://localhost:8080/camunda/app/admin/default/#/system?section=analytics-settings-general).
 
 ## Examples
 
@@ -871,8 +852,6 @@ class HelloWorldProcessTest {
 }
 ```
 
-Note: the integration automatically disables the job executor and the process engine's telemetry feature during test execution. This is deduced from the "test" profile.
-
 See also a test in our example application: [HelloWorldProcessTest](/micronaut-camunda-bpm-example/src/test/java/info/novatec/micronaut/camunda/bpm/example/HelloWorldProcessTest.java)
 
 ## Docker
@@ -938,9 +917,7 @@ If you create a Fat/Uber/Shadow JAR and run that you will see a warning:
 
 This is because the repackaging of the jars implicitly removes the META-INF information.
 
-Missing version information leads to
-* Detailed telemetry cannot be sent to Camunda because the version is mandatory 
-* EE license cannot be configured
+Without version information the EE license cannot be configured.
 
 Instead, of creating a Fat/Uber/Shadow JAR, please see instructions on creating a [Docker](#docker) image and use the resulting image to run a Docker container.
 
