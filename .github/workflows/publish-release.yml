@@ -35,5 +35,5 @@ jobs:
           ./gradlew -Pversion=${RELEASE_VERSION} build --warning-mode=all # value 'fail' would be better but the build even this breaks: "mn create-app mytest && cd mytest && ./gradlew clean build --warning-mode fail"
           ./gradlew -Pversion=${RELEASE_VERSION} -Psigning.password=${SIGNING_PWD} publish --info -Dorg.gradle.internal.http.socketTimeout=180000 -Dorg.gradle.internal.http.connectionTimeout=180000
         env:
-          OSSRH_PWD: ${{ secrets.OSSRH_PWD }}
-          SIGNING_PWD: ${{ secrets.SIGNING_PWD }}
+          OSSRH_TOKEN_USER: ${{ secrets.OSSRH_TOKEN_USER }}
+          OSSRH_TOKEN_PWD: ${{ secrets.OSSRH_TOKEN_PWD }}
