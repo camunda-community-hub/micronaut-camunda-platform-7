@@ -37,3 +37,4 @@ jobs:
         env:
           OSSRH_TOKEN_USER: ${{ secrets.OSSRH_TOKEN_USER }}
           OSSRH_TOKEN_PWD: ${{ secrets.OSSRH_TOKEN_PWD }}
+          SIGNING_PWD: ${{ secrets.SIGNING_PWD }}
