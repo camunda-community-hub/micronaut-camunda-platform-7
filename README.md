@@ -261,7 +261,7 @@ If you create a new project then simply use the feature `features=camunda-platfo
 
 Add the dependency to the build.gradle file:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.17.0")
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.18.1")
 runtimeOnly("com.h2database:h2")
 ```
 </details>
@@ -274,7 +274,7 @@ Add the dependency to the pom.xml file:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.17.0</version>
+  <version>2.18.1</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -440,7 +440,7 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.17.0") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.18.1") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
@@ -457,7 +457,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.17.0</version>
+  <version>2.18.1</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -962,13 +962,14 @@ Other combinations might also work but have not been tested.
 
 | Release | Micronaut | Camunda |
 |---------|-----------|---------|
-| 2.17.0  | 3.9.4     | 7.21.0  |
+| 2.18.0  | 3.9.4     | 7.22.0  |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release | Micronaut | Camunda |
 |--------|-----------|--------|
+| 2.17.0  | 3.9.4     | 7.21.0  |
 | 2.16.0  | 3.9.4     | 7.20.0  |
 | 2.15.0  | 3.9.4     | 7.19.0  |
 | 2.14.0  | 3.9.0     | 7.19.0  |
