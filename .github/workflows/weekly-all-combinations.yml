@@ -1,16 +1,16 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Nightly All Combinations
+name: Weekly All Combinations
 
 on:
   schedule:
-    - cron:  '0 2 * * *'
+    - cron:  '0 2 * * 0' #Weekly on Sundays
   workflow_dispatch:
 
 jobs:
   build:
-    if: github.repository_owner == 'camunda-community-hub' # Don't trigger nightly builds on forks
+    if: github.repository_owner == 'camunda-community-hub' # Don't trigger weekly builds on forks
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
