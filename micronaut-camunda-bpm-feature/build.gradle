@@ -65,7 +65,7 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic")
     testRuntimeOnly("com.h2database:h2")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty")
-    testRuntimeOnly("org.codehaus.groovy:groovy-all:3.0.22") // as script engine
+    testRuntimeOnly("org.codehaus.groovy:groovy-all:3.0.23") // as script engine
 }
 
 java {
