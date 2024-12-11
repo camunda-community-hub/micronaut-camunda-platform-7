@@ -69,8 +69,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion('1.8')
-    targetCompatibility = JavaVersion.toVersion('1.8')
+    sourceCompatibility = JavaVersion.toVersion('17')
+    targetCompatibility = JavaVersion.toVersion('17')
     withJavadocJar()
     withSourcesJar()
 }
@@ -82,7 +82,7 @@ test {
 tasks {
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "17"
         }
     }
 }

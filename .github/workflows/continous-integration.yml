@@ -16,15 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['11', '17'] #Support LTS releases 11 and 17 and the latest release supported by Micronaut.
-        runtime: ['netty']
-        include: # Test more server runtimes on Java 8 only (to reduce number of combinations)
-          - java: '11'
-            runtime: 'jetty'
-          - java: '11'
-            runtime: 'tomcat'
-          - java: '11'
-            runtime: 'undertow'
+        java: ['17'] #Support LTS releases 17 and the latest release supported by Micronaut.
+        runtime: ['netty','jetty','tomcat','undertow']
 
     steps:
       - name: Git Checkout
