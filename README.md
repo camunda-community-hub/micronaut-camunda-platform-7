@@ -245,7 +245,7 @@ Here are some example applications:
 
 We officially support the following JDKs:
 * JDK 8 (LTS) up to Camunda 7.19, i.e. with release [v2.15.0](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/releases/tag/v2.15.0)
-* JDK 11 (LTS)
+* JDK 11 (LTS) up to Camunda 7.22, i.e. with release [v2.18.1](https://github.com/camunda-community-hub/micronaut-camunda-platform-7/releases/tag/v2.18.1)
 * JDK 17 (LTS)
 
 # 🏆Advanced Topics
