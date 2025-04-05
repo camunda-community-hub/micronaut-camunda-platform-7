@@ -261,7 +261,7 @@ If you create a new project then simply use the feature `features=camunda-platfo
 
 Add the dependency to the build.gradle file:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.18.1")
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.19.0")
 runtimeOnly("com.h2database:h2")
 ```
 </details>
@@ -274,7 +274,7 @@ Add the dependency to the pom.xml file:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.18.1</version>
+  <version>2.19.o</version>
 </dependency>
 <dependency>
   <groupId>com.h2database</groupId>
@@ -440,13 +440,13 @@ on how to do that. Keep in mind using the correct version of the libraries.
 
 In `build.gradle`:
 ```groovy
-implementation("info.novatec:micronaut-camunda-bpm-feature:2.18.1") {
+implementation("info.novatec:micronaut-camunda-bpm-feature:2.19.0") {
     exclude group: 'org.camunda.bpm.webapp', module: 'camunda-webapp-webjar'
     exclude group: 'org.camunda.bpm', module: 'camunda-engine'
 }
 
-implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.21.0-ee")
-implementation("org.camunda.bpm:camunda-engine:7.21.0-ee")
+implementation("org.camunda.bpm.webapp:camunda-webapp-webjar-ee:7.23.0-ee")
+implementation("org.camunda.bpm:camunda-engine:7.23.0-ee")
 ```
 </details>
 <details>
@@ -457,7 +457,7 @@ In `pom.xml`:
 <dependency>
   <groupId>info.novatec</groupId>
   <artifactId>micronaut-camunda-bpm-feature</artifactId>
-  <version>2.18.1</version>
+  <version>2.19.0</version>
   <exclusions>
     <exclusion>
       <groupId>org.camunda.bpm.webapp</groupId>
@@ -472,12 +472,12 @@ In `pom.xml`:
 <dependency>
   <groupId>org.camunda.bpm.webapp</groupId>
   <artifactId>camunda-webapp-webjar-ee</artifactId>
-  <version>7.21.0-ee</version>
+  <version>7.23.0-ee</version>
 </dependency>
 <dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-engine</artifactId>
-  <version>7.21.0-ee</version>
+  <version>7.23.0-ee</version>
 </dependency>
 ```
 </details>
@@ -504,7 +504,7 @@ You can either
 Example with the LDAP plugin:
 
 ```groovy
-implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.21.0")
+implementation("org.camunda.bpm.identity:camunda-identity-ldap:7.23.0")
 ```
 
 ```java
@@ -787,7 +787,7 @@ Process tests can easily be implemented with JUnit 5 by adding the `camunda-bpm-
 <summary>Click to show Gradle dependencies</summary>
 
 ```groovy
-testImplementation("org.camunda.bpm:camunda-bpm-assert:7.21.0")
+testImplementation("org.camunda.bpm:camunda-bpm-assert:7.23.0")
 testImplementation("org.assertj:assertj-core")
 ```
 </details>
@@ -799,7 +799,7 @@ testImplementation("org.assertj:assertj-core")
 <dependency>
   <groupId>org.camunda.bpm</groupId>
   <artifactId>camunda-bpm-assert</artifactId>
-  <version>7.21.0</version>
+  <version>7.23.0</version>
   <scope>test</scope>
 </dependency>
 <dependency>
@@ -962,13 +962,14 @@ Other combinations might also work but have not been tested.
 
 | Release | Micronaut | Camunda |
 |---------|-----------|---------|
-| 2.18.0  | 3.9.4     | 7.22.0  |
+| 2.19.0  | 3.9.4     | 7.23.0  |
 
 <details>
 <summary>Click to see older releases</summary>
 
 | Release | Micronaut | Camunda |
 |--------|-----------|--------|
+| 2.18.0  | 3.9.4     | 7.22.0  |
 | 2.17.0  | 3.9.4     | 7.21.0  |
 | 2.16.0  | 3.9.4     | 7.20.0  |
 | 2.15.0  | 3.9.4     | 7.19.0  |
