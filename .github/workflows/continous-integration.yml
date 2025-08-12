@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up JDKs with Matrix Build
         uses: actions/setup-java@v4
         with:
