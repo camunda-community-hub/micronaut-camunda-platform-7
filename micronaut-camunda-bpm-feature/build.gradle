@@ -118,12 +118,13 @@ publishing {
         }
     }
     repositories {
+        // Release deployments via OSSRH Staging API compatibility layer
         maven {
-            url = version.endsWith('SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            name = "ossrh-staging-api"
+            url = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
             credentials {
-                // see "Generating a token" https://central.sonatype.org/publish/generate-token/
-                username "$System.env.OSSRH_TOKEN_USER"
-                password "$System.env.OSSRH_TOKEN_PWD"
+                username = System.getenv("CENTRAL_TOKEN_USER")
+                password = System.getenv("CENTRAL_TOKEN_PWD")
             }
         }
     }
