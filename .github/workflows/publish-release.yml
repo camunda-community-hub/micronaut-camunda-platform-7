@@ -1,7 +1,7 @@
-# This workflow will build a package using Gradle and then publish it to OSSRH when a release is created
+# This workflow will build a package using Gradle and then publish it to Maven Central (Portal) when a release is created
 # For more information see: https://github.com/actions/setup-java#publishing-using-gradle
 
-name: Publish to OSSRH when released
+name: Publish to Maven Central (Portal) when released
 
 on:
   release:
@@ -26,7 +26,7 @@ jobs:
 
       # The GITHUB_REF tag comes in the format 'refs/tags/v0.0.1'. If we split on '/' and take the 3rd value, we can get the release version, e.g. v.0.0.1
       # We then remove the leading "v", e.g. 0.0.1
-      - name: Build release based on tag and publish to OSSRH
+      - name: Build release based on tag and publish
         run: |
           echo "${GITHUB_ACTOR} is publishing tag ${GITHUB_REF}."
           echo "${GITHUB_REF}" | cut -d "/" -f3 | grep --regexp '^v[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+$' > /dev/null #Validate format with regular expression
@@ -35,6 +35,20 @@ jobs:
           ./gradlew -Pversion=${RELEASE_VERSION} build --warning-mode=all # value 'fail' would be better but the build even this breaks: "mn create-app mytest && cd mytest && ./gradlew clean build --warning-mode fail"
           ./gradlew -Pversion=${RELEASE_VERSION} -Psigning.password=${SIGNING_PWD} publish --info -Dorg.gradle.internal.http.socketTimeout=180000 -Dorg.gradle.internal.http.connectionTimeout=180000
         env:
-          OSSRH_TOKEN_USER: ${{ secrets.OSSRH_TOKEN_USER }}
-          OSSRH_TOKEN_PWD: ${{ secrets.OSSRH_TOKEN_PWD }}
+          CENTRAL_TOKEN_USER: ${{ secrets.CENTRAL_TOKEN_USER }}
+          CENTRAL_TOKEN_PWD: ${{ secrets.CENTRAL_TOKEN_PWD }}
           SIGNING_PWD: ${{ secrets.SIGNING_PWD }}
+
+      # Tell the compatibility service to transfer the repo to the Portal
+      - name: Finalize upload in Portal
+        env:
+          CENTRAL_TOKEN_USER: ${{ secrets.CENTRAL_TOKEN_USER }}
+          CENTRAL_TOKEN_PWD: ${{ secrets.CENTRAL_TOKEN_PWD }}
+        run: |
+          # namespace must match what you see in the Portal
+          NAMESPACE="info.novatec"
+          # Build "Bearer" value is base64(username:password) per docs:
+          AUTH_B64="$(printf "%s:%s" "$CENTRAL_TOKEN_USER" "$CENTRAL_TOKEN_PWD" | base64 -w0)"
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${AUTH_B64}" \
+            "https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/${NAMESPACE}?publishing_type=automatic"
